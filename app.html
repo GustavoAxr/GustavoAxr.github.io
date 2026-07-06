@@ -1,0 +1,149 @@
+<!doctype html>
+<html {{ HTML_ATTRS }}>
+  <head>
+    {{ HEAD }}
+    <style>
+      #nuxt-loading-screen {
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(
+          135deg,
+          #0f172a 0%,
+          #1e293b 50%,
+          #0f172a 100%
+        );
+        transition: opacity 0.5s ease-out;
+      }
+      #nuxt-loading-screen.fade-out {
+        opacity: 0;
+        pointer-events: none;
+      }
+      #nuxt-loading-screen .content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+      }
+      #nuxt-loading-screen .logo {
+        width: 80px;
+        height: 80px;
+        animation: nuxt-pulse 2s ease-in-out infinite;
+      }
+      #nuxt-loading-screen .brand {
+        font-size: 1.5rem;
+        font-weight: bold;
+        letter-spacing: 0.05em;
+      }
+      #nuxt-loading-screen .brand-code {
+        color: #94a3b8;
+      }
+      #nuxt-loading-screen .brand-gahp {
+        color: #2dce9a;
+      }
+      #nuxt-loading-screen .bar-container {
+        width: 200px;
+        height: 3px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 9999px;
+        overflow: hidden;
+      }
+      #nuxt-loading-screen .bar {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, #2dce9a, #00dc82);
+        border-radius: 9999px;
+        animation: nuxt-loading 1.5s ease-in-out infinite;
+      }
+      @keyframes nuxt-pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.05);
+          opacity: 0.8;
+        }
+      }
+      @keyframes nuxt-loading {
+        0% {
+          transform: translateX(-100%);
+        }
+        50% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(100%);
+        }
+      }
+    </style>
+  </head>
+  <body {{ BODY_ATTRS }}>
+    <!-- 
+    =====================================================
+    LOADING SCREEN - PERSONALIZA AQUÍ
+    Este HTML se muestra ANTES de que Vue inicie.
+    Reemplaza con tu propia animación cuando esté lista.
+    =====================================================
+  -->
+    <div id="nuxt-loading-screen">
+      <div class="content">
+        <svg
+          class="logo"
+          viewBox="0 0 100 100"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="50"
+            cy="50"
+            r="45"
+            stroke="#2dce9a"
+            stroke-width="3"
+            fill="none"
+            opacity="0.3"
+          />
+          <circle
+            cx="50"
+            cy="50"
+            r="30"
+            stroke="#2dce9a"
+            stroke-width="2"
+            fill="none"
+            opacity="0.5"
+          />
+          <circle cx="50" cy="50" r="15" fill="#2dce9a" opacity="0.8" />
+        </svg>
+        <div class="brand">
+          <span class="brand-code">CODE</span
+          ><span class="brand-gahp">GAHP</span>
+        </div>
+        <div class="bar-container">
+          <div class="bar"></div>
+        </div>
+      </div>
+    </div>
+    <!-- FIN LOADING SCREEN -->
+
+    {{ APP }}
+
+    <script>
+      // Ocultar loading screen cuando la app esté lista
+      window.addEventListener("load", function () {
+        setTimeout(function () {
+          var loader = document.getElementById("nuxt-loading-screen");
+          if (loader) {
+            loader.classList.add("fade-out");
+            setTimeout(function () {
+              loader.remove();
+            }, 500);
+          }
+        }, 800);
+      });
+    </script>
+  </body>
+</html>

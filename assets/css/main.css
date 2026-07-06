@@ -1,0 +1,62 @@
+/* =====================================================
+   CODEGAHP — Identidad de color accesible (WCAG AA)
+   Modo claro: verde profundo (legible sobre blanco)
+   Modo oscuro: verde neón de circuito (marca original)
+   ===================================================== */
+:root {
+  --color-primary: 14 128 96; /* #0E8060 — 4.9:1 sobre blanco */
+  --color-primary-dark: 10 104 78; /* #0A684E */
+  --color-primary-light: 45 206 154; /* #2DCE9A — acento */
+}
+
+.dark {
+  --color-primary: 45 206 154; /* #2DCE9A — neón sobre fondo oscuro */
+  --color-primary-dark: 37 176 133; /* #25B085 */
+  --color-primary-light: 94 221 181; /* #5EDDB5 */
+}
+
+/* En modo oscuro los botones de marca usan texto oscuro sobre
+   verde neón (contraste 9.4:1); en claro, blanco sobre verde profundo. */
+.dark button.bg-primary,
+.dark a.bg-primary,
+.dark .bg-primary.text-white,
+.dark .text-white[class*="from-primary"] {
+  color: rgb(2 6 23);
+}
+
+/* Anillo de enfoque visible y consistente en todo el sitio */
+:focus-visible {
+  outline: 2px solid rgb(var(--color-primary));
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Scrollbar con firma de marca */
+@media (pointer: fine) {
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(var(--color-primary) / 0.35);
+    border-radius: 8px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--color-primary) / 0.6);
+  }
+}
+
+/* Accesibilidad: respetar la preferencia de menos movimiento */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

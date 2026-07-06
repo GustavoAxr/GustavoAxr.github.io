@@ -1,0 +1,32 @@
+{
+ "/": [],
+ "/proyectos": [],
+ "/contacto": [],
+ "/servicios": [],
+ "/servicios/lidia": [],
+ "/servicios/kodexa": [
+  {
+   "id": "color-contrast",
+   "impact": "serious",
+   "count": 2,
+   "sample": ".ml-3"
+  },
+  {
+   "id": "landmark-one-main",
+   "impact": "moderate",
+   "count": 1,
+   "sample": "html"
+  },
+  {
+   "id": "region",
+   "impact": "moderate",
+   "count": 4,
+   "sample": ".ml-3"
+  }
+ ],
+ "/servicios/hosting": [],
+ "/servicios/landing-page": [],
+ "/privacidad": [],
+ "/terminos": [],
+ "/cookies": []
+}
