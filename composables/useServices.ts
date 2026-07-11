@@ -5,11 +5,11 @@ import {
   Cloud,
   Mail,
   Server,
-  Tractor,
   Laptop,
   Network,
   Workflow,
 } from "lucide-vue-next";
+import LidiaLogo from "@/components/LidiaLogo.vue";
 import type { Service } from "~/types";
 
 export const useServices = () => {
@@ -75,7 +75,7 @@ export const useServices = () => {
           badge: "En vivo",
           badgeColor:
             "bg-primary/15 text-primary-dark dark:text-primary",
-          icon: Tractor,
+          icon: LidiaLogo,
           to: "/servicios/lidia",
           slug: "lidia",
         },

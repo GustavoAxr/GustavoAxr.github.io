@@ -29,7 +29,7 @@ const isMobileServicesOpen = ref(false);
           <img
             src="~/assets/img/logo-code.svg"
             alt=""
-            class="w-full h-full object-contain drop-shadow-md group-hover:scale-110 transition-transform duration-300"
+            class="w-full h-full object-contain drop-shadow-md group-hover:scale-110 group-hover:rotate-90 transition-transform duration-300"
           />
           <!-- Efecto glow en hover -->
           <div

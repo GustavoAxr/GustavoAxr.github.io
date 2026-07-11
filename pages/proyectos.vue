@@ -3,7 +3,6 @@ import {
   ArrowRight,
   ArrowUpRight,
   Sparkles,
-  Tractor,
   WifiOff,
   QrCode,
   Siren,
@@ -127,9 +126,9 @@ const screens = [
             <div>
               <div class="flex items-center gap-3 flex-wrap mb-5">
                 <div
-                  class="w-14 h-14 rounded-2xl bg-primary flex items-center justify-center shadow-lg shadow-primary/25"
+                  class="w-14 h-14 rounded-2xl bg-white dark:bg-white flex items-center justify-center shadow-lg shadow-primary/25 p-2"
                 >
-                  <Tractor class="w-7 h-7 text-white dark:text-slate-950" />
+                  <LidiaLogo class="w-full h-full" />
                 </div>
                 <div>
                   <div class="flex items-center gap-2">

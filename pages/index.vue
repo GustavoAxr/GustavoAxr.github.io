@@ -16,9 +16,9 @@ useSeoMeta({
   title:
     "Inicio - CODEGAHP | Agencia de Desarrollo de Software en Ciudad del Carmen, Campeche",
   description:
-    "Somos una agencia de desarrollo de software en Ciudad del Carmen, Campeche. Creamos aplicaciones web y móviles escalables con Vue.js, Nuxt, Laravel y Java. Arquitectura limpia y principios SOLID.",
+    "Agencia de desarrollo de software en Ciudad del Carmen, Campeche.",
   ogTitle:
-    "CODEGAHP | Desarrollo de Software Profesional en Ciudad del Carmen, Campeche",
+    "CODEGAHP | Desarrollo de Software Profesional",
   ogDescription:
     "Desarrollamos soluciones de software escalables y robustas. Transformamos ideas en productos digitales que impulsan el crecimiento de tu negocio.",
   ogType: "website",
@@ -88,7 +88,7 @@ const technologies = [
     <!-- Hero a dos columnas (texto + bento), estilo SaaS moderno -->
     <section
       id="hero-section"
-      class="min-h-[calc(100svh-5rem)] py-14 lg:py-16 flex flex-col justify-center relative z-10 overflow-hidden"
+      class="min-h-[calc(100svh-5rem)] py-12 flex flex-col justify-center relative z-10 overflow-hidden"
     >
       <SparkLines />
 
@@ -127,9 +127,7 @@ const technologies = [
             <p
               class="mt-6 text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed max-w-xl mx-auto lg:mx-0"
             >
-              Sistemas robustos, automatización y alta disponibilidad — probados
-              en ranchos sin señal y oficinas municipales de México. Sin humo:
-              productos funcionando, desde Ciudad del Carmen.
+            Soluciones del futuro, Hoy!
             </p>
 
             <div
@@ -161,11 +159,7 @@ const technologies = [
               class="mt-8 flex flex-wrap items-center justify-center lg:justify-start gap-x-5 gap-y-2 text-sm text-slate-500 dark:text-slate-400"
             >
               <span class="inline-flex items-center gap-2">
-                <span class="flex -space-x-1.5" aria-hidden="true">
-                  <span class="w-5 h-5 rounded-full bg-primary/80 ring-2 ring-slate-50 dark:ring-slate-950"></span>
-                  <span class="w-5 h-5 rounded-full bg-sky-500/80 ring-2 ring-slate-50 dark:ring-slate-950"></span>
-                  <span class="w-5 h-5 rounded-full bg-violet-500/80 ring-2 ring-slate-50 dark:ring-slate-950"></span>
-                </span>
+               
                 <strong class="font-semibold text-slate-700 dark:text-slate-300">LIDIA</strong>
                 en producción en ranchos de México
               </span>

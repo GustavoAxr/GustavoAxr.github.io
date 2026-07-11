@@ -21,12 +21,12 @@ import {
   Siren,
   Smartphone,
   Syringe,
-  Tractor,
   Truck,
   Warehouse,
   WifiOff,
   Zap,
 } from "lucide-vue-next";
+import LidiaLogo from "@/components/LidiaLogo.vue";
 
 const { getServiceBySlug } = useServices();
 const service = getServiceBySlug("lidia");
@@ -60,7 +60,7 @@ useHead({
 });
 
 const quickFacts = [
-  { icon: Tractor, label: "Hecho para el campo mexicano" },
+  { icon: LidiaLogo, label: "Hecho para el campo mexicano" },
   { icon: WifiOff, label: "Funciona sin señal" },
   { icon: Smartphone, label: "iOS y Android" },
   { icon: ShieldCheck, label: "Alineada a SINIIGA y SENASICA" },
@@ -319,45 +319,35 @@ const startVideo = (key: string) => {
 <template>
   <div v-if="service" class="min-h-screen">
     <!-- Hero -->
-    <section class="py-16 lg:py-24 relative overflow-hidden">
+    <section
+      class="relative overflow-hidden flex items-center min-h-[calc(100svh-5rem)] py-12"
+    >
       <div
         class="absolute inset-0 bg-gradient-to-br from-green-600/5 via-transparent to-lime-500/5 dark:from-green-600/10 dark:to-lime-500/10"
       ></div>
-      <div class="container mx-auto px-4 relative z-10 animate-fade-in-up">
-        <div class="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
-          <div class="text-center lg:text-left">
-            <div
-              class="flex flex-wrap items-center justify-center lg:justify-start gap-3 mb-6"
-            >
-              <div
-                class="inline-flex items-center gap-2 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-sm font-semibold px-4 py-1.5 rounded-full"
-              >
-                <component :is="service.icon" class="w-4 h-4" />
-                Software Especializado
-              </div>
-              <span
-                class="inline-flex items-center gap-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-sm font-bold px-4 py-1.5 rounded-full"
-              >
-                <Clock class="w-3.5 h-3.5" />
-                Acceso Anticipado
-              </span>
-            </div>
 
+      <!-- Bandera de México ondeando desde la esquina inferior izquierda -->
+      <MexicanFlagWave />
+
+      <div class="container mx-auto px-4 relative z-10 animate-fade-in-up">
+        <div class="grid lg:grid-cols-2 gap-12 items-center max-w-7xl mx-auto">
+          <div class="text-center lg:text-left">
             <h1
-              class="text-5xl md:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-3"
+              class="text-5xl md:text-6xl xl:text-7xl font-black tracking-tight leading-[1.02] mb-8"
             >
-              <span class="text-green-600 dark:text-green-400">LIDIA</span>
+              <span class="text-[#00723F] dark:text-green-500">FUERZA</span><span
+                class="text-slate-400 dark:text-slate-500"
+                >,</span
+              ><br />
+              <span class="text-slate-800 dark:text-white">TRADICIÓN</span><span
+                class="text-slate-400 dark:text-slate-500"
+                >,</span
+              ><br />
+              <span class="text-[#C8102E] dark:text-red-500">GANADERÍA</span><span
+                class="text-slate-800 dark:text-white"
+                >.</span
+              >
             </h1>
-            <p class="text-xl text-slate-500 dark:text-slate-400 font-medium mb-4">
-              Trazabilidad ganadera, haya o no señal
-            </p>
-            <p
-              class="text-lg text-slate-600 dark:text-slate-400 leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0"
-            >
-              Lleva el control completo de tu ganado — inventario, sanidad,
-              reproducción, movilizaciones y ventas — directo desde el rancho.
-              Todo desde tu celular, aunque no haya internet.
-            </p>
             <div
               class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4"
             >
@@ -379,71 +369,36 @@ const startVideo = (key: string) => {
             </div>
           </div>
 
-          <!-- Phone mockup -->
+          <!-- Carrusel coverflow de pantallas de LIDIA -->
           <div class="relative flex justify-center lg:justify-end">
-            <div class="relative w-[240px] sm:w-[280px]">
-              <div
-                class="absolute -inset-6 bg-green-500/15 dark:bg-green-500/10 rounded-full blur-3xl"
-              ></div>
-              <div
-                class="relative rounded-[2rem] border-[6px] border-slate-900 dark:border-slate-700 shadow-2xl shadow-green-900/20 overflow-hidden bg-slate-900"
-              >
-                <picture>
-                  <source
-                    srcset="/img/lidia/pantalla-dashboard.webp"
-                    type="image/webp"
-                  />
-                  <img
-                    src="/img/lidia/pantalla-dashboard.jpg"
-                    alt="Dashboard de LIDIA: padrón de ganado, balance de sexos y estatus reproductivo"
-                    width="739"
-                    height="1600"
-                    fetchpriority="high"
-                    class="w-full h-auto"
-                  />
-                </picture>
-              </div>
-              <div
-                class="hidden sm:flex absolute -left-24 top-14 items-center gap-2 px-3 py-2 rounded-xl bg-white/90 dark:bg-slate-800/90 backdrop-blur border border-slate-200 dark:border-slate-700 shadow-lg text-xs font-semibold text-slate-700 dark:text-slate-200"
-              >
-                <WifiOff class="w-3.5 h-3.5 text-green-600" />
-                Sin señal · Guardado ✓
-              </div>
-              <div
-                class="hidden sm:flex absolute -right-16 top-1/3 items-center gap-2 px-3 py-2 rounded-xl bg-white/90 dark:bg-slate-800/90 backdrop-blur border border-slate-200 dark:border-slate-700 shadow-lg text-xs font-semibold text-slate-700 dark:text-slate-200"
-              >
-                <Siren class="w-3.5 h-3.5 text-red-500" />
-                Alerta en tu municipio
-              </div>
-              <div
-                class="hidden sm:flex absolute -left-16 bottom-16 items-center gap-2 px-3 py-2 rounded-xl bg-white/90 dark:bg-slate-800/90 backdrop-blur border border-slate-200 dark:border-slate-700 shadow-lg text-xs font-semibold text-slate-700 dark:text-slate-200"
-              >
-                <QrCode class="w-3.5 h-3.5 text-green-600" />
-                Venta firmada con QR
-              </div>
-            </div>
+            <LidiaPhoneCarousel />
           </div>
         </div>
 
-        <!-- Quick facts -->
+      </div>
+    </section>
+
+    <!-- Quick facts (barra bajo el hero, fuera de la primera pantalla) -->
+    <section
+      class="border-y border-slate-100 dark:border-slate-800/60 bg-white/60 dark:bg-slate-900/40 py-5"
+    >
+      <div
+        class="container mx-auto px-4 grid grid-cols-2 lg:grid-cols-4 gap-3 max-w-4xl"
+      >
         <div
-          class="mt-14 grid grid-cols-2 lg:grid-cols-4 gap-3 max-w-4xl mx-auto"
+          v-for="fact in quickFacts"
+          :key="fact.label"
+          class="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-white/70 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800"
         >
-          <div
-            v-for="fact in quickFacts"
-            :key="fact.label"
-            class="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-white/70 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800"
+          <component
+            :is="fact.icon"
+            class="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0"
+          />
+          <span
+            class="text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300"
           >
-            <component
-              :is="fact.icon"
-              class="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0"
-            />
-            <span
-              class="text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300"
-            >
-              {{ fact.label }}
-            </span>
-          </div>
+            {{ fact.label }}
+          </span>
         </div>
       </div>
     </section>
@@ -459,7 +414,7 @@ const startVideo = (key: string) => {
           : 'opacity-0 translate-y-8'
       "
     >
-      <div class="container max-w-6xl px-4 mx-auto">
+      <div class="container max-w-7xl px-4 mx-auto">
         <div class="text-center mb-12">
           <h2
             class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4"
@@ -598,7 +553,7 @@ const startVideo = (key: string) => {
           : 'opacity-0 translate-y-8'
       "
     >
-      <div class="container max-w-6xl px-4 mx-auto">
+      <div class="container max-w-7xl px-4 mx-auto">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <div
@@ -676,7 +631,7 @@ const startVideo = (key: string) => {
           : 'opacity-0 translate-y-8'
       "
     >
-      <div class="container max-w-6xl px-4 mx-auto">
+      <div class="container max-w-7xl px-4 mx-auto">
         <div class="text-center mb-12">
           <div
             class="inline-flex items-center gap-2 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 text-sm font-semibold px-4 py-1.5 rounded-full mb-6"
@@ -857,7 +812,7 @@ const startVideo = (key: string) => {
           : 'opacity-0 translate-y-8'
       "
     >
-      <div class="container max-w-5xl px-4 mx-auto">
+      <div class="container max-w-7xl px-4 mx-auto">
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
           <div v-for="stat in stats" :key="stat.label" class="text-center">
             <div
@@ -902,7 +857,7 @@ const startVideo = (key: string) => {
               :key="point"
               class="flex items-center gap-3 p-4 rounded-xl bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700"
             >
-              <Tractor class="w-5 h-5 text-green-500 flex-shrink-0" />
+              <LidiaLogo class="w-5 h-5 flex-shrink-0" />
               <span class="text-sm font-medium text-slate-700 dark:text-slate-300">
                 {{ point }}
               </span>

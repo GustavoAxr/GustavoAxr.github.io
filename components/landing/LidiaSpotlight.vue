@@ -21,10 +21,15 @@ onMounted(() => {
   observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((e) => {
-        if (e.isIntersecting) isVisible.value = true;
+        if (e.isIntersecting) {
+          isVisible.value = true;
+          observer?.disconnect();
+        }
       });
     },
-    { threshold: 0.15 },
+    // threshold 0: en móvil la sección es muy alta y 0.15 no se alcanzaba,
+    // dejando el contenido en opacity-0 (invisible).
+    { threshold: 0 },
   );
   const el = document.getElementById("proud-products");
   if (el) observer.observe(el);
@@ -78,12 +83,12 @@ const stats = [
     class="relative overflow-hidden py-24 lg:py-32 bg-slate-50 dark:bg-slate-950"
   >
     <SparkLines />
-    <!-- Glows de marca -->
+    <!-- Glows de marca (solo desktop: el blur de 130px es pesado en móvil) -->
     <div
-      class="absolute top-10 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[130px] pointer-events-none"
+      class="hidden md:block absolute top-10 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[130px] pointer-events-none"
     ></div>
     <div
-      class="absolute bottom-10 right-1/4 w-96 h-96 bg-circuit-cyan/10 rounded-full blur-[130px] pointer-events-none"
+      class="hidden md:block absolute bottom-10 right-1/4 w-96 h-96 bg-circuit-cyan/10 rounded-full blur-[130px] pointer-events-none"
     ></div>
 
     <div class="container max-w-7xl mx-auto px-4 relative z-10">
@@ -96,7 +101,7 @@ const stats = [
           class="inline-flex items-center gap-2 text-primary font-semibold text-sm uppercase tracking-widest mb-5 px-4 py-2 bg-primary/10 rounded-full"
         >
           <span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
-          Nuestro producto
+          Nuestro producto insignia
         </span>
         <h2
           class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white leading-[1.05] mb-5"

@@ -21,10 +21,13 @@ onMounted(() => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           isVisible.value = true;
+          observer.disconnect();
         }
       });
     },
-    { threshold: 0.2 },
+    // threshold 0: en móvil la sección es muy alta y 0.2 no se alcanzaba,
+    // dejando el contenido en opacity-0 (invisible).
+    { threshold: 0 },
   );
 
   const section = document.getElementById("booking-section");

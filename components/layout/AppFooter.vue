@@ -245,18 +245,7 @@ const technologies = ["Vue.js", "Nuxt", "TypeScript", "Laravel", "Java", "AWS"];
 
           <!-- Technologies -->
           <div class="mt-8">
-            <h3 class="text-slate-800 dark:text-white font-semibold mb-3">
-              Tecnologías
-            </h3>
-            <div class="flex flex-wrap gap-2">
-              <span
-                v-for="tech in technologies"
-                :key="tech"
-                class="px-2 py-1 bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs rounded"
-              >
-                {{ tech }}
-              </span>
-            </div>
+         
           </div>
         </div>
       </div>

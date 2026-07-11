@@ -14,11 +14,11 @@ import {
   Shield,
   Workflow,
   Globe,
-  Tractor,
   Server,
   Activity,
-  HeartHandshake
+  HeartHandshake,
 } from "lucide-vue-next";
+import LidiaLogo from "@/components/LidiaLogo.vue";
 
 const isVisible = ref(false);
 const activeStep = ref(-1);
@@ -33,14 +33,19 @@ onMounted(() => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           isVisible.value = true;
-          // Auto-cycle action plan steps
-          stepInterval = setInterval(() => {
-            activeStep.value = (activeStep.value + 1) % actionPlan.length;
-          }, 2500);
+          // Auto-cycle action plan steps (una sola vez)
+          if (!stepInterval) {
+            stepInterval = setInterval(() => {
+              activeStep.value = (activeStep.value + 1) % actionPlan.length;
+            }, 2500);
+          }
+          observer.disconnect();
         }
       });
     },
-    { threshold: 0.15 },
+    // threshold 0: en móvil la sección es muy alta y un umbral mayor nunca se
+    // alcanzaba, dejando todo el contenido en opacity-0 (invisible).
+    { threshold: 0 },
   );
 
   const section = document.getElementById("what-defines-us");
@@ -83,7 +88,7 @@ const problems = [
   {
     id: "ranch",
     tabTitle: "Control Ganadero",
-    icon: Tractor,
+    icon: LidiaLogo,
     colorClass: "text-amber-500 bg-amber-500/10 border-amber-500/20",
     glowColor: "rgba(245, 158, 11, 0.15)",
     badge: "Sector Agropecuario",
@@ -212,7 +217,7 @@ const guarantees = [
       class="h-24 bg-gradient-to-b from-slate-950 via-slate-900/50 to-slate-50 dark:to-slate-900"
     ></div>
     <div
-      class="absolute inset-0 backdrop-blur-sm bg-gradient-to-b from-transparent to-slate-50/50 dark:to-slate-900/50"
+      class="absolute inset-0 bg-gradient-to-b from-transparent to-slate-50/50 dark:to-slate-900/50"
     ></div>
   </div>
 
@@ -236,12 +241,13 @@ const guarantees = [
           "
         ></div>
       </div>
-      <!-- Floating glow orbs -->
+      <!-- Floating glow orbs (solo desktop: el blur de 128px animado es muy
+           pesado en móvil y causaba lentitud) -->
       <div
-        class="absolute top-1/4 -left-32 w-96 h-96 bg-primary/10 rounded-full blur-[128px] animate-float-slow"
+        class="hidden md:block absolute top-1/4 -left-32 w-96 h-96 bg-primary/10 rounded-full blur-[128px] animate-float-slow"
       ></div>
       <div
-        class="absolute bottom-1/4 -right-32 w-96 h-96 bg-cyan-500/10 rounded-full blur-[128px] animate-float-slow-reverse"
+        class="hidden md:block absolute bottom-1/4 -right-32 w-96 h-96 bg-cyan-500/10 rounded-full blur-[128px] animate-float-slow-reverse"
       ></div>
     </div>
 
@@ -343,14 +349,14 @@ const guarantees = [
               v-for="problem in problems"
               :key="problem.id"
               v-show="activeProblemTab === problem.id"
-              class="flex-1 bg-white dark:bg-slate-800/60 backdrop-blur-md rounded-3xl border border-slate-200 dark:border-slate-800/50 p-6 md:p-10 shadow-2xl relative overflow-hidden flex flex-col justify-between transition-all duration-500 animate-fade-in-up"
+              class="flex-1 bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-800/50 p-6 md:p-10 shadow-2xl relative overflow-hidden flex flex-col justify-between transition-all duration-500 animate-fade-in-up"
               :style="{
                 'box-shadow': `0 20px 50px -10px ${problem.glowColor}`
               }"
             >
               <!-- Ambient background glow inside the card -->
               <div
-                class="absolute -top-24 -right-24 w-64 h-64 rounded-full blur-[100px] pointer-events-none"
+                class="hidden md:block absolute -top-24 -right-24 w-64 h-64 rounded-full blur-[100px] pointer-events-none"
                 :style="{ background: problem.glowColor }"
               ></div>
 
@@ -643,7 +649,7 @@ const guarantees = [
             ></div>
           </div>
           <div
-            class="absolute top-0 right-0 w-64 h-64 bg-primary/5 dark:bg-primary/10 rounded-full blur-[100px]"
+            class="hidden md:block absolute top-0 right-0 w-64 h-64 bg-primary/5 dark:bg-primary/10 rounded-full blur-[100px]"
           ></div>
 
           <div class="relative z-10">

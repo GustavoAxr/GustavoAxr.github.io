@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import {
-  Tractor,
   QrCode,
   Siren,
   LayoutTemplate,
@@ -8,6 +7,11 @@ import {
   Workflow,
   ArrowUpRight,
   WifiOff,
+  Phone,
+  PhoneIcon,
+  PhoneIncoming,
+  PhoneCall,
+  Camera,
 } from "lucide-vue-next";
 
 // Bento de categorías de servicio — mantiene todo el catálogo al frente,
@@ -15,12 +19,12 @@ import {
 const cards = [
   {
     key: "negocio",
-    title: "Para tu Negocio",
-    desc: "Presencia digital que convierte",
+    title: "Lo que se te ocurra, nosotros lo creamos para tí",
+    desc: "La complejidad no existe para nosotros",
     icon: LayoutTemplate,
     to: "/servicios/landing-page",
     accent: "text-blue-500 bg-blue-500/10",
-    items: ["Sitio web profesional", "Corporativo", "Dominios"],
+    items: ["ERP", "SaaS", "Siempre creando herramientas para tí"],
   },
   {
     key: "infra",
@@ -29,16 +33,7 @@ const cards = [
     icon: Server,
     to: "/servicios/aws",
     accent: "text-cyan-500 bg-cyan-500/10",
-    items: ["Hosting premium", "Correo", "Nube AWS"],
-  },
-  {
-    key: "soporte",
-    title: "Soporte Técnico",
-    desc: "Que tu operación nunca se detenga",
-    icon: Workflow,
-    to: "/servicios/automatization",
-    accent: "text-violet-500 bg-violet-500/10",
-    items: ["Mantenimiento de equipos", "Redes empresariales", "Automatización"],
+    items: ["Hosting premium", "HTTPS", "Nube AWS"],
   },
 ];
 </script>
@@ -55,7 +50,7 @@ const cards = [
           class="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-primary bg-primary/10 rounded-full px-2.5 py-1"
         >
           <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
-          Nuestro producto
+          Nuestro producto insignia
         </span>
         <ArrowUpRight
           class="w-5 h-5 text-primary/60 group-hover:text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
@@ -64,9 +59,9 @@ const cards = [
 
       <div class="mt-4">
         <div
-          class="w-11 h-11 rounded-xl bg-primary/15 flex items-center justify-center mb-3"
+          class="w-11 h-11 rounded-xl bg-primary/15 flex items-center justify-center mb-3 p-1.5"
         >
-          <Tractor class="w-6 h-6 text-primary" />
+          <LidiaLogo class="w-full h-full" />
         </div>
         <p class="text-lg font-bold text-slate-900 dark:text-white">LIDIA</p>
         <p class="text-sm text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
@@ -89,6 +84,12 @@ const cards = [
         >
           <Siren class="w-3.5 h-3.5 text-red-500" />
           Alertas de robo
+        </span>
+        <span
+          class="inline-flex items-center gap-1.5 text-xs font-medium text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 rounded-lg px-2.5 py-1.5"
+        >
+          <Camera class="w-3.5 h-3.5 text-blue-500" />
+          Busqueda por IA a través de cámara
         </span>
       </div>
 

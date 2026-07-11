@@ -10,9 +10,10 @@ module.exports = {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      padding: "1rem",
       screens: {
-        "2xl": "1400px",
+        // Ancho máximo unificado en todo el sitio (= max-w-7xl / 1280px)
+        "2xl": "1280px",
       },
     },
     extend: {
