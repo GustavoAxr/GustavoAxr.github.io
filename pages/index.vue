@@ -25,6 +25,63 @@ useSeoMeta({
   twitterCard: "summary_large_image",
 });
 
+// Datos estructurados (JSON-LD): identifican la empresa ante Google y ayudan
+// a los resultados enriquecidos / panel de conocimiento y a los sitelinks.
+useHead({
+  script: [
+    {
+      type: "application/ld+json",
+      innerHTML: JSON.stringify({
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://codegahp.com/#organization",
+            name: "CODEGAHP",
+            url: "https://codegahp.com",
+            logo: "https://codegahp.com/logo-code.svg",
+            image: "https://codegahp.com/img/presentacion.jpg",
+            description:
+              "Agencia de desarrollo de software en Ciudad del Carmen, Campeche, México: aplicaciones web, software a la medida, hosting, dominios y LIDIA (trazabilidad ganadera).",
+            email: "contacto@codegahp.com",
+            telephone: "+52-938-106-5606",
+            foundingLocation: "Ciudad del Carmen, Campeche, México",
+            areaServed: "MX",
+            address: {
+              "@type": "PostalAddress",
+              addressLocality: "Ciudad del Carmen",
+              addressRegion: "Campeche",
+              addressCountry: "MX",
+            },
+            contactPoint: {
+              "@type": "ContactPoint",
+              telephone: "+52-938-106-5606",
+              email: "contacto@codegahp.com",
+              contactType: "customer service",
+              areaServed: "MX",
+              availableLanguage: ["es"],
+            },
+            sameAs: [
+              "https://facebook.com/codegahp",
+              "https://instagram.com/codegahp",
+              "https://linkedin.com/company/codegahp",
+              "https://x.com/codegahp",
+            ],
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://codegahp.com/#website",
+            url: "https://codegahp.com",
+            name: "CODEGAHP",
+            inLanguage: "es-MX",
+            publisher: { "@id": "https://codegahp.com/#organization" },
+          },
+        ],
+      }),
+    },
+  ],
+});
+
 // =====================================================
 // TECNOLOGÍAS - Personaliza los colores y añade más aquí
 // =====================================================

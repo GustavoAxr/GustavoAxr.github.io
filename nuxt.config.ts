@@ -43,9 +43,20 @@ export default defineNuxtConfig({
             "Desarrollamos soluciones de software escalables y robustas con arquitectura limpia. Transformamos ideas en productos digitales.",
         },
         { property: "og:locale", content: "es_MX" },
+        { property: "og:url", content: "https://codegahp.com" },
+        {
+          property: "og:image",
+          content: "https://codegahp.com/img/presentacion.jpg",
+        },
+        { property: "og:image:width", content: "1920" },
+        { property: "og:image:height", content: "1025" },
 
         // Twitter Cards
         { name: "twitter:card", content: "summary_large_image" },
+        {
+          name: "twitter:image",
+          content: "https://codegahp.com/img/presentacion.jpg",
+        },
         {
           name: "twitter:title",
           content: "CODEGAHP | Desarrollo de Software Profesional",
@@ -58,7 +69,8 @@ export default defineNuxtConfig({
       ],
       link: [
         { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
-        { rel: "canonical", href: "https://codegahp.com" },
+        // El canonical se define por página en app.vue (antes era fijo a la
+        // home y hacía que Google tratara todas las páginas como duplicados).
         {
           rel: "preconnect",
           href: "https://fonts.googleapis.com",
@@ -79,6 +91,12 @@ export default defineNuxtConfig({
 
   // Nitro optimizations for faster loading
   nitro: {
+    // Pre-renderiza TODAS las rutas a HTML estático (Google ve el contenido).
+    prerender: {
+      crawlLinks: true,
+      routes: ["/"],
+      failOnError: false,
+    },
     compressPublicAssets: true,
     minify: true,
   },
