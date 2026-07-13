@@ -6,21 +6,25 @@ const parallaxOffset = ref(0);
 const sectionRef = ref<HTMLElement | null>(null);
 const isVisible = ref(false);
 
+// El lector de layout (getBoundingClientRect) se agrupa dentro de un
+// requestAnimationFrame para evitar "reflow forzado" en cada evento de scroll.
+let ticking = false;
+const measure = () => {
+  ticking = false;
+  if (!sectionRef.value) return;
+  const rect = sectionRef.value.getBoundingClientRect();
+  parallaxOffset.value = (-rect.top / window.innerHeight) * 100;
+  if (rect.top < window.innerHeight * 0.8) isVisible.value = true;
+};
 const handleScroll = () => {
-  if (sectionRef.value) {
-    const rect = sectionRef.value.getBoundingClientRect();
-    const scrollProgress = -rect.top / window.innerHeight;
-    parallaxOffset.value = scrollProgress * 100;
-
-    if (rect.top < window.innerHeight * 0.8) {
-      isVisible.value = true;
-    }
-  }
+  if (ticking) return;
+  ticking = true;
+  requestAnimationFrame(measure);
 };
 
 onMounted(() => {
-  window.addEventListener("scroll", handleScroll);
-  handleScroll();
+  window.addEventListener("scroll", handleScroll, { passive: true });
+  measure();
 });
 
 onUnmounted(() => {

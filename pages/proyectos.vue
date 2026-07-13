@@ -67,23 +67,17 @@ const features = [
   },
 ];
 
-const screens = [
-  { name: "dashboard", caption: "Padrón de ganado" },
-  { name: "sanidad", caption: "Campañas sanitarias" },
-  { name: "reemo", caption: "Movilidad y comercio" },
-  { name: "genealogia", caption: "Genealogía" },
-];
 </script>
 
 <template>
   <div class="min-h-screen bg-slate-50 dark:bg-slate-950 relative overflow-hidden">
     <SparkLines />
-    <!-- Glows -->
+    <!-- Glows (solo desktop: el blur grande es pesado en móvil) -->
     <div
-      class="absolute top-20 right-[10%] w-[500px] h-[500px] bg-primary/10 rounded-full blur-[150px] pointer-events-none"
+      class="hidden md:block absolute top-20 right-[10%] w-[500px] h-[500px] bg-primary/10 rounded-full blur-[150px] pointer-events-none"
     ></div>
     <div
-      class="absolute top-40 left-[5%] w-[400px] h-[400px] bg-circuit-cyan/10 rounded-full blur-[130px] pointer-events-none"
+      class="hidden md:block absolute top-40 left-[5%] w-[400px] h-[400px] bg-circuit-cyan/10 rounded-full blur-[130px] pointer-events-none"
     ></div>
 
     <div class="container max-w-7xl mx-auto px-4 relative z-10 py-20 lg:py-28">
@@ -175,43 +169,20 @@ const screens = [
               </NuxtLink>
             </div>
 
-            <!-- Capturas -->
-            <div
-              class="media-strip flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 -mx-2 px-2 lg:mx-0 lg:px-0 lg:grid lg:grid-cols-2 lg:overflow-visible lg:pb-0"
-            >
-              <figure
-                v-for="s in screens"
-                :key="s.name"
-                class="flex-shrink-0 w-[150px] lg:w-auto snap-center"
+            <!-- Datos clave (reemplaza la galería de capturas) -->
+            <div class="grid grid-cols-2 gap-3 sm:gap-4">
+              <div
+                v-for="st in stats"
+                :key="st.label"
+                class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/40 p-5 text-center"
               >
-                <picture>
-                  <source :srcset="`/img/lidia/pantalla-${s.name}.webp`" type="image/webp" />
-                  <img
-                    :src="`/img/lidia/pantalla-${s.name}.jpg`"
-                    :alt="`LIDIA: ${s.caption}`"
-                    width="739"
-                    height="1600"
-                    loading="lazy"
-                    decoding="async"
-                    class="w-full rounded-2xl border border-slate-200 dark:border-slate-800 shadow-md"
-                  />
-                </picture>
-                <figcaption class="mt-2 text-xs text-center text-slate-500 dark:text-slate-400">
-                  {{ s.caption }}
-                </figcaption>
-              </figure>
-            </div>
-          </div>
-
-          <!-- Franja de datos -->
-          <div class="mt-10 pt-8 border-t border-slate-200 dark:border-slate-800 grid grid-cols-2 lg:grid-cols-4 gap-6">
-            <div v-for="st in stats" :key="st.label" class="text-center">
-              <div class="text-2xl lg:text-3xl font-extrabold text-primary mb-1">
-                {{ st.value }}
+                <div class="text-2xl lg:text-3xl font-extrabold text-primary mb-1">
+                  {{ st.value }}
+                </div>
+                <p class="text-xs text-slate-500 dark:text-slate-400 leading-snug">
+                  {{ st.label }}
+                </p>
               </div>
-              <p class="text-xs text-slate-500 dark:text-slate-400 leading-snug">
-                {{ st.label }}
-              </p>
             </div>
           </div>
         </div>
@@ -288,11 +259,5 @@ const screens = [
     opacity: 1;
     transform: translateY(0);
   }
-}
-.media-strip {
-  scrollbar-width: none;
-}
-.media-strip::-webkit-scrollbar {
-  display: none;
 }
 </style>

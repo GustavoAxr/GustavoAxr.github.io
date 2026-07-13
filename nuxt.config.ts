@@ -71,15 +71,8 @@ export default defineNuxtConfig({
         { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
         // El canonical se define por página en app.vue (antes era fijo a la
         // home y hacía que Google tratara todas las páginas como duplicados).
-        {
-          rel: "preconnect",
-          href: "https://fonts.googleapis.com",
-        },
-        {
-          rel: "preconnect",
-          href: "https://fonts.gstatic.com",
-          crossorigin: "",
-        },
+        // (Se quitaron los preconnect a Google Fonts: el sitio usa fuentes del
+        // sistema, no cargaba ninguna fuente web y solo ensuciaban la red.)
       ],
     },
   },
