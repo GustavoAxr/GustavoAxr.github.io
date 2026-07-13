@@ -14,9 +14,9 @@ import BookingSection from "@/components/landing/BookingSection.vue";
 // SEO Meta Tags para la página principal
 useSeoMeta({
   title:
-    "Inicio - CODEGAHP | Agencia de Desarrollo de Software en Ciudad del Carmen, Campeche",
+    "Inicio - CODEGAHP | Desarrollo de software y automatizaciones perpetuas",
   description:
-    "Agencia de desarrollo de software en Ciudad del Carmen, Campeche.",
+    "Agencia de desarrollo, Inteligencia artificial y automatizaciones, hardware y más.",
   ogTitle:
     "CODEGAHP | Desarrollo de Software Profesional",
   ogDescription:
@@ -42,7 +42,7 @@ useHead({
             logo: "https://codegahp.com/logo-code.svg",
             image: "https://codegahp.com/img/presentacion.jpg",
             description:
-              "Agencia de desarrollo de software en Ciudad del Carmen, Campeche, México: aplicaciones web, software a la medida, hosting, dominios y LIDIA (trazabilidad ganadera).",
+              "Agencia de desarrollo de software. Aplicaciones web, software a la medida, hosting, dominios y LIDIA (trazabilidad ganadera).",
             email: "contacto@codegahp.com",
             telephone: "+52-938-106-5606",
             foundingLocation: "Ciudad del Carmen, Campeche, México",
