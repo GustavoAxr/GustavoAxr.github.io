@@ -268,7 +268,7 @@ const guarantees = [
         >
           El Libro de
           <span
-            class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-circuit-cyan"
+            class="text-primary"
             >Soluciones</span
           >
           de tu Negocio
@@ -442,7 +442,7 @@ const guarantees = [
         >
           Las 5 Reglas de Oro de
           <span
-            class="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-teal-500 to-primary"
+            class="text-primary"
             >Nuestras Soluciones</span
           >
         </h3>
@@ -467,14 +467,12 @@ const guarantees = [
             >
               <!-- Gradient accent bar -->
               <div
-                class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r opacity-60 group-hover:opacity-100 transition-opacity"
-                :class="pillar.color"
+                class="absolute top-0 left-0 right-0 h-1 bg-primary opacity-60 group-hover:opacity-100 transition-opacity"
               ></div>
 
               <!-- Letter Indicator representing standard layout -->
               <div
-                class="w-14 h-14 rounded-2xl bg-gradient-to-br flex items-center justify-center text-white font-bold text-2xl mb-4 shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300"
-                :class="[pillar.color, pillar.shadow]"
+                class="w-14 h-14 rounded-2xl bg-primary flex items-center justify-center text-white font-bold text-2xl mb-4 shadow-lg shadow-primary/25 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300"
               >
                 {{ pillar.letter }}
               </div>
@@ -524,7 +522,7 @@ const guarantees = [
               class="w-full h-full bg-slate-200 dark:bg-slate-700 rounded-full"
             ></div>
             <div
-              class="absolute top-0 left-0 h-full bg-gradient-to-r from-primary via-circuit-cyan to-primary rounded-full transition-all duration-1000 pipeline-progress"
+              class="absolute top-0 left-0 h-full bg-primary rounded-full transition-all duration-1000 pipeline-progress"
               :style="{
                 width:
                   activeStep >= 0
@@ -632,7 +630,7 @@ const guarantees = [
         }"
       >
         <div
-          class="max-w-7xl mx-auto p-8 lg:p-10 rounded-3xl bg-gradient-to-br from-slate-100 via-white to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 border border-slate-200 dark:border-slate-700/50 shadow-xl dark:shadow-2xl relative overflow-hidden"
+          class="max-w-7xl mx-auto p-8 lg:p-10 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/50 shadow-xl dark:shadow-2xl relative overflow-hidden"
         >
           <!-- Background circuit decoration -->
           <div class="absolute inset-0 opacity-5">

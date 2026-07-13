@@ -111,12 +111,12 @@ onMounted(() => {
     <!-- Hero -->
     <section class="py-20 lg:py-28 relative overflow-hidden">
       <div
-        class="absolute inset-0 bg-gradient-to-br from-orange-500/5 via-transparent to-amber-500/5 dark:from-orange-500/10 dark:to-amber-500/10"
+        class="absolute inset-0 bg-primary/5 dark:bg-primary/10"
       ></div>
       <div class="container mx-auto px-4 relative z-10 animate-fade-in-up">
         <div class="max-w-3xl mx-auto text-center">
           <div
-            class="inline-flex items-center gap-2 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-sm font-semibold px-4 py-1.5 rounded-full mb-6"
+            class="inline-flex items-center gap-2 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-sm font-semibold px-4 py-1.5 rounded-full mb-6"
           >
             <component :is="service.icon" class="w-4 h-4" />
             Infraestructura
@@ -125,7 +125,7 @@ onMounted(() => {
             class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6"
           >
             El Poder de
-            <span class="text-orange-500">Amazon Web Services</span>
+            <span class="text-emerald-500">Amazon Web Services</span>
           </h1>
           <p
             class="text-xl text-slate-600 dark:text-slate-400 leading-relaxed mb-8"
@@ -141,7 +141,7 @@ onMounted(() => {
               :key="item.name"
               class="flex items-center gap-2 bg-white dark:bg-slate-800 px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-300"
             >
-              <component :is="item.icon" class="w-4 h-4 text-orange-500" />
+              <component :is="item.icon" class="w-4 h-4 text-emerald-500" />
               {{ item.name }}
             </div>
           </div>
@@ -150,7 +150,7 @@ onMounted(() => {
             <NuxtLink to="/contacto">
               <Button
                 size="lg"
-                class="bg-orange-500 hover:bg-orange-600 text-white text-lg h-12 px-8 shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 transition-all transform hover:-translate-y-0.5"
+                class="bg-emerald-500 hover:bg-emerald-600 text-white text-lg h-12 px-8 shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 transition-all transform hover:-translate-y-0.5"
               >
                 Migrar a la Nube
                 <ArrowRight class="w-5 h-5 ml-2" />
@@ -177,7 +177,7 @@ onMounted(() => {
           <h2
             class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4"
           >
-            Servicios <span class="text-orange-500">AWS</span> que Administramos
+            Servicios <span class="text-emerald-500">AWS</span> que Administramos
           </h2>
           <p
             class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto"
@@ -191,19 +191,19 @@ onMounted(() => {
           <div
             v-for="item in awsServices"
             :key="item.name"
-            class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 hover:border-orange-500/50 transition-all duration-300 group"
+            class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 hover:border-emerald-500/50 transition-all duration-300 group"
           >
             <div class="flex items-center gap-3 mb-3">
               <div
-                class="w-10 h-10 rounded-lg bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center group-hover:bg-orange-200 dark:group-hover:bg-orange-900/50 transition-colors"
+                class="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center group-hover:bg-emerald-200 dark:group-hover:bg-emerald-900/50 transition-colors"
               >
                 <component
                   :is="item.icon"
-                  class="w-5 h-5 text-orange-600 dark:text-orange-400"
+                  class="w-5 h-5 text-emerald-600 dark:text-emerald-400"
                 />
               </div>
               <div>
-                <span class="text-xs font-bold text-orange-500 uppercase">{{
+                <span class="text-xs font-bold text-emerald-500 uppercase">{{
                   item.name
                 }}</span>
                 <h3 class="text-lg font-bold text-slate-900 dark:text-white">
@@ -237,7 +237,7 @@ onMounted(() => {
           <h2
             class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4"
           >
-            ¿Por qué <span class="text-orange-500">la nube</span>?
+            ¿Por qué <span class="text-emerald-500">la nube</span>?
           </h2>
         </div>
 
@@ -245,14 +245,14 @@ onMounted(() => {
           <div
             v-for="benefit in cloudBenefits"
             :key="benefit.title"
-            class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 hover:border-orange-500/50 transition-all duration-300 group"
+            class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 hover:border-emerald-500/50 transition-all duration-300 group"
           >
             <div
-              class="w-12 h-12 rounded-xl bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center mb-4 group-hover:bg-orange-200 dark:group-hover:bg-orange-900/50 transition-colors"
+              class="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mb-4 group-hover:bg-emerald-200 dark:group-hover:bg-emerald-900/50 transition-colors"
             >
               <component
                 :is="benefit.icon"
-                class="w-6 h-6 text-orange-600 dark:text-orange-400"
+                class="w-6 h-6 text-emerald-600 dark:text-emerald-400"
               />
             </div>
             <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">

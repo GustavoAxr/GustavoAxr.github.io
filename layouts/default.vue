@@ -1,16 +1,9 @@
 <script setup>
-import { defineAsyncComponent } from "vue";
 import AppHeader from "~/components/layout/AppHeader.vue";
 import AppFooter from "~/components/layout/AppFooter.vue";
-import MouseGlowEffect from "~/components/MouseGlowEffect.vue";
 
 // Color primario dinámico según la página de servicio activa
 useServiceTheme();
-
-// Lazy load del componente para optimizar la carga inicial
-const CircuitLinesEffect = defineAsyncComponent(
-  () => import("~/components/CircuitLinesEffect.vue"),
-);
 </script>
 
 <template>
@@ -24,12 +17,6 @@ const CircuitLinesEffect = defineAsyncComponent(
     >
       Saltar al contenido
     </a>
-
-    <!-- Efecto de glow del mouse -->
-    <MouseGlowEffect />
-
-    <!-- Efecto de líneas de circuito en el lado derecho -->
-    <CircuitLinesEffect />
 
     <AppHeader />
 

@@ -12,7 +12,6 @@ import {
   Smartphone,
   ShieldCheck,
 } from "lucide-vue-next";
-import SparkLines from "@/components/SparkLines.vue";
 
 const isVisible = ref(false);
 let observer: IntersectionObserver | null = null;
@@ -82,7 +81,6 @@ const stats = [
     id="proud-products"
     class="relative overflow-hidden py-24 lg:py-32 bg-slate-50 dark:bg-slate-950"
   >
-    <SparkLines />
     <!-- Glows de marca (solo desktop: el blur de 130px es pesado en móvil) -->
     <div
       class="hidden md:block absolute top-10 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[130px] pointer-events-none"
@@ -108,7 +106,7 @@ const stats = [
         >
           LIDIA, la app que
           <span
-            class="bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary-light to-circuit-cyan"
+            class="text-primary"
           >
             aguanta el campo
           </span>

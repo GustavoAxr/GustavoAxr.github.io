@@ -81,7 +81,7 @@ onMounted(() => {
     <!-- Hero -->
     <section class="py-20 lg:py-28 relative overflow-hidden">
       <div
-        class="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-transparent to-primary/5 dark:from-emerald-500/10 dark:to-primary/10"
+        class="absolute inset-0 bg-primary/5 dark:bg-primary/10"
       ></div>
       <div class="container mx-auto px-4 relative z-10 animate-fade-in-up">
         <div class="max-w-3xl mx-auto text-center">

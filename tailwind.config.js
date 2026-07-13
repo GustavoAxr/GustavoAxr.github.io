@@ -27,13 +27,14 @@ module.exports = {
         secondary: {
           DEFAULT: "#1A1A2E",      // Azul oscuro profundo
         },
-        // Colores para las líneas de circuito (mantener como están)
+        // Antes eran neón (cyan/turquesa) y daban el aire "IA"; ahora son
+        // tonos de la familia verde de la marca.
         circuit: {
-          cyan: "#00CED1",
-          teal: "#40E0D0",
-          mint: "#48D1CC",
-          turquoise: "#2DCE9A",
-          light: "#7FFFD4",
+          cyan: "#4F9E7A",
+          teal: "#79C5A6",
+          mint: "#9BD6BE",
+          turquoise: "#409028",
+          light: "#C3E7D6",
         },
       },
       animation: {
@@ -52,8 +53,8 @@ module.exports = {
           "100%": { strokeDashoffset: "0" },
         },
         circuitGlow: {
-          "0%": { filter: "drop-shadow(0 0 2px rgba(45, 206, 154, 0.3))" },
-          "100%": { filter: "drop-shadow(0 0 8px rgba(45, 206, 154, 0.8))" },
+          "0%": { filter: "drop-shadow(0 0 2px rgba(121, 197, 166, 0.3))" },
+          "100%": { filter: "drop-shadow(0 0 8px rgba(121, 197, 166, 0.8))" },
         },
         fadeInUp: {
           "0%": { opacity: "0", transform: "translateY(20px)" },

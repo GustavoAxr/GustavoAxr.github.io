@@ -90,7 +90,7 @@ onMounted(() => {
     <section class="py-20 lg:py-28 relative overflow-hidden">
       <!-- Glow background fuchsia/violet -->
       <div
-        class="absolute inset-0 bg-gradient-to-br from-fuchsia-600/5 via-transparent to-violet-600/5 dark:from-fuchsia-600/10 dark:to-violet-600/10"
+        class="absolute inset-0 bg-primary/5 dark:bg-primary/10"
       ></div>
       <div
         class="container max-w-7xl mx-auto px-4 relative z-10 animate-fade-in-up"
@@ -98,13 +98,13 @@ onMounted(() => {
         <div class="max-w-4xl mx-auto text-center">
           <div class="flex items-center justify-center gap-3 mb-6">
             <div
-              class="inline-flex items-center gap-2 bg-fuchsia-100 dark:bg-fuchsia-900/30 text-fuchsia-700 dark:text-fuchsia-300 text-sm font-semibold px-4 py-1.5 rounded-full"
+              class="inline-flex items-center gap-2 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-sm font-semibold px-4 py-1.5 rounded-full"
             >
               <component :is="service.icon" class="w-4 h-4" />
               Ingeniería de Flujos
             </div>
             <span
-              class="inline-flex items-center gap-1 bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 text-sm font-bold px-4 py-1.5 rounded-full"
+              class="inline-flex items-center gap-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-sm font-bold px-4 py-1.5 rounded-full"
             >
               <Zap class="w-3.5 h-3.5 fill-current" />
               Productividad 10x
@@ -116,12 +116,12 @@ onMounted(() => {
           >
             Automatización de
             <span
-              class="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-600 to-violet-600 dark:from-fuchsia-400 dark:to-violet-400"
+              class="text-primary"
               >Procesos</span
             >
             e
             <span
-              class="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-600 to-violet-600 dark:from-fuchsia-400 dark:to-violet-400"
+              class="text-primary"
               >IA</span
             >
           </h1>
@@ -138,7 +138,7 @@ onMounted(() => {
           <NuxtLink to="/contacto">
             <Button
               size="lg"
-              class="bg-fuchsia-600 hover:bg-fuchsia-700 text-white text-lg h-12 px-8 shadow-lg shadow-fuchsia-500/25 hover:shadow-fuchsia-500/40 transition-all transform hover:-translate-y-0.5 rounded-xl"
+              class="bg-emerald-600 hover:bg-emerald-700 text-white text-lg h-12 px-8 shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 transition-all transform hover:-translate-y-0.5 rounded-xl"
             >
               Iniciar Proyecto de Automatización
               <Rocket class="w-5 h-5 ml-2" />
@@ -165,7 +165,7 @@ onMounted(() => {
             class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4"
           >
             Un ecosistema que trabaja <br class="md:hidden" />
-            <span class="text-fuchsia-600 dark:text-fuchsia-400"
+            <span class="text-emerald-600 dark:text-emerald-400"
               >exclusivamente por ti</span
             >
           </h2>
@@ -182,18 +182,18 @@ onMounted(() => {
           <div
             v-for="mod in benefits"
             :key="mod.title"
-            class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 hover:border-fuchsia-500/50 transition-all duration-300 group shadow-sm hover:shadow-md hover:shadow-fuchsia-500/10"
+            class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 hover:border-emerald-500/50 transition-all duration-300 group shadow-sm hover:shadow-md hover:shadow-emerald-500/10"
           >
             <div
-              class="w-12 h-12 rounded-xl bg-fuchsia-100 dark:bg-fuchsia-900/30 flex items-center justify-center mb-4 group-hover:bg-fuchsia-200 dark:group-hover:bg-fuchsia-900/50 transition-colors"
+              class="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mb-4 group-hover:bg-emerald-200 dark:group-hover:bg-emerald-900/50 transition-colors"
             >
               <component
                 :is="mod.icon"
-                class="w-6 h-6 text-fuchsia-600 dark:text-fuchsia-400 group-hover:scale-110 transition-transform duration-300"
+                class="w-6 h-6 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform duration-300"
               />
             </div>
             <h3
-              class="text-lg font-bold text-slate-900 dark:text-white mb-2 group-hover:text-fuchsia-600 dark:group-hover:text-fuchsia-400 transition-colors"
+              class="text-lg font-bold text-slate-900 dark:text-white mb-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors"
             >
               {{ mod.title }}
             </h3>
@@ -224,7 +224,7 @@ onMounted(() => {
             class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4"
           >
             Nuestra hoja de
-            <span class="text-fuchsia-600 dark:text-fuchsia-400">Ruta</span>
+            <span class="text-emerald-600 dark:text-emerald-400">Ruta</span>
           </h2>
           <p class="text-lg text-slate-600 dark:text-slate-400 mb-10">
             No solo instalamos software. Analizamos tu empresa como un motor
@@ -235,13 +235,13 @@ onMounted(() => {
             <div
               v-for="(step, index) in processSteps"
               :key="step"
-              class="flex items-center gap-4 p-5 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 shadow-sm hover:border-fuchsia-500/30 transition-colors"
+              class="flex items-center gap-4 p-5 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 shadow-sm hover:border-emerald-500/30 transition-colors"
             >
               <div
-                class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 border overflow-hidden border-slate-200 dark:border-slate-700 flex items-center shadow-inner justify-center flex-shrink-0 group relative text-fuchsia-600 dark:text-fuchsia-400"
+                class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 border overflow-hidden border-slate-200 dark:border-slate-700 flex items-center shadow-inner justify-center flex-shrink-0 group relative text-emerald-600 dark:text-emerald-400"
               >
                 <div
-                  class="absolute inset-0 bg-gradient-to-br from-fuchsia-500/10 to-violet-500/10"
+                  class="absolute inset-0 bg-primary/10"
                 ></div>
                 <span class="font-bold relative z-10">{{ index + 1 }}</span>
               </div>

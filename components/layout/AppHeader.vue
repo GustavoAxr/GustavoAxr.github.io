@@ -230,7 +230,7 @@ const isMobileServicesOpen = ref(false);
         <!-- Botón CTA Desktop -->
         <NuxtLink
           to="/contacto"
-          class="hidden md:flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-primary to-primary-dark text-white text-sm font-semibold rounded-full shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:scale-105 transition-all duration-300"
+          class="hidden md:flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-semibold rounded-full shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:scale-105 transition-all duration-300"
         >
           <span>Hablemos</span>
           <svg

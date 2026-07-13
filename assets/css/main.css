@@ -1,22 +1,24 @@
 /* =====================================================
-   CODEGAHP — Identidad de color accesible (WCAG AA)
-   Modo claro: verde profundo (legible sobre blanco)
-   Modo oscuro: verde neón de circuito (marca original)
+   CODEGAHP — Identidad de color natural (2 verdes de marca)
+   Marca principal: #79C5A6 (verde salvia del logo)
+   Producto LIDIA / acción: #409028 (verde profundo)
+   Modo claro usa el verde profundo (contraste sobre blanco);
+   modo oscuro usa el verde salvia (resalta sobre fondo oscuro).
    ===================================================== */
 :root {
-  --color-primary: 14 128 96; /* #0E8060 — 4.9:1 sobre blanco */
-  --color-primary-dark: 10 104 78; /* #0A684E */
-  --color-primary-light: 45 206 154; /* #2DCE9A — acento */
+  --color-primary: 64 144 40; /* #409028 — verde profundo, acciones/acentos */
+  --color-primary-dark: 47 106 30; /* #2F6A1E — hover / texto pequeño */
+  --color-primary-light: 121 197 166; /* #79C5A6 — verde salvia (tintes/acentos) */
 }
 
 .dark {
-  --color-primary: 45 206 154; /* #2DCE9A — neón sobre fondo oscuro */
-  --color-primary-dark: 37 176 133; /* #25B085 */
-  --color-primary-light: 94 221 181; /* #5EDDB5 */
+  --color-primary: 121 197 166; /* #79C5A6 — salvia sobre fondo oscuro */
+  --color-primary-dark: 90 169 138; /* #5AA98A */
+  --color-primary-light: 155 214 190; /* #9BD6BE */
 }
 
-/* En modo oscuro los botones de marca usan texto oscuro sobre
-   verde neón (contraste 9.4:1); en claro, blanco sobre verde profundo. */
+/* En modo oscuro los botones de marca usan texto oscuro sobre el verde
+   salvia (claro); en claro, blanco sobre verde profundo. */
 .dark button.bg-primary,
 .dark a.bg-primary,
 .dark .bg-primary.text-white,

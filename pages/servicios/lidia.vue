@@ -323,7 +323,7 @@ const startVideo = (key: string) => {
       class="relative overflow-hidden flex items-center min-h-[calc(100svh-5rem)] py-12"
     >
       <div
-        class="absolute inset-0 bg-gradient-to-br from-green-600/5 via-transparent to-lime-500/5 dark:from-green-600/10 dark:to-lime-500/10"
+        class="absolute inset-0 bg-primary/5 dark:bg-primary/10"
       ></div>
 
       <!-- Bandera de México ondeando desde la esquina inferior izquierda -->

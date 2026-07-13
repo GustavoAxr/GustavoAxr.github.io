@@ -2,7 +2,6 @@
 import { ArrowRight, Sparkles } from "lucide-vue-next";
 import { Button } from "@/components/ui/button";
 import BackgroundLogo from "@/components/BackgroundLogo.vue";
-import SparkLines from "@/components/SparkLines.vue";
 import HeroBento from "@/components/landing/HeroBento.vue";
 // Nota: Hero3DLogo y el eslogan lateral se retiraron; el bento ocupa ahora
 // la columna derecha del hero.
@@ -147,8 +146,6 @@ const technologies = [
       id="hero-section"
       class="min-h-[calc(100svh-5rem)] py-12 flex flex-col justify-center relative z-10 overflow-hidden"
     >
-      <SparkLines />
-
       <div class="container max-w-7xl mx-auto px-4 relative z-10 w-full">
         <div class="grid lg:grid-cols-2 gap-12 lg:gap-10 items-center">
           <!-- Columna de texto -->
@@ -174,9 +171,7 @@ const technologies = [
               class="text-5xl md:text-6xl xl:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.05]"
             >
               Software que aguanta<br />
-              <span
-                class="bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary-light to-circuit-cyan"
-              >
+              <span class="text-primary">
                 el trabajo real
               </span>
             </h1>
@@ -255,15 +250,6 @@ const technologies = [
             }"
           >
             {{ tech.title }}
-            <!-- Glow effect behind text -->
-            <span
-              class="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"
-              :style="{
-                background: `radial-gradient(circle, ${tech.glowColor} 0%, transparent 70%)`,
-                transform: 'scale(1.5)',
-                filter: 'blur(8px)',
-              }"
-            ></span>
           </span>
         </div>
       </div>

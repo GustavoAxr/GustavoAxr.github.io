@@ -96,13 +96,13 @@ onMounted(() => {
     <!-- Hero -->
     <section class="py-20 lg:py-28 relative overflow-hidden">
       <div
-        class="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-teal-500/5 dark:from-cyan-500/10 dark:to-teal-500/10"
+        class="absolute inset-0 bg-primary/5 dark:bg-primary/10"
       ></div>
       <div class="container mx-auto px-4 relative z-10 animate-fade-in-up">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <div
-              class="inline-flex items-center gap-2 bg-cyan-100 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-300 text-sm font-semibold px-4 py-1.5 rounded-full mb-6"
+              class="inline-flex items-center gap-2 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-sm font-semibold px-4 py-1.5 rounded-full mb-6"
             >
               <component :is="service.icon" class="w-4 h-4" />
               Infraestructura
@@ -111,7 +111,7 @@ onMounted(() => {
               class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6"
             >
               {{ service.title }}
-              <span class="block text-cyan-600 dark:text-cyan-400">Siempre en Línea</span>
+              <span class="block text-emerald-600 dark:text-emerald-400">Siempre en Línea</span>
             </h1>
             <p
               class="text-xl text-slate-600 dark:text-slate-400 leading-relaxed mb-8"
@@ -122,7 +122,7 @@ onMounted(() => {
             <NuxtLink to="/contacto">
               <Button
                 size="lg"
-                class="bg-cyan-700 hover:bg-cyan-800 text-white text-lg h-12 px-8 shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all transform hover:-translate-y-0.5"
+                class="bg-emerald-700 hover:bg-emerald-800 text-white text-lg h-12 px-8 shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 transition-all transform hover:-translate-y-0.5"
               >
                 Ver Planes
                 <ArrowRight class="w-5 h-5 ml-2" />
@@ -133,7 +133,7 @@ onMounted(() => {
           <!-- Stats del servidor -->
           <div class="hidden lg:block">
             <div
-              class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/80 p-8 shadow-xl shadow-cyan-500/5"
+              class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/80 p-8 shadow-xl shadow-emerald-500/5"
             >
               <div class="flex items-center gap-3 mb-6">
                 <div
@@ -150,7 +150,7 @@ onMounted(() => {
                   class="text-center p-4 rounded-xl bg-slate-50 dark:bg-slate-800"
                 >
                   <div
-                    class="text-2xl font-extrabold text-cyan-600 dark:text-cyan-400 mb-1"
+                    class="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400 mb-1"
                   >
                     {{ stat.value }}
                   </div>
@@ -160,7 +160,7 @@ onMounted(() => {
               <div class="mt-6 space-y-3">
                 <div class="flex justify-between text-sm">
                   <span class="text-slate-500">CPU</span>
-                  <span class="text-cyan-700 dark:text-cyan-400 font-mono"
+                  <span class="text-emerald-700 dark:text-emerald-400 font-mono"
                     >12%</span
                   >
                 </div>
@@ -168,13 +168,13 @@ onMounted(() => {
                   class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2"
                 >
                   <div
-                    class="bg-cyan-500 h-2 rounded-full"
+                    class="bg-emerald-500 h-2 rounded-full"
                     style="width: 12%"
                   ></div>
                 </div>
                 <div class="flex justify-between text-sm">
                   <span class="text-slate-500">RAM</span>
-                  <span class="text-cyan-700 dark:text-cyan-400 font-mono"
+                  <span class="text-emerald-700 dark:text-emerald-400 font-mono"
                     >34%</span
                   >
                 </div>
@@ -182,13 +182,13 @@ onMounted(() => {
                   class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2"
                 >
                   <div
-                    class="bg-cyan-500 h-2 rounded-full"
+                    class="bg-emerald-500 h-2 rounded-full"
                     style="width: 34%"
                   ></div>
                 </div>
                 <div class="flex justify-between text-sm">
                   <span class="text-slate-500">SSD</span>
-                  <span class="text-cyan-700 dark:text-cyan-400 font-mono"
+                  <span class="text-emerald-700 dark:text-emerald-400 font-mono"
                     >28%</span
                   >
                 </div>
@@ -196,7 +196,7 @@ onMounted(() => {
                   class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2"
                 >
                   <div
-                    class="bg-cyan-500 h-2 rounded-full"
+                    class="bg-emerald-500 h-2 rounded-full"
                     style="width: 28%"
                   ></div>
                 </div>
@@ -224,7 +224,7 @@ onMounted(() => {
             class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4"
           >
             Hosting de
-            <span class="text-cyan-600 dark:text-cyan-400">Alto Rendimiento</span>
+            <span class="text-emerald-600 dark:text-emerald-400">Alto Rendimiento</span>
           </h2>
           <p
             class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto"
@@ -238,14 +238,14 @@ onMounted(() => {
           <div
             v-for="feature in features"
             :key="feature.title"
-            class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 hover:border-cyan-500/50 transition-all duration-300 group"
+            class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 hover:border-emerald-500/50 transition-all duration-300 group"
           >
             <div
-              class="w-12 h-12 rounded-xl bg-cyan-100 dark:bg-cyan-900/30 flex items-center justify-center mb-4 group-hover:bg-cyan-200 dark:group-hover:bg-cyan-900/50 transition-colors"
+              class="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mb-4 group-hover:bg-emerald-200 dark:group-hover:bg-emerald-900/50 transition-colors"
             >
               <component
                 :is="feature.icon"
-                class="w-6 h-6 text-cyan-600 dark:text-cyan-400"
+                class="w-6 h-6 text-emerald-600 dark:text-emerald-400"
               />
             </div>
             <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">
@@ -277,7 +277,7 @@ onMounted(() => {
           <h2
             class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4"
           >
-            Todo <span class="text-cyan-500">incluido</span>
+            Todo <span class="text-emerald-500">incluido</span>
           </h2>
           <p class="text-lg text-slate-600 dark:text-slate-400 mb-10">
             Cada plan incluye las herramientas que necesitas sin costos ocultos.
@@ -288,7 +288,7 @@ onMounted(() => {
               :key="item"
               class="flex items-center gap-3 p-3 rounded-xl bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700"
             >
-              <CheckCircle2 class="w-5 h-5 text-cyan-500 flex-shrink-0" />
+              <CheckCircle2 class="w-5 h-5 text-emerald-500 flex-shrink-0" />
               <span
                 class="text-sm font-medium text-slate-700 dark:text-slate-300"
               >

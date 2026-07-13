@@ -86,13 +86,13 @@ onMounted(() => {
     <!-- Hero -->
     <section class="py-20 lg:py-28 relative overflow-hidden">
       <div
-        class="absolute inset-0 bg-gradient-to-br from-blue-600/5 via-transparent to-indigo-500/5 dark:from-blue-600/10 dark:to-indigo-500/10"
+        class="absolute inset-0 bg-primary/5 dark:bg-primary/10"
       ></div>
       <div class="container mx-auto px-4 relative z-10 animate-fade-in-up">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <div
-              class="inline-flex items-center gap-2 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-sm font-semibold px-4 py-1.5 rounded-full mb-6"
+              class="inline-flex items-center gap-2 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-sm font-semibold px-4 py-1.5 rounded-full mb-6"
             >
               <component :is="service.icon" class="w-4 h-4" />
               Para tu Negocio
@@ -101,7 +101,7 @@ onMounted(() => {
               class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6"
             >
               {{ service.title }}
-              <span class="block text-blue-600 dark:text-blue-400"
+              <span class="block text-emerald-600 dark:text-emerald-400"
                 >con Impacto Real</span
               >
             </h1>
@@ -114,7 +114,7 @@ onMounted(() => {
             <NuxtLink to="/contacto">
               <Button
                 size="lg"
-                class="bg-blue-600 hover:bg-blue-700 text-white text-lg h-12 px-8 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all transform hover:-translate-y-0.5"
+                class="bg-emerald-600 hover:bg-emerald-700 text-white text-lg h-12 px-8 shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 transition-all transform hover:-translate-y-0.5"
               >
                 Potenciar Mi Empresa
                 <ArrowRight class="w-5 h-5 ml-2" />
@@ -131,7 +131,7 @@ onMounted(() => {
                 class="p-6 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/50 flex items-center gap-6"
               >
                 <div
-                  class="text-4xl font-extrabold text-blue-600 dark:text-blue-400 min-w-[80px]"
+                  class="text-4xl font-extrabold text-emerald-600 dark:text-emerald-400 min-w-[80px]"
                 >
                   {{ stat.value }}
                 </div>
@@ -162,7 +162,7 @@ onMounted(() => {
             class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4"
           >
             El poder de una
-            <span class="text-blue-600 dark:text-blue-400"
+            <span class="text-emerald-600 dark:text-emerald-400"
               >presencia digital</span
             >
             sólida
@@ -179,15 +179,15 @@ onMounted(() => {
           <div
             v-for="benefit in benefits"
             :key="benefit.title"
-            class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 hover:border-blue-500/50 transition-all duration-300 group"
+            class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 hover:border-emerald-500/50 transition-all duration-300 group"
           >
             <div class="flex items-start gap-4">
               <div
-                class="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center flex-shrink-0 group-hover:bg-blue-200 dark:group-hover:bg-blue-900/50 transition-colors"
+                class="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center flex-shrink-0 group-hover:bg-emerald-200 dark:group-hover:bg-emerald-900/50 transition-colors"
               >
                 <component
                   :is="benefit.icon"
-                  class="w-6 h-6 text-blue-600 dark:text-blue-400"
+                  class="w-6 h-6 text-emerald-600 dark:text-emerald-400"
                 />
               </div>
               <div>
@@ -224,7 +224,7 @@ onMounted(() => {
           <h2
             class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4"
           >
-            ¿Qué <span class="text-blue-600 dark:text-blue-400">incluye</span>?
+            ¿Qué <span class="text-emerald-600 dark:text-emerald-400">incluye</span>?
           </h2>
           <p
             class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto"
@@ -242,7 +242,7 @@ onMounted(() => {
           >
             <component
               :is="item.icon"
-              class="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0"
+              class="w-5 h-5 text-emerald-600 dark:text-emerald-400 flex-shrink-0"
             />
             <span
               class="text-sm font-medium text-slate-700 dark:text-slate-300"

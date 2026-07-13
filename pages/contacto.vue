@@ -331,7 +331,7 @@ const submitByWhatsApp = () => {
               <div class="relative p-6">
                 <div class="flex items-center gap-4">
                   <div
-                    class="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-emerald-500 flex items-center justify-center shadow-lg shadow-primary/25 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500"
+                    class="w-16 h-16 rounded-2xl bg-primary flex items-center justify-center shadow-lg shadow-primary/25 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500"
                   >
                     <Sparkles class="w-8 h-8 text-white" />
                   </div>

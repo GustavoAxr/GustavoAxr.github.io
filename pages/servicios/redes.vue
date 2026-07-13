@@ -105,13 +105,13 @@ onMounted(() => {
     <!-- Hero -->
     <section class="py-20 lg:py-28 relative overflow-hidden">
       <div
-        class="absolute inset-0 bg-gradient-to-br from-violet-500/5 via-transparent to-fuchsia-500/5 dark:from-violet-500/10 dark:to-fuchsia-500/10"
+        class="absolute inset-0 bg-primary/5 dark:bg-primary/10"
       ></div>
       <div class="container mx-auto px-4 relative z-10 animate-fade-in-up">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <div
-              class="inline-flex items-center gap-2 bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 text-sm font-semibold px-4 py-1.5 rounded-full mb-6"
+              class="inline-flex items-center gap-2 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-sm font-semibold px-4 py-1.5 rounded-full mb-6"
             >
               <component :is="service.icon" class="w-4 h-4" />
               Soporte Técnico
@@ -120,7 +120,7 @@ onMounted(() => {
               class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6"
             >
               {{ service.title }}
-              <span class="block text-violet-500"
+              <span class="block text-emerald-500"
                 >Conectividad sin Límites</span
               >
             </h1>
@@ -133,7 +133,7 @@ onMounted(() => {
             <NuxtLink to="/contacto">
               <Button
                 size="lg"
-                class="bg-violet-600 hover:bg-violet-700 text-white text-lg h-12 px-8 shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 transition-all transform hover:-translate-y-0.5"
+                class="bg-emerald-600 hover:bg-emerald-700 text-white text-lg h-12 px-8 shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 transition-all transform hover:-translate-y-0.5"
               >
                 Diseñar Mi Red
                 <ArrowRight class="w-5 h-5 ml-2" />
@@ -152,7 +152,7 @@ onMounted(() => {
                   y1="50"
                   x2="80"
                   y2="150"
-                  class="stroke-violet-300 dark:stroke-violet-700"
+                  class="stroke-emerald-300 dark:stroke-emerald-700"
                   stroke-width="2"
                 />
                 <line
@@ -160,7 +160,7 @@ onMounted(() => {
                   y1="50"
                   x2="320"
                   y2="150"
-                  class="stroke-violet-300 dark:stroke-violet-700"
+                  class="stroke-emerald-300 dark:stroke-emerald-700"
                   stroke-width="2"
                 />
                 <line
@@ -168,7 +168,7 @@ onMounted(() => {
                   y1="150"
                   x2="140"
                   y2="250"
-                  class="stroke-violet-300 dark:stroke-violet-700"
+                  class="stroke-emerald-300 dark:stroke-emerald-700"
                   stroke-width="2"
                 />
                 <line
@@ -176,7 +176,7 @@ onMounted(() => {
                   y1="150"
                   x2="260"
                   y2="250"
-                  class="stroke-violet-300 dark:stroke-violet-700"
+                  class="stroke-emerald-300 dark:stroke-emerald-700"
                   stroke-width="2"
                 />
                 <line
@@ -184,7 +184,7 @@ onMounted(() => {
                   y1="150"
                   x2="320"
                   y2="150"
-                  class="stroke-violet-200 dark:stroke-violet-800"
+                  class="stroke-emerald-200 dark:stroke-emerald-800"
                   stroke-width="1"
                   stroke-dasharray="4"
                 />
@@ -193,7 +193,7 @@ onMounted(() => {
                   y1="250"
                   x2="260"
                   y2="250"
-                  class="stroke-violet-200 dark:stroke-violet-800"
+                  class="stroke-emerald-200 dark:stroke-emerald-800"
                   stroke-width="1"
                   stroke-dasharray="4"
                 />
@@ -203,35 +203,35 @@ onMounted(() => {
                   cx="200"
                   cy="50"
                   r="24"
-                  class="fill-violet-500"
+                  class="fill-emerald-500"
                   opacity="0.9"
                 />
                 <circle
                   cx="80"
                   cy="150"
                   r="20"
-                  class="fill-violet-400"
+                  class="fill-emerald-400"
                   opacity="0.8"
                 />
                 <circle
                   cx="320"
                   cy="150"
                   r="20"
-                  class="fill-violet-400"
+                  class="fill-emerald-400"
                   opacity="0.8"
                 />
                 <circle
                   cx="140"
                   cy="250"
                   r="16"
-                  class="fill-violet-300"
+                  class="fill-emerald-300"
                   opacity="0.7"
                 />
                 <circle
                   cx="260"
                   cy="250"
                   r="16"
-                  class="fill-violet-300"
+                  class="fill-emerald-300"
                   opacity="0.7"
                 />
 
@@ -300,7 +300,7 @@ onMounted(() => {
             class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4"
           >
             Servicios de
-            <span class="text-violet-500">Redes</span>
+            <span class="text-emerald-500">Redes</span>
           </h2>
           <p
             class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto"
@@ -314,14 +314,14 @@ onMounted(() => {
           <div
             v-for="item in networkServices"
             :key="item.title"
-            class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 hover:border-violet-500/50 transition-all duration-300 group"
+            class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 hover:border-emerald-500/50 transition-all duration-300 group"
           >
             <div
-              class="w-12 h-12 rounded-xl bg-violet-100 dark:bg-violet-900/30 flex items-center justify-center mb-4 group-hover:bg-violet-200 dark:group-hover:bg-violet-900/50 transition-colors"
+              class="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mb-4 group-hover:bg-emerald-200 dark:group-hover:bg-emerald-900/50 transition-colors"
             >
               <component
                 :is="item.icon"
-                class="w-6 h-6 text-violet-600 dark:text-violet-400"
+                class="w-6 h-6 text-emerald-600 dark:text-emerald-400"
               />
             </div>
             <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">
@@ -354,7 +354,7 @@ onMounted(() => {
             class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4"
           >
             ¿Por qué una red
-            <span class="text-violet-500">profesional</span>?
+            <span class="text-emerald-500">profesional</span>?
           </h2>
         </div>
 
@@ -362,14 +362,14 @@ onMounted(() => {
           <div
             v-for="benefit in networkBenefits"
             :key="benefit.title"
-            class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 hover:border-violet-500/50 transition-all duration-300 group"
+            class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 hover:border-emerald-500/50 transition-all duration-300 group"
           >
             <div
-              class="w-12 h-12 rounded-xl bg-violet-100 dark:bg-violet-900/30 flex items-center justify-center mb-4 group-hover:bg-violet-200 dark:group-hover:bg-violet-900/50 transition-colors"
+              class="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mb-4 group-hover:bg-emerald-200 dark:group-hover:bg-emerald-900/50 transition-colors"
             >
               <component
                 :is="benefit.icon"
-                class="w-6 h-6 text-violet-600 dark:text-violet-400"
+                class="w-6 h-6 text-emerald-600 dark:text-emerald-400"
               />
             </div>
             <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">

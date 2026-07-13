@@ -80,13 +80,13 @@ onMounted(() => {
     <!-- Hero -->
     <section class="py-20 lg:py-28 relative overflow-hidden">
       <div
-        class="absolute inset-0 bg-gradient-to-br from-amber-500/5 via-transparent to-yellow-500/5 dark:from-amber-500/10 dark:to-yellow-500/10"
+        class="absolute inset-0 bg-primary/5 dark:bg-primary/10"
       ></div>
       <div class="container mx-auto px-4 relative z-10 animate-fade-in-up">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <div
-              class="inline-flex items-center gap-2 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 text-sm font-semibold px-4 py-1.5 rounded-full mb-6"
+              class="inline-flex items-center gap-2 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-sm font-semibold px-4 py-1.5 rounded-full mb-6"
             >
               <component :is="service.icon" class="w-4 h-4" />
               Infraestructura
@@ -95,7 +95,7 @@ onMounted(() => {
               class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6"
             >
               {{ service.title }}
-              <span class="block text-amber-500">tu@tuempresa.com</span>
+              <span class="block text-emerald-500">tu@tuempresa.com</span>
             </h1>
             <p
               class="text-xl text-slate-600 dark:text-slate-400 leading-relaxed mb-8"
@@ -106,7 +106,7 @@ onMounted(() => {
             <NuxtLink to="/contacto">
               <Button
                 size="lg"
-                class="bg-amber-500 hover:bg-amber-600 text-white text-lg h-12 px-8 shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 transition-all transform hover:-translate-y-0.5"
+                class="bg-emerald-500 hover:bg-emerald-600 text-white text-lg h-12 px-8 shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 transition-all transform hover:-translate-y-0.5"
               >
                 Activar Mi Correo
                 <ArrowRight class="w-5 h-5 ml-2" />
@@ -117,17 +117,17 @@ onMounted(() => {
           <!-- Mockup de bandeja de email -->
           <div class="hidden lg:block">
             <div
-              class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/80 overflow-hidden shadow-xl shadow-amber-500/5"
+              class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/80 overflow-hidden shadow-xl shadow-emerald-500/5"
             >
               <div
-                class="bg-amber-500/10 dark:bg-amber-900/30 px-6 py-4 flex items-center gap-3"
+                class="bg-emerald-500/10 dark:bg-emerald-900/30 px-6 py-4 flex items-center gap-3"
               >
-                <Inbox class="w-5 h-5 text-amber-600 dark:text-amber-400" />
+                <Inbox class="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
                 <span class="font-semibold text-slate-700 dark:text-slate-300"
                   >Bandeja de entrada</span
                 >
                 <span
-                  class="ml-auto text-xs bg-amber-500 text-white px-2 py-0.5 rounded-full"
+                  class="ml-auto text-xs bg-emerald-500 text-white px-2 py-0.5 rounded-full"
                   >3 nuevos</span
                 >
               </div>
@@ -198,7 +198,7 @@ onMounted(() => {
             class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4"
           >
             Comunica
-            <span class="text-amber-500">profesionalismo</span>
+            <span class="text-emerald-500">profesionalismo</span>
           </h2>
           <p
             class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto"
@@ -212,15 +212,15 @@ onMounted(() => {
           <div
             v-for="benefit in benefits"
             :key="benefit.title"
-            class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 hover:border-amber-500/50 transition-all duration-300 group"
+            class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 hover:border-emerald-500/50 transition-all duration-300 group"
           >
             <div class="flex items-start gap-4">
               <div
-                class="w-12 h-12 rounded-xl bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center flex-shrink-0 group-hover:bg-amber-200 dark:group-hover:bg-amber-900/50 transition-colors"
+                class="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center flex-shrink-0 group-hover:bg-emerald-200 dark:group-hover:bg-emerald-900/50 transition-colors"
               >
                 <component
                   :is="benefit.icon"
-                  class="w-6 h-6 text-amber-600 dark:text-amber-400"
+                  class="w-6 h-6 text-emerald-600 dark:text-emerald-400"
                 />
               </div>
               <div>
@@ -257,7 +257,7 @@ onMounted(() => {
           <h2
             class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4"
           >
-            Todo lo que <span class="text-amber-500">necesitas</span>
+            Todo lo que <span class="text-emerald-500">necesitas</span>
           </h2>
           <p class="text-lg text-slate-600 dark:text-slate-400 mb-10">
             Funcionalidades profesionales para la comunicación de tu empresa.
@@ -270,7 +270,7 @@ onMounted(() => {
             >
               <component
                 :is="feature.icon"
-                class="w-5 h-5 text-amber-500 flex-shrink-0"
+                class="w-5 h-5 text-emerald-500 flex-shrink-0"
               />
               <span
                 class="text-sm font-medium text-slate-700 dark:text-slate-300"

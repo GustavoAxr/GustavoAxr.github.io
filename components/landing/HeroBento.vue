@@ -23,7 +23,7 @@ const cards = [
     desc: "La complejidad no existe para nosotros",
     icon: LayoutTemplate,
     to: "/servicios/landing-page",
-    accent: "text-blue-500 bg-blue-500/10",
+    accent: "text-primary bg-primary/10",
     items: ["ERP", "SaaS", "Siempre creando herramientas para tí"],
   },
   {
@@ -32,7 +32,7 @@ const cards = [
     desc: "Siempre en línea, sin sobrecostos",
     icon: Server,
     to: "/servicios/aws",
-    accent: "text-cyan-500 bg-cyan-500/10",
+    accent: "text-primary bg-primary/10",
     items: ["Hosting premium", "HTTPS", "Nube AWS"],
   },
 ];
@@ -43,7 +43,7 @@ const cards = [
     <!-- Tarjeta destacada: LIDIA (nuestro producto) -->
     <NuxtLink
       to="/servicios/lidia"
-      class="group relative col-span-2 sm:col-span-1 sm:row-span-2 flex flex-col overflow-hidden rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/10 via-white to-white dark:from-primary/15 dark:via-slate-900 dark:to-slate-900 p-5 shadow-sm transition-all duration-300 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1"
+      class="group relative col-span-2 sm:col-span-1 sm:row-span-2 flex flex-col overflow-hidden rounded-2xl border border-primary/20 bg-white dark:bg-slate-900 p-5 shadow-sm transition-all duration-300 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1"
     >
       <div class="flex items-center justify-between">
         <span

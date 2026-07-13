@@ -174,7 +174,7 @@ const { currentColorHex } = useServiceTheme();
           <div class="relative z-10 p-10 lg:p-16 text-center">
             <!-- CODEGAHP Logo Mark -->
             <div
-              class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/20 mb-8 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500"
+              class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 mb-8 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500"
             >
               <div
                 class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shadow-lg shadow-primary/30"
@@ -190,7 +190,7 @@ const { currentColorHex } = useServiceTheme();
               {{ title }}
               <br />
               <span
-                class="bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary-light to-primary"
+                class="text-primary"
               >
                 {{ subtitle }}
               </span>

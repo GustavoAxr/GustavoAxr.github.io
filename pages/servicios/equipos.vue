@@ -106,13 +106,13 @@ onMounted(() => {
     <!-- Hero -->
     <section class="py-20 lg:py-28 relative overflow-hidden">
       <div
-        class="absolute inset-0 bg-gradient-to-br from-red-500/5 via-transparent to-rose-500/5 dark:from-red-500/10 dark:to-rose-500/10"
+        class="absolute inset-0 bg-primary/5 dark:bg-primary/10"
       ></div>
       <div class="container mx-auto px-4 relative z-10 animate-fade-in-up">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <div
-              class="inline-flex items-center gap-2 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 text-sm font-semibold px-4 py-1.5 rounded-full mb-6"
+              class="inline-flex items-center gap-2 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-sm font-semibold px-4 py-1.5 rounded-full mb-6"
             >
               <component :is="service.icon" class="w-4 h-4" />
               Soporte Técnico
@@ -121,7 +121,7 @@ onMounted(() => {
               class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6"
             >
               {{ service.title }}
-              <span class="block text-red-500">Experto y Confiable</span>
+              <span class="block text-emerald-500">Experto y Confiable</span>
             </h1>
             <p
               class="text-xl text-slate-600 dark:text-slate-400 leading-relaxed mb-8"
@@ -132,7 +132,7 @@ onMounted(() => {
             <NuxtLink to="/contacto">
               <Button
                 size="lg"
-                class="bg-red-500 hover:bg-red-600 text-white text-lg h-12 px-8 shadow-lg shadow-red-500/25 hover:shadow-red-500/40 transition-all transform hover:-translate-y-0.5"
+                class="bg-emerald-500 hover:bg-emerald-600 text-white text-lg h-12 px-8 shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 transition-all transform hover:-translate-y-0.5"
               >
                 Solicitar Servicio
                 <ArrowRight class="w-5 h-5 ml-2" />
@@ -150,7 +150,7 @@ onMounted(() => {
               >
                 <component
                   :is="item.icon"
-                  class="w-8 h-8 text-red-500 mx-auto mb-2"
+                  class="w-8 h-8 text-emerald-500 mx-auto mb-2"
                 />
                 <p
                   class="text-xs font-semibold text-slate-700 dark:text-slate-300"
@@ -181,7 +181,7 @@ onMounted(() => {
             class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4"
           >
             Nuestros
-            <span class="text-red-500">Servicios</span>
+            <span class="text-emerald-500">Servicios</span>
           </h2>
           <p
             class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto"
@@ -195,14 +195,14 @@ onMounted(() => {
           <div
             v-for="item in services"
             :key="item.title"
-            class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 hover:border-red-500/50 transition-all duration-300 group"
+            class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 hover:border-emerald-500/50 transition-all duration-300 group"
           >
             <div
-              class="w-12 h-12 rounded-xl bg-red-100 dark:bg-red-900/30 flex items-center justify-center mb-4 group-hover:bg-red-200 dark:group-hover:bg-red-900/50 transition-colors"
+              class="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mb-4 group-hover:bg-emerald-200 dark:group-hover:bg-emerald-900/50 transition-colors"
             >
               <component
                 :is="item.icon"
-                class="w-6 h-6 text-red-600 dark:text-red-400"
+                class="w-6 h-6 text-emerald-600 dark:text-emerald-400"
               />
             </div>
             <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">
@@ -234,7 +234,7 @@ onMounted(() => {
           <h2
             class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4"
           >
-            Proceso de <span class="text-red-500">Atención</span>
+            Proceso de <span class="text-emerald-500">Atención</span>
           </h2>
           <p
             class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto"
@@ -252,18 +252,18 @@ onMounted(() => {
           >
             <div class="flex flex-col items-center">
               <div
-                class="w-12 h-12 rounded-full bg-red-500 text-white flex items-center justify-center font-bold text-lg flex-shrink-0"
+                class="w-12 h-12 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-lg flex-shrink-0"
               >
                 {{ index + 1 }}
               </div>
               <div
                 v-if="index < processSteps.length - 1"
-                class="w-px flex-1 bg-gradient-to-b from-red-500/50 to-transparent mt-2"
+                class="w-px flex-1 bg-primary/40 mt-2"
               ></div>
             </div>
             <div class="pb-8">
               <div class="flex items-center gap-3 mb-2">
-                <component :is="step.icon" class="w-5 h-5 text-red-500" />
+                <component :is="step.icon" class="w-5 h-5 text-emerald-500" />
                 <h3 class="text-xl font-bold text-slate-900 dark:text-white">
                   {{ step.title }}
                 </h3>

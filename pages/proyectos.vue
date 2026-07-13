@@ -13,7 +13,6 @@ import {
   CheckCircle2,
   MessageCircle,
 } from "lucide-vue-next";
-import SparkLines from "@/components/SparkLines.vue";
 
 useSeoMeta({
   title: "Proyectos - CODEGAHP | LIDIA, nuestro producto insignia",
@@ -71,14 +70,6 @@ const features = [
 
 <template>
   <div class="min-h-screen bg-slate-50 dark:bg-slate-950 relative overflow-hidden">
-    <SparkLines />
-    <!-- Glows (solo desktop: el blur grande es pesado en móvil) -->
-    <div
-      class="hidden md:block absolute top-20 right-[10%] w-[500px] h-[500px] bg-primary/10 rounded-full blur-[150px] pointer-events-none"
-    ></div>
-    <div
-      class="hidden md:block absolute top-40 left-[5%] w-[400px] h-[400px] bg-circuit-cyan/10 rounded-full blur-[130px] pointer-events-none"
-    ></div>
 
     <div class="container max-w-7xl mx-auto px-4 relative z-10 py-20 lg:py-28">
       <!-- Encabezado -->
@@ -98,7 +89,7 @@ const features = [
         >
           Un producto real,
           <span
-            class="bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary-light to-circuit-cyan"
+            class="text-primary"
           >
             hecho para el campo
           </span>
@@ -114,7 +105,7 @@ const features = [
       <div
         class="mt-16 rounded-[2rem] border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 backdrop-blur overflow-hidden shadow-xl"
       >
-        <div class="h-1 bg-gradient-to-r from-primary/60 via-primary to-circuit-cyan/60"></div>
+        <div class="h-1 bg-primary"></div>
         <div class="p-6 sm:p-10 lg:p-12">
           <div class="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
             <!-- Info -->
@@ -217,7 +208,7 @@ const features = [
 
       <!-- CTA honesto -->
       <div
-        class="mt-16 rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/10 via-white to-white dark:from-primary/15 dark:via-slate-900 dark:to-slate-900 p-8 lg:p-12 text-center"
+        class="mt-16 rounded-3xl border border-primary/20 bg-primary/5 dark:bg-slate-900 p-8 lg:p-12 text-center"
       >
         <h2 class="text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white mb-3">
           ¿Tu proyecto podría ser el siguiente?
