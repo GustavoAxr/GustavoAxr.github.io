@@ -280,7 +280,7 @@ const faqs = [
   },
   {
     q: "¿Cuándo puedo usarla?",
-    a: "LIDIA está en acceso anticipado, funcionando en ranchos reales. Regístrate y te contactamos para sumarte a la lista de espera con beneficios de lanzamiento.",
+    a: "LIDIA está en acceso anticipado. Regístrate y te contactamos para sumarte a la lista de espera con beneficios de lanzamiento.",
   },
 ];
 

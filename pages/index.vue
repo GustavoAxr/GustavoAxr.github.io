@@ -218,7 +218,7 @@ const technologies = [
               <span class="inline-flex items-center gap-2">
                
                 <strong class="font-semibold text-slate-700 dark:text-slate-300">LIDIA</strong>
-                en producción en ranchos de México
+                trazabilidad ganadera offline · en acceso anticipado
               </span>
               <span class="inline-flex items-center gap-1.5">
                 <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>

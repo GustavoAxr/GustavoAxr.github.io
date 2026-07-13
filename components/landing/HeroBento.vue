@@ -66,8 +66,8 @@ const cards = [
         <p class="text-lg font-bold text-slate-900 dark:text-white">LIDIA</p>
         <p class="text-sm text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
           Trazabilidad ganadera que funciona
-          <span class="font-semibold text-primary">sin señal</span> — en
-          producción en ranchos de México.
+          <span class="font-semibold text-primary">sin señal</span> —
+          inventario, sanidad y compra-venta desde el celular.
         </p>
       </div>
 

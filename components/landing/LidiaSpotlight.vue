@@ -114,8 +114,8 @@ const stats = [
           </span>
         </h2>
         <p class="text-lg lg:text-xl text-slate-600 dark:text-slate-400 leading-relaxed">
-          Trazabilidad y administración ganadera hecha para el rancho mexicano —
-          en producción, funcionando con o sin internet.
+          Trazabilidad y administración ganadera hecha para el rancho mexicano:
+          inventario, sanidad, reproducción y ventas, con o sin internet.
         </p>
       </div>
 

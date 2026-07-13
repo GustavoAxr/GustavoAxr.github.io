@@ -16,12 +16,12 @@ import {
 import SparkLines from "@/components/SparkLines.vue";
 
 useSeoMeta({
-  title: "Proyectos - CODEGAHP | LIDIA, nuestro producto en producción",
+  title: "Proyectos - CODEGAHP | LIDIA, nuestro producto insignia",
   description:
-    "LIDIA es nuestro producto insignia: una app de trazabilidad ganadera que funciona sin señal, hoy en producción en ranchos de México. Construimos software que aguanta el trabajo real.",
-  ogTitle: "Proyectos | CODEGAHP — LIDIA en producción",
+    "LIDIA es nuestro producto insignia: una app de trazabilidad ganadera que funciona sin señal — inventario, sanidad, reproducción y compra-venta con QR. Construimos software que aguanta el trabajo real.",
+  ogTitle: "Proyectos | CODEGAHP — LIDIA, trazabilidad ganadera offline",
   ogDescription:
-    "Nuestro producto insignia LIDIA, en producción en ranchos de México. Trazabilidad ganadera que funciona sin señal.",
+    "Nuestro producto insignia LIDIA: trazabilidad ganadera que funciona sin señal, hecha para el rancho mexicano.",
   ogImage: "https://codegahp.com/img/lidia/pantalla-dashboard.jpg",
 });
 
@@ -100,12 +100,13 @@ const features = [
           <span
             class="bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary-light to-circuit-cyan"
           >
-            en producción
+            hecho para el campo
           </span>
         </h1>
         <p class="text-lg lg:text-xl text-slate-600 dark:text-slate-400 leading-relaxed">
           No presumimos portafolios inflados. Presumimos algo mejor: LIDIA,
-          nuestro producto insignia, funcionando hoy en ranchos de México.
+          nuestro producto insignia, diseñado para el trabajo real del rancho
+          mexicano.
         </p>
       </div>
 
@@ -133,7 +134,7 @@ const features = [
                       class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 text-primary-dark dark:text-primary text-xs font-bold"
                     >
                       <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
-                      En producción
+                      Acceso anticipado
                     </span>
                   </div>
                   <p class="text-slate-500 dark:text-slate-400 font-medium">

@@ -72,7 +72,7 @@ export const useServices = () => {
         {
           title: "LIDIA",
           desc: "Desafío: Gestión ineficiente o manual en la trazabilidad ganadera. Solución: App móvil que funciona sin señal para inventario, sanidad, movilizaciones, compra-venta con QR y alertas de robo.",
-          badge: "En vivo",
+          badge: "Acceso anticipado",
           badgeColor:
             "bg-primary/15 text-primary-dark dark:text-primary",
           icon: LidiaLogo,
