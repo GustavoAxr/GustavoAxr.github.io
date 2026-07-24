@@ -39,7 +39,7 @@ useHead({
             name: "CODEGAHP",
             url: "https://codegahp.com",
             logo: "https://codegahp.com/logo-code.svg",
-            image: "https://codegahp.com/img/presentacion.jpg",
+            image: "https://codegahp.com/logo-code.svg",
             description:
               "Agencia de desarrollo de software. Aplicaciones web, software a la medida, hosting, dominios y LIDIA (trazabilidad ganadera).",
             email: "contacto@codegahp.com",
@@ -204,6 +204,11 @@ const technologies = [
                   Hablemos
                 </Button>
               </NuxtLink>
+            </div>
+
+            <!-- Marcador de lanzamiento oficial en tiendas -->
+            <div class="mt-6 flex justify-center lg:justify-start">
+              <LaunchBadge />
             </div>
 
             <!-- Prueba social honesta -->

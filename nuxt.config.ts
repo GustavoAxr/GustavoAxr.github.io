@@ -68,7 +68,14 @@ export default defineNuxtConfig({
         },
       ],
       link: [
+        // Favicons cuadrados (Google exige cuadrado y elige el mayor válido).
+        // El .ico anterior era 256×250 (no cuadrado) y por eso Google mostraba
+        // el "mundito" genérico en vez del logo.
+        { rel: "icon", type: "image/svg+xml", href: "/logo-code.svg" },
+        { rel: "icon", type: "image/png", sizes: "96x96", href: "/favicon-96x96.png" },
+        { rel: "icon", type: "image/png", sizes: "192x192", href: "/favicon-192x192.png" },
         { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+        { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
         // El canonical se define por página en app.vue (antes era fijo a la
         // home y hacía que Google tratara todas las páginas como duplicados).
         // (Se quitaron los preconnect a Google Fonts: el sitio usa fuentes del

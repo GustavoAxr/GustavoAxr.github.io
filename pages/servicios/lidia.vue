@@ -367,6 +367,11 @@ const startVideo = (key: string) => {
                 Ver todo lo que hace ↓
               </a>
             </div>
+
+            <!-- Marcador de lanzamiento oficial en tiendas -->
+            <div class="mt-8 flex justify-center lg:justify-start">
+              <LaunchBadge />
+            </div>
           </div>
 
           <!-- Carrusel coverflow de pantallas de LIDIA -->
