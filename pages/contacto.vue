@@ -18,8 +18,6 @@ import {
   CheckCircle2,
   AlertCircle,
 } from "lucide-vue-next";
-import AIChatDrawer from "@/components/AIChatDrawer.vue";
-
 // SEO Meta Tags
 useSeoMeta({
   title: "Contacto - CODEGAHP | Habla con Nosotros",
@@ -31,7 +29,8 @@ useSeoMeta({
 });
 
 const isVisible = ref(false);
-const isAIChatOpen = ref(false);
+// Estado compartido con el globo de chat global (layout) vía useState.
+const isAIChatOpen = useState("aiChatOpen", () => false);
 
 onMounted(() => {
   const observer = new IntersectionObserver(
@@ -521,9 +520,8 @@ const submitByWhatsApp = () => {
         </div>
       </div>
     </section>
-
-    <!-- AI Chat Drawer -->
-    <AIChatDrawer :is-open="isAIChatOpen" @close="isAIChatOpen = false" />
+    <!-- El drawer del asistente vive en el layout (globo global). El banner de
+         arriba lo abre mediante el estado compartido useState("aiChatOpen"). -->
   </div>
 </template>
 
