@@ -121,7 +121,7 @@ onMounted(() => {
               class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6"
             >
               {{ service.title }}
-              <span class="block text-emerald-500">Experto y Confiable</span>
+              <span class="block">Experto y Confiable</span>
             </h1>
             <p
               class="text-xl text-slate-600 dark:text-slate-400 leading-relaxed mb-8"
@@ -277,12 +277,5 @@ onMounted(() => {
       </div>
     </section>
 
-    <!-- CTA -->
-    <SharedCtaBanner
-      title="¿Tu equipo necesita"
-      subtitle="atención?"
-      description="Diagnóstico gratuito para equipos empresariales. Contáctanos y agenda tu servicio."
-      primary-label="Agendar Servicio"
-    />
   </div>
 </template>

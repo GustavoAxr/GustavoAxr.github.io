@@ -221,6 +221,16 @@ const isMobileServicesOpen = ref(false);
             class="absolute inset-0 bg-primary/5 dark:bg-primary/10 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"
           ></span>
         </NuxtLink>
+        <NuxtLink
+          to="/sobre-mi"
+          active-class="!text-primary-dark dark:!text-primary bg-primary/10 dark:bg-primary/20"
+          class="relative px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary transition-colors rounded-lg group"
+        >
+          <span class="relative z-10">Sobre mí</span>
+          <span
+            class="absolute inset-0 bg-primary/5 dark:bg-primary/10 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"
+          ></span>
+        </NuxtLink>
       </nav>
 
       <!-- Acciones del header y Menú Hamburguesa -->
@@ -230,7 +240,7 @@ const isMobileServicesOpen = ref(false);
         <!-- Botón CTA Desktop -->
         <NuxtLink
           to="/contacto"
-          class="hidden md:flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-semibold rounded-full shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:scale-105 transition-all duration-300"
+          class="hidden md:flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-semibold rounded-xl shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:scale-105 transition-all duration-300"
         >
           <span>Hablemos</span>
           <svg
@@ -363,6 +373,14 @@ const isMobileServicesOpen = ref(false);
           class="text-xl font-medium py-4 rounded-xl text-slate-700 dark:text-slate-200 hover:text-primary transition-colors"
         >
           Contacto
+        </NuxtLink>
+        <NuxtLink
+          to="/sobre-mi"
+          @click="isMobileMenuOpen = false"
+          active-class="text-primary bg-primary/10"
+          class="text-xl font-medium py-4 rounded-xl text-slate-700 dark:text-slate-200 hover:text-primary transition-colors"
+        >
+          Sobre mí
         </NuxtLink>
 
         <div class="h-px bg-slate-200 dark:bg-slate-800 my-2"></div>

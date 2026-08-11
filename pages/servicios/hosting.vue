@@ -111,7 +111,7 @@ onMounted(() => {
               class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6"
             >
               {{ service.title }}
-              <span class="block text-emerald-600 dark:text-emerald-400">Siempre en Línea</span>
+              <span class="block">Siempre en Línea</span>
             </h1>
             <p
               class="text-xl text-slate-600 dark:text-slate-400 leading-relaxed mb-8"
@@ -300,12 +300,5 @@ onMounted(() => {
       </div>
     </section>
 
-    <!-- CTA -->
-    <SharedCtaBanner
-      title="Migra tu sitio"
-      subtitle="hoy mismo"
-      description="Migración gratuita y sin downtime. Tu sitio estará en nuestros servidores en menos de 24 horas."
-      primary-label="Contratar Hosting"
-    />
   </div>
 </template>

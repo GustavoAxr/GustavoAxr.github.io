@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, nextTick, watch } from "vue";
+import { ref, computed, nextTick, watch } from "vue";
 
 interface Props {
   isOpen: boolean;
@@ -63,16 +63,95 @@ const faqResponses: Record<string, string> = {
 const defaultResponse =
   "Interesante pregunta. Te recomiendo contactar directamente a nuestro equipo para obtener información más detallada. Puedes escribirnos por WhatsApp o agendar una videollamada. ¿Hay algo más en lo que pueda orientarte?";
 
-const getBotResponse = (input: string): string => {
+// Respaldo offline (bot básico por palabras clave) para cuando el backend de
+// IA no esté disponible (p. ej. producción antes de desplegar el microservicio).
+const getFallbackResponse = (input: string): string => {
   const lowerInput = input.toLowerCase();
-
   for (const [keyword, response] of Object.entries(faqResponses)) {
-    if (lowerInput.includes(keyword)) {
-      return response;
+    if (lowerInput.includes(keyword)) return response;
+  }
+  return defaultResponse;
+};
+
+// Cliente del backend de IA (Gemini) + hilo de conversación persistente.
+const { streamChat, scheduleMeeting } = useBackend();
+const conversationId = ref<string | undefined>(undefined);
+const isSending = ref(false);
+
+// Preguntas precargadas / caminos a seguir. Se muestran al inicio y tras
+// cada respuesta del bot, mientras no se esté enviando.
+const suggestions = [
+  "¿Qué servicios ofrecen?",
+  "¿Cuánto cuesta un sitio web?",
+  "¿Qué es LIDIA?",
+  "¿Cómo agendo una llamada?",
+];
+const showSuggestions = computed(
+  () => !isSending.value && messages.value[messages.value.length - 1]?.isBot,
+);
+
+// ── Render mínimo de Markdown → HTML (negritas, listas, código, enlaces) ──
+// El texto viene de nuestro backend de IA; aun así se escapa antes de formatear.
+const escapeHtml = (s: string): string =>
+  s.replace(
+    /[&<>"']/g,
+    (c) =>
+      ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;",
+      })[c] as string,
+  );
+
+const inlineMd = (s: string): string =>
+  escapeHtml(s)
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(/`([^`]+?)`/g, "<code>$1</code>")
+    .replace(
+      /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
+      '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>',
+    );
+
+const renderMarkdown = (text: string): string => {
+  const lines = text.split("\n");
+  let html = "";
+  let inList = false;
+  let para: string[] = [];
+  const flushPara = () => {
+    if (para.length) {
+      html += `<p>${para.join("<br>")}</p>`;
+      para = [];
+    }
+  };
+  for (const raw of lines) {
+    const line = raw.replace(/\s+$/, "");
+    const bullet = line.match(/^\s*[*-]\s+(.*)$/);
+    if (bullet) {
+      flushPara();
+      if (!inList) {
+        html += "<ul>";
+        inList = true;
+      }
+      html += `<li>${inlineMd(bullet[1])}</li>`;
+    } else if (line.trim() === "") {
+      flushPara();
+      if (inList) {
+        html += "</ul>";
+        inList = false;
+      }
+    } else {
+      if (inList) {
+        html += "</ul>";
+        inList = false;
+      }
+      para.push(inlineMd(line));
     }
   }
-
-  return defaultResponse;
+  flushPara();
+  if (inList) html += "</ul>";
+  return html;
 };
 
 const scrollToBottom = async () => {
@@ -82,38 +161,131 @@ const scrollToBottom = async () => {
   }
 };
 
-const sendMessage = async () => {
-  if (!userInput.value.trim()) return;
+// ── Agendar reunión desde el chat ──
+// La IA cierra su mensaje con [[AGENDAR]]{...}[[/AGENDAR]] cuando el usuario
+// confirma. Aquí lo detectamos, ocultamos el token y hacemos la reserva real.
+const AGENDAR_RE = /\[\[AGENDAR\]\]([\s\S]*?)\[\[\/AGENDAR\]\]/;
+const stripAction = (t: string) =>
+  t.split("[[AGENDAR]]")[0].replace(/\s+$/, "");
 
-  const userMessage: Message = {
-    id: Date.now(),
-    text: userInput.value,
-    isBot: false,
-    timestamp: new Date(),
-  };
-
-  messages.value.push(userMessage);
-  const currentInput = userInput.value;
-  userInput.value = "";
-
-  await scrollToBottom();
-
-  // Simulate typing delay
-  isTyping.value = true;
-  await new Promise((resolve) =>
-    setTimeout(resolve, 1000 + Math.random() * 1000),
-  );
-  isTyping.value = false;
-
-  const botMessage: Message = {
-    id: Date.now() + 1,
-    text: getBotResponse(currentInput),
+const pushBot = (text: string) => {
+  messages.value.push({
+    id: Date.now() + Math.floor(Math.random() * 1000),
+    text,
     isBot: true,
     timestamp: new Date(),
-  };
+  });
+  scrollToBottom();
+  return messages.value[messages.value.length - 1];
+};
 
-  messages.value.push(botMessage);
+const fmtDateTime = (d: Date) =>
+  d.toLocaleString("es-MX", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+
+const handleSchedule = async (jsonStr: string) => {
+  let data: {
+    name?: string;
+    email?: string;
+    subject?: string;
+    date?: string;
+    time?: string;
+  };
+  try {
+    data = JSON.parse(jsonStr.trim());
+  } catch {
+    return;
+  }
+  const { name, email, subject, date, time } = data;
+  if (!name || !email || !date || !time) return;
+
+  const [y, mo, da] = String(date).split("-").map(Number);
+  const [h, mi] = String(time).split(":").map(Number);
+  const dt = new Date(y, (mo || 1) - 1, da, h || 0, mi || 0, 0, 0);
+
+  const status = pushBot("Agendando tu reunión… ⏳");
+  try {
+    await scheduleMeeting({
+      name,
+      email,
+      subject: subject || "Consultoría",
+      startsAt: dt.toISOString(),
+      durationMin: 30,
+    });
+    status.text = `✅ ¡Listo! Agendé tu videollamada para el **${fmtDateTime(
+      dt,
+    )}**. Te envié la invitación con el enlace a **${email}** (revisa spam). ¡Nos vemos!`;
+  } catch (e: unknown) {
+    const code =
+      (e as { statusCode?: number })?.statusCode ??
+      (e as { response?: { status?: number } })?.response?.status;
+    status.text =
+      code === 409
+        ? "Ese horario ya está ocupado 😕. ¿Probamos con otra hora u otro día?"
+        : "No pude agendarla en este momento. ¿Lo intentamos de nuevo, o prefieres agendar desde la página de contacto?";
+  }
+  scrollToBottom();
+};
+
+const sendMessage = async (preset?: string) => {
+  const currentInput = (preset ?? userInput.value).trim();
+  if (!currentInput || isSending.value) return;
+
+  messages.value.push({
+    id: Date.now(),
+    text: currentInput,
+    isBot: false,
+    timestamp: new Date(),
+  });
+  userInput.value = "";
   await scrollToBottom();
+
+  // Burbuja del bot que se irá llenando con el streaming.
+  messages.value.push({
+    id: Date.now() + 1,
+    text: "",
+    isBot: true,
+    timestamp: new Date(),
+  });
+  const botMessage = messages.value[messages.value.length - 1];
+
+  isSending.value = true;
+  isTyping.value = true;
+  let raw = "";
+  try {
+    conversationId.value = await streamChat(
+      { message: currentInput, conversationId: conversationId.value },
+      (delta) => {
+        isTyping.value = false;
+        raw += delta;
+        // Oculta el token de acción [[AGENDAR]]… mientras muestra el texto.
+        botMessage.text = stripAction(raw);
+        scrollToBottom();
+      },
+    );
+    // Si el stream no entregó nada, usa el respaldo.
+    if (!raw) botMessage.text = getFallbackResponse(currentInput);
+  } catch {
+    // Backend no disponible: cae al bot básico sin romper la experiencia.
+    isTyping.value = false;
+    if (!botMessage.text) botMessage.text = getFallbackResponse(currentInput);
+  } finally {
+    isTyping.value = false;
+    isSending.value = false;
+    await scrollToBottom();
+    // ¿La IA pidió agendar? Ejecuta la reserva real.
+    const action = raw.match(AGENDAR_RE);
+    if (action) {
+      if (!botMessage.text) botMessage.text = "Perfecto, agendo tu reunión.";
+      await handleSchedule(action[1]);
+    }
+  }
 };
 
 const handleKeydown = (e: KeyboardEvent) => {
@@ -221,8 +393,26 @@ watch(
                 : 'bg-primary text-white rounded-tr-sm',
             ]"
           >
-            {{ message.text }}
+            <div
+              v-if="message.isBot && message.text"
+              class="prose-chat"
+              v-html="renderMarkdown(message.text)"
+            ></div>
+            <template v-else>{{ message.text }}</template>
           </div>
+        </div>
+
+        <!-- Preguntas precargadas / caminos a seguir -->
+        <div v-if="showSuggestions" class="flex flex-wrap gap-2 pt-1">
+          <button
+            v-for="s in suggestions"
+            :key="s"
+            type="button"
+            @click="sendMessage(s)"
+            class="text-xs font-medium px-3 py-1.5 rounded-full border border-primary/30 text-primary hover:bg-primary/10 hover:border-primary/60 transition-colors"
+          >
+            {{ s }}
+          </button>
         </div>
 
         <!-- Typing indicator -->
@@ -259,8 +449,8 @@ watch(
             class="flex-1 px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-transparent focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-slate-900 dark:text-white placeholder-slate-400"
           />
           <button
-            @click="sendMessage"
-            :disabled="!userInput.trim()"
+            @click="sendMessage()"
+            :disabled="!userInput.trim() || isSending"
             class="px-4 py-3 bg-primary hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-xl transition-all flex items-center justify-center"
           >
             <svg
@@ -305,5 +495,42 @@ watch(
 .slide-enter-from,
 .slide-leave-to {
   transform: translateX(100%);
+}
+
+/* Markdown renderizado dentro de las burbujas del bot (contenido de v-html,
+   por eso se usa :deep). */
+.prose-chat :deep(p) {
+  margin: 0 0 0.5rem;
+}
+.prose-chat :deep(p:last-child) {
+  margin-bottom: 0;
+}
+.prose-chat :deep(strong) {
+  font-weight: 700;
+}
+.prose-chat :deep(ul) {
+  margin: 0.25rem 0 0.5rem;
+  padding-left: 1.15rem;
+  list-style: disc;
+}
+.prose-chat :deep(ul:last-child) {
+  margin-bottom: 0;
+}
+.prose-chat :deep(li) {
+  margin: 0.15rem 0;
+}
+.prose-chat :deep(li)::marker {
+  color: rgb(var(--color-primary));
+}
+.prose-chat :deep(code) {
+  background: rgba(148, 163, 184, 0.22);
+  padding: 0.05rem 0.3rem;
+  border-radius: 0.35rem;
+  font-size: 0.85em;
+}
+.prose-chat :deep(a) {
+  color: rgb(var(--color-primary));
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 </style>

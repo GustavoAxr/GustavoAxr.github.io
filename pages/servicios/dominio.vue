@@ -95,7 +95,7 @@ onMounted(() => {
             class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6"
           >
             Tu Nombre en
-            <span class="text-emerald-500">Internet</span>
+            <span>Internet</span>
           </h1>
           <p
             class="text-xl text-slate-600 dark:text-slate-400 leading-relaxed mb-10"
@@ -219,12 +219,5 @@ onMounted(() => {
       </div>
     </section>
 
-    <!-- CTA -->
-    <SharedCtaBanner
-      title="Asegura tu dominio"
-      subtitle="hoy"
-      description="Los buenos nombres se agotan rápido. Registra tu dominio antes de que alguien más lo tome."
-      primary-label="Registrar Mi Dominio"
-    />
   </div>
 </template>

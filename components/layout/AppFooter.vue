@@ -229,7 +229,7 @@ const technologies = ["Vue.js", "Nuxt", "TypeScript", "Laravel", "Java", "AWS"];
               href="https://wa.me/529381065606?text=Hola%20CODEGAHP%2C%20quiero%20platicarles%20de%20un%20proyecto."
               target="_blank"
               rel="noopener noreferrer"
-              class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-primary-dark transition-colors"
+              class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-primary-dark transition-colors"
             >
               <MessageCircle class="w-4 h-4" />
               Escríbenos por WhatsApp

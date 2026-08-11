@@ -8,12 +8,15 @@ import {
   Send,
   ChevronDown,
   Sparkles,
-  Zap,
+  ArrowRight,
   Clock,
   Code2,
   Users,
   Wrench,
   HelpCircle,
+  Loader2,
+  CheckCircle2,
+  AlertCircle,
 } from "lucide-vue-next";
 import AIChatDrawer from "@/components/AIChatDrawer.vue";
 
@@ -121,8 +124,7 @@ const channels = [
   },
 ];
 
-// Form state — sin backend: arma el mensaje y lo abre en el correo
-// o en WhatsApp del visitante, listo para enviarse.
+// Form state
 const form = ref({
   name: "",
   email: "",
@@ -132,12 +134,30 @@ const form = ref({
 const buildBody = () =>
   `Hola CODEGAHP, soy ${form.value.name}.\n\n${form.value.message}\n\nMi correo: ${form.value.email}`;
 
-const submitByEmail = () => {
-  const subject = encodeURIComponent(
-    `Nuevo proyecto — ${form.value.name || "contacto web"}`,
-  );
-  const body = encodeURIComponent(buildBody());
-  window.location.href = `mailto:contacto@codegahp.com?subject=${subject}&body=${body}`;
+// Envío real al microservicio (POST /email/send). Estados para la UI.
+const { sendContactMessage } = useBackend();
+const sending = ref(false);
+const sent = ref(false);
+const errorMsg = ref("");
+
+const submitContact = async () => {
+  if (sending.value) return;
+  errorMsg.value = "";
+  sending.value = true;
+  try {
+    await sendContactMessage({
+      name: form.value.name,
+      email: form.value.email,
+      message: form.value.message,
+    });
+    sent.value = true;
+    form.value = { name: "", email: "", message: "" };
+  } catch {
+    errorMsg.value =
+      "No pudimos enviar tu mensaje en este momento. Intenta de nuevo o escríbenos por WhatsApp.";
+  } finally {
+    sending.value = false;
+  }
 };
 
 const submitByWhatsApp = () => {
@@ -148,340 +168,284 @@ const submitByWhatsApp = () => {
 
 <template>
   <div class="min-h-screen bg-white dark:bg-slate-950 relative overflow-hidden">
-    <!-- Circuit Pattern Background -->
-    <div
-      class="absolute inset-0 opacity-5 dark:opacity-10 circuit-pattern"
-    ></div>
-
-    <!-- Gradient Orbs -->
-    <div
-      class="absolute top-20 right-10 w-96 h-96 bg-primary/20 rounded-full blur-3xl"
-    ></div>
-    <div
-      class="absolute bottom-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl"
-    ></div>
-
-    <section id="contact-section" class="relative z-10 py-24 lg:py-32">
-      <div class="container mx-auto px-4">
+    <section id="contact-section" class="relative z-10 py-24 lg:py-28">
+      <div class="container max-w-6xl mx-auto px-4">
         <!-- Header -->
         <div
-          class="text-center max-w-3xl mx-auto mb-16"
+          class="text-center max-w-2xl mx-auto mb-12"
           :class="{ 'animate-fade-in-up': isVisible, 'opacity-0': !isVisible }"
         >
-          <span
-            class="inline-block text-primary font-semibold text-sm uppercase tracking-widest mb-4"
+          <h1
+            class="inline-block text-primary font-semibold text-sm uppercase tracking-widest mb-3"
           >
             Contáctanos
-          </span>
-          <h1
-            class="text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-6"
-          >
-            Transformemos tu
-            <span class="text-primary">idea</span>
-            en código
           </h1>
+   
           <p class="text-lg text-slate-600 dark:text-slate-400">
-            Estamos listos para escuchar tu proyecto. Elige cómo prefieres
-            comunicarte con nosotros.
+            Cuéntanos tu proyecto. Elige el canal que prefieras — respondemos en
+            menos de 24 h.
           </p>
         </div>
 
-        <!-- Main Grid: 3 columns on desktop -->
+        <!-- Tarjeta split: panel verde (datos + redes) + formulario -->
         <div
-          class="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto"
+          class="grid lg:grid-cols-5 rounded-3xl overflow-hidden shadow-xl ring-1 ring-black/5 dark:ring-white/10"
           :class="{
             'animate-fade-in-up delay-100': isVisible,
             'opacity-0': !isVisible,
           }"
         >
-          <!-- Column 1: Contact Form with Hexagonal accent -->
-          <div class="lg:col-span-2 flex flex-col gap-6 lg:gap-8">
+          <!-- Panel de datos (verde de marca) -->
+          <div
+            class="lg:col-span-2 relative bg-[#2f6a1e] text-white p-8 lg:p-10 flex flex-col overflow-hidden"
+          >
             <div
-              class="relative bg-slate-50 dark:bg-slate-900 rounded-3xl p-8 border border-slate-200 dark:border-slate-800 flex-1 flex flex-col justify-center"
-            >
-              <!-- Hexagon decoration -->
-              <svg
-                class="absolute -top-6 -right-6 w-24 h-24 text-primary/10"
-                viewBox="0 0 100 100"
-              >
-                <polygon
-                  points="50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5"
-                  fill="currentColor"
-                />
-              </svg>
+              class="absolute inset-0 opacity-[0.1] pointer-events-none"
+              aria-hidden="true"
+              style="
+                background-image: radial-gradient(
+                  circle at 1px 1px,
+                  #fff 1px,
+                  transparent 0
+                );
+                background-size: 20px 20px;
+              "
+            ></div>
 
-              <div class="flex items-center gap-3 mb-8">
-                <div
-                  class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center"
-                >
-                  <Send class="w-6 h-6 text-primary" />
-                </div>
-                <div>
-                  <h2 class="text-xl font-bold text-slate-900 dark:text-white">
-                    Envíanos un mensaje
-                  </h2>
-                  <p class="text-sm text-slate-500">Te respondemos en 24h</p>
-                </div>
-              </div>
+            <div class="relative flex flex-col h-full">
+              <h2 class="text-2xl font-bold mb-2">Hablemos</h2>
+              <p class="text-emerald-50/80 leading-relaxed mb-8">
+                Escríbenos por el medio que más te acomode. Un humano te
+                responde, sin bots ni formularios eternos.
+              </p>
 
-              <form class="space-y-5" @submit.prevent="submitByEmail">
-                <div class="grid md:grid-cols-2 gap-5">
-                  <div>
-                    <label
-                      for="contacto-nombre"
-                      class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
-                    >
-                      Nombre completo
-                    </label>
-                    <input
-                      id="contacto-nombre"
-                      v-model="form.name"
-                      type="text"
-                      required
-                      autocomplete="name"
-                      placeholder="Tu nombre"
-                      class="w-full px-4 py-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      for="contacto-email"
-                      class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
-                    >
-                      Email
-                    </label>
-                    <input
-                      id="contacto-email"
-                      v-model="form.email"
-                      type="email"
-                      required
-                      autocomplete="email"
-                      placeholder="tu@email.com"
-                      class="w-full px-4 py-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label
-                    for="contacto-mensaje"
-                    class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
-                  >
-                    Cuéntanos sobre tu proyecto
-                  </label>
-                  <textarea
-                    id="contacto-mensaje"
-                    v-model="form.message"
-                    rows="5"
-                    required
-                    placeholder="Describe brevemente tu idea, el problema que quieres resolver, o las tecnologías que te interesan..."
-                    class="w-full px-4 py-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all resize-none"
-                  ></textarea>
-                </div>
-
-                <div class="grid sm:grid-cols-2 gap-3">
-                  <button
-                    type="submit"
-                    class="py-4 rounded-xl font-semibold bg-primary text-white hover:bg-primary-dark hover:shadow-lg hover:shadow-primary/25 hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2"
-                  >
-                    <Send class="w-5 h-5" aria-hidden="true" />
-                    Enviar por correo
-                  </button>
-                  <button
-                    type="button"
-                    @click="submitByWhatsApp"
-                    class="py-4 rounded-xl font-semibold border-2 border-primary/40 text-primary hover:bg-primary/10 hover:border-primary transition-all duration-300 flex items-center justify-center gap-2"
-                  >
-                    <MessageSquare class="w-5 h-5" aria-hidden="true" />
-                    Mandar por WhatsApp
-                  </button>
-                </div>
-                <p class="text-xs text-slate-500 dark:text-slate-400 text-center">
-                  Se abre tu correo o tu WhatsApp con el mensaje ya escrito —
-                  tú decides desde dónde enviarlo.
-                </p>
-              </form>
-            </div>
-            <button
-              type="button"
-              @click="isAIChatOpen = true"
-              aria-haspopup="dialog"
-              class="group cursor-pointer relative overflow-hidden rounded-3xl border border-primary/30 hover:border-primary transition-all duration-500 hover:shadow-2xl hover:shadow-primary/15 text-left w-full"
-            >
-              <!-- Animated gradient background -->
-              <div
-                class="absolute inset-0 bg-gradient-to-br from-primary/10 via-emerald-400/10 to-teal-400/10 dark:from-primary/20 dark:via-emerald-500/15 dark:to-teal-500/15"
-              ></div>
-              <div
-                class="absolute inset-0 bg-gradient-to-tr from-transparent via-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"
-              ></div>
-
-              <!-- Pulsing glow dot -->
-              <div class="absolute top-4 right-4">
-                <span class="relative flex h-3 w-3">
-                  <span
-                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary/60 opacity-75"
-                  ></span>
-                  <span
-                    class="relative inline-flex rounded-full h-3 w-3 bg-primary"
-                  ></span>
-                </span>
-              </div>
-
-              <div class="relative p-6">
-                <div class="flex items-center gap-4">
-                  <div
-                    class="w-16 h-16 rounded-2xl bg-primary flex items-center justify-center shadow-lg shadow-primary/25 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500"
-                  >
-                    <Sparkles class="w-8 h-8 text-white" />
-                  </div>
-                  <div class="flex-1">
-                    <h3
-                      class="font-bold text-lg text-slate-900 dark:text-white group-hover:text-primary transition-colors"
-                    >
-                      Asistente instantáneo
-                    </h3>
-                    <p class="text-sm text-slate-500 dark:text-slate-400">
-                      Precios, tiempos y proceso — al momento, 24/7
-                    </p>
-                    <p class="text-xs text-primary font-medium mt-1">
-                      ✨ Pregúntale ahora — sin registro
-                    </p>
-                  </div>
-                  <div
-                    class="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all duration-300"
-                  >
-                    <svg
-                      class="w-5 h-5 text-primary group-hover:text-white group-hover:translate-x-0.5 transition-all"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </button>
-          </div>
-
-          <!-- Column 2: Contact Channels -->
-          <div class="flex flex-col gap-6 lg:gap-8 h-full">
-            <!-- Quick Contact Info -->
-            <div
-              class="bg-slate-50 dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800"
-            >
-              <h3
-                class="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2"
-              >
-                <Zap class="w-5 h-5 text-primary" />
-                Contacto Directo
-              </h3>
-              <div class="space-y-3">
+              <div class="space-y-4">
                 <a
                   href="mailto:contacto@codegahp.com"
-                  class="flex items-center gap-3 p-3 rounded-xl hover:bg-white dark:hover:bg-slate-800 transition-colors group"
+                  class="flex items-center gap-3 group"
                 >
-                  <div
-                    class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform"
+                  <span
+                    class="w-10 h-10 rounded-xl bg-white/15 group-hover:bg-white/25 flex items-center justify-center transition-colors shrink-0"
                   >
-                    <Mail class="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <p
-                      class="text-sm font-medium text-slate-900 dark:text-white"
+                    <Mail class="w-5 h-5" />
+                  </span>
+                  <span>
+                    <span class="block text-sm font-semibold"
+                      >contacto@codegahp.com</span
                     >
-                      contacto@codegahp.com
-                    </p>
-                    <p class="text-xs text-slate-500">Email</p>
-                  </div>
+                    <span class="block text-xs text-emerald-100/70">Correo</span>
+                  </span>
                 </a>
                 <a
                   href="tel:+529381065606"
-                  class="flex items-center gap-3 p-3 rounded-xl hover:bg-white dark:hover:bg-slate-800 transition-colors group"
+                  class="flex items-center gap-3 group"
                 >
-                  <div
-                    class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform"
+                  <span
+                    class="w-10 h-10 rounded-xl bg-white/15 group-hover:bg-white/25 flex items-center justify-center transition-colors shrink-0"
                   >
-                    <Phone class="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <p
-                      class="text-sm font-medium text-slate-900 dark:text-white"
+                    <Phone class="w-5 h-5" />
+                  </span>
+                  <span>
+                    <span class="block text-sm font-semibold"
+                      >+52 938 106 5606</span
                     >
-                      +52 938 106 5606
-                    </p>
-                    <p class="text-xs text-slate-500">Teléfono</p>
-                  </div>
+                    <span class="block text-xs text-emerald-100/70"
+                      >Teléfono</span
+                    >
+                  </span>
                 </a>
-                <div class="flex items-center gap-3 p-3">
-                  <div
-                    class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center"
+                <div class="flex items-center gap-3">
+                  <span
+                    class="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center shrink-0"
                   >
-                    <MapPin class="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <p
-                      class="text-sm font-medium text-slate-900 dark:text-white"
+                    <MapPin class="w-5 h-5" />
+                  </span>
+                  <span>
+                    <span class="block text-sm font-semibold"
+                      >Ciudad del Carmen, Campeche</span
                     >
-                      Ciudad del Carmen, Campeche
-                    </p>
-                    <p class="text-xs text-slate-500">México</p>
-                  </div>
+                    <span class="block text-xs text-emerald-100/70">México</span>
+                  </span>
                 </div>
               </div>
-            </div>
 
-            <!-- AI Agent Card - Premium, positioned prominently -->
-
-            <!-- Social Channels Grid -->
-            <div
-              class="bg-slate-50 dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 flex-1 flex flex-col"
-            >
-              <h3
-                class="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2"
-              >
-                <MessageSquare class="w-5 h-5 text-primary" />
-                Redes Sociales
-              </h3>
-              <div class="grid grid-cols-2 gap-3">
-                <a
-                  v-for="channel in channels"
-                  :key="channel.name"
-                  :href="channel.href"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="group relative overflow-hidden p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-transparent transition-all duration-300"
+              <div class="mt-auto pt-10">
+                <p
+                  class="text-xs uppercase tracking-widest text-emerald-100/70 mb-3"
                 >
-                  <!-- Gradient background on hover -->
-                  <div
-                    class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br"
-                    :class="channel.color"
-                  ></div>
-
-                  <div class="relative z-10 flex flex-col items-center gap-2">
+                  Síguenos
+                </p>
+                <div class="flex flex-wrap gap-2.5">
+                  <a
+                    v-for="channel in channels"
+                    :key="channel.name"
+                    :href="channel.href"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    :aria-label="channel.name"
+                    class="w-10 h-10 rounded-full bg-white/12 hover:bg-white/25 flex items-center justify-center transition-colors"
+                  >
                     <svg
-                      class="w-6 h-6 text-slate-600 dark:text-slate-400 group-hover:text-white transition-colors"
-                      fill="currentColor"
+                      class="w-[18px] h-[18px] fill-white"
                       viewBox="0 0 24 24"
                       v-html="channel.icon"
                     ></svg>
-                    <span
-                      class="text-xs font-medium text-slate-700 dark:text-slate-300 group-hover:text-white transition-colors"
-                    >
-                      {{ channel.name }}
-                    </span>
-                  </div>
-                </a>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
+
+          <!-- Panel del formulario -->
+          <div class="lg:col-span-3 bg-white dark:bg-slate-900 p-8 lg:p-10">
+            <div class="flex items-center gap-3 mb-6">
+              <div
+                class="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center"
+              >
+                <Send class="w-5 h-5 text-primary" />
+              </div>
+              <div>
+                <h2 class="text-lg font-bold text-slate-900 dark:text-white">
+                  Envíanos un mensaje
+                </h2>
+                <p class="text-sm text-slate-500">Te respondemos en 24 h</p>
+              </div>
+            </div>
+
+            <form class="space-y-5" @submit.prevent="submitContact">
+              <div class="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <label
+                    for="contacto-nombre"
+                    class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+                  >
+                    Nombre completo
+                  </label>
+                  <input
+                    id="contacto-nombre"
+                    v-model="form.name"
+                    type="text"
+                    required
+                    autocomplete="name"
+                    placeholder="Tu nombre"
+                    class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:bg-white dark:focus:bg-slate-800 outline-none transition-all"
+                  />
+                </div>
+                <div>
+                  <label
+                    for="contacto-email"
+                    class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+                  >
+                    Email
+                  </label>
+                  <input
+                    id="contacto-email"
+                    v-model="form.email"
+                    type="email"
+                    required
+                    autocomplete="email"
+                    placeholder="tu@email.com"
+                    class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:bg-white dark:focus:bg-slate-800 outline-none transition-all"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label
+                  for="contacto-mensaje"
+                  class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+                >
+                  Cuéntanos sobre tu proyecto
+                </label>
+                <textarea
+                  id="contacto-mensaje"
+                  v-model="form.message"
+                  rows="5"
+                  required
+                  placeholder="Describe brevemente tu idea, el problema que quieres resolver, o las tecnologías que te interesan..."
+                  class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:bg-white dark:focus:bg-slate-800 outline-none transition-all resize-none"
+                ></textarea>
+              </div>
+
+              <div class="grid sm:grid-cols-2 gap-3">
+                <button
+                  type="submit"
+                  :disabled="sending"
+                  class="h-12 rounded-xl font-semibold bg-primary text-white hover:bg-primary-dark hover:shadow-lg hover:shadow-primary/25 hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+                >
+                  <Loader2
+                    v-if="sending"
+                    class="w-5 h-5 animate-spin"
+                    aria-hidden="true"
+                  />
+                  <Send v-else class="w-5 h-5" aria-hidden="true" />
+                  {{ sending ? "Enviando…" : "Enviar mensaje" }}
+                </button>
+                <button
+                  type="button"
+                  @click="submitByWhatsApp"
+                  class="h-12 rounded-xl font-semibold border-2 border-primary/40 text-primary hover:bg-primary/10 hover:border-primary transition-all duration-300 flex items-center justify-center gap-2"
+                >
+                  <MessageSquare class="w-5 h-5" aria-hidden="true" />
+                  WhatsApp
+                </button>
+              </div>
+
+              <!-- Éxito -->
+              <p
+                v-if="sent"
+                class="flex items-center gap-2 text-sm font-medium text-primary bg-primary/10 border border-primary/20 rounded-xl px-4 py-3"
+              >
+                <CheckCircle2 class="w-5 h-5 shrink-0" aria-hidden="true" />
+                ¡Mensaje enviado! Te responderemos a tu correo muy pronto.
+              </p>
+              <!-- Error -->
+              <p
+                v-else-if="errorMsg"
+                class="flex items-center gap-2 text-sm font-medium text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900/40 rounded-xl px-4 py-3"
+              >
+                <AlertCircle class="w-5 h-5 shrink-0" aria-hidden="true" />
+                {{ errorMsg }}
+              </p>
+            </form>
+          </div>
         </div>
+
+        <!-- Asistente instantáneo (banner) -->
+        <button
+          type="button"
+          aria-haspopup="dialog"
+          class="group w-full mt-6 rounded-3xl border border-primary/25 bg-slate-50 dark:bg-slate-900 hover:border-primary hover:shadow-lg hover:shadow-primary/10 transition-all duration-300 p-6 flex items-center gap-4 text-left"
+          :class="{
+            'animate-fade-in-up delay-200': isVisible,
+            'opacity-0': !isVisible,
+          }"
+          @click="isAIChatOpen = true"
+        >
+          <div
+            class="w-14 h-14 rounded-2xl bg-primary flex items-center justify-center shadow-lg shadow-primary/25 shrink-0 group-hover:scale-105 transition-transform"
+          >
+            <Sparkles class="w-7 h-7 text-white" />
+          </div>
+          <div class="flex-1 min-w-0">
+            <h3
+              class="font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors"
+            >
+              ¿Prefieres respuesta al instante?
+            </h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400">
+              Pregúntale al asistente sobre precios, tiempos y proceso — 24/7,
+              sin registro.
+            </p>
+          </div>
+          <span
+            class="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all shrink-0"
+          >
+            <ArrowRight
+              class="w-5 h-5 group-hover:translate-x-0.5 transition-transform"
+            />
+          </span>
+        </button>
 
         <!-- FAQ Section with SOLID-style cards -->
         <div
@@ -564,21 +528,6 @@ const submitByWhatsApp = () => {
 </template>
 
 <style scoped>
-.circuit-pattern {
-  background-image:
-    radial-gradient(
-      circle at 20% 30%,
-      rgba(45, 206, 154, 0.3) 1px,
-      transparent 1px
-    ),
-    radial-gradient(
-      circle at 80% 70%,
-      rgba(45, 206, 154, 0.3) 1px,
-      transparent 1px
-    );
-  background-size: 50px 50px;
-}
-
 .animate-fade-in-up {
   animation: fadeInUp 0.8s ease-out forwards;
 }

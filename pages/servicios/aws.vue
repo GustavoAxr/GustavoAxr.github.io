@@ -125,7 +125,7 @@ onMounted(() => {
             class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6"
           >
             El Poder de
-            <span class="text-emerald-500">Amazon Web Services</span>
+            <span>Amazon Web Services</span>
           </h1>
           <p
             class="text-xl text-slate-600 dark:text-slate-400 leading-relaxed mb-8"
@@ -268,12 +268,5 @@ onMounted(() => {
       </div>
     </section>
 
-    <!-- CTA -->
-    <SharedCtaBanner
-      title="Lleva tu empresa"
-      subtitle="a la nube"
-      description="Consultoría gratuita para evaluar tu infraestructura y planificar tu migración a AWS."
-      primary-label="Solicitar Consultoría"
-    />
   </div>
 </template>

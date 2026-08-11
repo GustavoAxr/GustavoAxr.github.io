@@ -8,6 +8,8 @@ import {
   Camera,
   CheckCircle2,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   ClipboardList,
   Clock,
   Database,
@@ -21,10 +23,13 @@ import {
   Siren,
   Smartphone,
   Syringe,
+  Tag,
   Truck,
   Warehouse,
   WifiOff,
+  X,
   Zap,
+  ZoomIn,
 } from "lucide-vue-next";
 import LidiaLogo from "@/components/LidiaLogo.vue";
 
@@ -301,19 +306,74 @@ onMounted(() => {
   onUnmounted(() => observer.disconnect());
 });
 
-const videoRefs = new Map<string, HTMLVideoElement>();
-const playingVideos = ref<Set<string>>(new Set());
-
-const setVideoRef = (key: string) => (el: unknown) => {
-  if (el) videoRefs.set(key, el as HTMLVideoElement);
+// --- Galería "LIDIA en acción": videos + capturas en un solo carrusel ---
+const gallery = [
+  ...videos.map((v) => ({
+    kind: "video" as const,
+    src: v.src,
+    poster: `${v.poster}.jpg`,
+    posterWebp: `${v.poster}.webp`,
+    caption: v.caption,
+    name: "",
+    screenIdx: -1,
+  })),
+  ...screens.map((s, k) => ({
+    kind: "image" as const,
+    src: "",
+    poster: "",
+    posterWebp: "",
+    name: s.name,
+    caption: s.caption,
+    screenIdx: k,
+  })),
+];
+const galleryIndex = ref(0);
+const galleryNext = () => {
+  galleryIndex.value = (galleryIndex.value + 1) % gallery.length;
+};
+const galleryPrev = () => {
+  galleryIndex.value = (galleryIndex.value - 1 + gallery.length) % gallery.length;
 };
 
-const startVideo = (key: string) => {
-  const video = videoRefs.get(key);
-  if (!video) return;
-  playingVideos.value = new Set([...playingVideos.value, key]);
-  video.play();
+// --- Galería / lightbox de pantallas ---
+const lightboxIndex = ref<number | null>(null);
+const openLightbox = (i: number) => {
+  lightboxIndex.value = i;
+  document.body.style.overflow = "hidden";
 };
+const closeLightbox = () => {
+  lightboxIndex.value = null;
+  document.body.style.overflow = "";
+};
+const nextShot = () => {
+  if (lightboxIndex.value === null) return;
+  lightboxIndex.value = (lightboxIndex.value + 1) % screens.length;
+};
+const prevShot = () => {
+  if (lightboxIndex.value === null) return;
+  lightboxIndex.value =
+    (lightboxIndex.value - 1 + screens.length) % screens.length;
+};
+
+onMounted(() => {
+  const onKey = (e: KeyboardEvent) => {
+    if (lightboxIndex.value === null) return;
+    if (e.key === "Escape") closeLightbox();
+    else if (e.key === "ArrowRight") nextShot();
+    else if (e.key === "ArrowLeft") prevShot();
+  };
+  window.addEventListener("keydown", onKey);
+  onUnmounted(() => window.removeEventListener("keydown", onKey));
+});
+
+// Carrusel de texto de "Hecha para el campo mexicano" (rota con fundido)
+const visionIndex = ref(0);
+onMounted(() => {
+  const id = setInterval(() => {
+    visionIndex.value = (visionIndex.value + 1) % visionPoints.length;
+  }, 3400);
+  onUnmounted(() => clearInterval(id));
+});
 </script>
 
 <template>
@@ -404,6 +464,86 @@ const startVideo = (key: string) => {
           >
             {{ fact.label }}
           </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contexto visual: "esto es de lo que hablamos" (fotos reales del hato) -->
+    <section class="py-16 lg:py-24 bg-slate-50 dark:bg-slate-900/50">
+      <div class="container max-w-7xl mx-auto px-4">
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <h2
+            class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-3"
+          >
+            Esto es de lo que hablamos
+          </h2>
+          <p class="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
+            Tu hato, animal por animal. En LIDIA cada arete es un expediente
+            digital: identidad, peso, sanidad, genealogía y movimientos.
+          </p>
+        </div>
+
+        <div class="grid lg:grid-cols-12 gap-4 sm:gap-5">
+          <!-- Rebaño con arete (vaca2) -->
+          <div
+            class="group relative lg:col-span-8 rounded-3xl overflow-hidden min-h-[320px] sm:min-h-[440px] ring-1 ring-black/5 dark:ring-white/10"
+          >
+            <picture>
+              <source srcset="/img/vaca2.webp" type="image/webp" />
+              <img
+                src="/img/vaca2.jpg"
+                alt="Ganado en el potrero, con arete de identificación SINIIGA"
+                loading="lazy"
+                decoding="async"
+                class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+            </picture>
+            <div class="absolute inset-0 bg-slate-950/35"></div>
+
+            <!-- Chip anotación: el arete real → identidad digital -->
+            <span
+              class="absolute top-5 left-5 inline-flex items-center gap-1.5 rounded-lg bg-amber-300 text-amber-950 text-xs font-bold px-2.5 py-1.5 shadow-lg ring-1 ring-amber-500/30"
+            >
+              <Tag class="w-3.5 h-3.5" aria-hidden="true" />
+              Arete = identidad digital
+            </span>
+
+            <div class="absolute bottom-0 inset-x-0 p-6 sm:p-8">
+              <h3
+                class="text-2xl sm:text-3xl font-extrabold text-white mb-1.5 [text-shadow:0_2px_14px_rgba(0,0,0,0.5)]"
+              >
+                De la oreja al celular
+              </h3>
+              <p
+                class="text-slate-100 text-sm sm:text-base max-w-lg [text-shadow:0_1px_10px_rgba(0,0,0,0.45)]"
+              >
+                Escaneas el arete y tienes todo el historial del animal en la
+                mano — con o sin señal.
+              </p>
+            </div>
+          </div>
+
+          <!-- Retrato (vaca1) -->
+          <div
+            class="group relative lg:col-span-4 rounded-3xl overflow-hidden min-h-[320px] sm:min-h-[440px] ring-1 ring-black/5 dark:ring-white/10"
+          >
+            <picture>
+              <source srcset="/img/vaca1.webp" type="image/webp" />
+              <img
+                src="/img/vaca1.jpg"
+                alt="Vaca en el rancho mirando a cámara"
+                loading="lazy"
+                decoding="async"
+                class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+            </picture>
+            <div class="absolute inset-0 bg-slate-950/25"></div>
+            <span
+              class="absolute bottom-5 left-5 right-5 text-white font-semibold text-sm sm:text-base [text-shadow:0_1px_10px_rgba(0,0,0,0.5)]"
+            >
+              Hecho para el campo mexicano
+            </span>
+          </div>
         </div>
       </div>
     </section>
@@ -513,35 +653,130 @@ const startVideo = (key: string) => {
           </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div
-            v-for="mod in modules"
-            :key="mod.title"
-            class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 hover:border-green-500/50 hover:shadow-lg hover:shadow-green-500/5 transition-all duration-300 group"
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 grid-flow-row-dense"
+        >
+          <!-- Vista de teléfono (Dashboard) — abre la galería -->
+          <button
+            type="button"
+            @click="openLightbox(0)"
+            class="group relative row-span-2 min-h-[320px] rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-900 shadow-md hover:shadow-xl transition-shadow text-left"
           >
-            <div
-              class="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-4 group-hover:bg-green-200 dark:group-hover:bg-green-900/50 transition-colors"
-            >
-              <component
-                :is="mod.icon"
-                class="w-6 h-6 text-green-600 dark:text-green-400"
+            <picture>
+              <source
+                srcset="/img/lidia/pantalla-dashboard.webp"
+                type="image/webp"
               />
-            </div>
-            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-3">
-              {{ mod.title }}
-            </h3>
-            <ul class="space-y-2">
-              <li
-                v-for="point in mod.points"
-                :key="point"
-                class="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-400 leading-relaxed"
+              <img
+                src="/img/lidia/pantalla-dashboard.jpg"
+                alt="Dashboard de LIDIA"
+                width="739"
+                height="1600"
+                loading="lazy"
+                decoding="async"
+                class="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+              />
+            </picture>
+            <span
+              class="absolute left-3 bottom-3 inline-flex items-center gap-1.5 text-xs font-semibold text-white bg-slate-950/60 backdrop-blur px-2.5 py-1.5 rounded-lg"
+            >
+              <ZoomIn class="w-3.5 h-3.5" aria-hidden="true" />
+              Ver Dashboard
+            </span>
+          </button>
+
+          <!-- Primeros módulos -->
+          <div
+            v-for="mod in modules.slice(0, 6)"
+            :key="mod.title"
+            class="relative overflow-hidden p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 hover:border-green-500/50 hover:shadow-lg hover:shadow-green-500/5 transition-all duration-300 group"
+          >
+            <component
+              :is="mod.icon"
+              class="pointer-events-none absolute -right-4 -bottom-4 w-28 h-28 text-green-600/[0.06] dark:text-green-400/[0.09]"
+            />
+            <div class="relative">
+              <div
+                class="w-11 h-11 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-4 text-green-600 dark:text-green-400 group-hover:bg-green-200 dark:group-hover:bg-green-900/50 transition-colors"
               >
-                <CheckCircle2
-                  class="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5"
-                />
-                <span>{{ point }}</span>
-              </li>
-            </ul>
+                <component :is="mod.icon" class="w-5 h-5" />
+              </div>
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-3">
+                {{ mod.title }}
+              </h3>
+              <ul class="space-y-2">
+                <li
+                  v-for="point in mod.points"
+                  :key="point"
+                  class="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-400 leading-relaxed"
+                >
+                  <CheckCircle2
+                    class="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5"
+                  />
+                  <span>{{ point }}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Vista de teléfono (Movilidad y comercio) — abre la galería -->
+          <button
+            type="button"
+            @click="openLightbox(6)"
+            class="group relative row-span-2 min-h-[320px] rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-900 shadow-md hover:shadow-xl transition-shadow text-left"
+          >
+            <picture>
+              <source srcset="/img/lidia/pantalla-reemo.webp" type="image/webp" />
+              <img
+                src="/img/lidia/pantalla-reemo.jpg"
+                alt="Movilidad y comercio en LIDIA"
+                width="739"
+                height="1600"
+                loading="lazy"
+                decoding="async"
+                class="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+              />
+            </picture>
+            <span
+              class="absolute left-3 bottom-3 inline-flex items-center gap-1.5 text-xs font-semibold text-white bg-slate-950/60 backdrop-blur px-2.5 py-1.5 rounded-lg"
+            >
+              <ZoomIn class="w-3.5 h-3.5" aria-hidden="true" />
+              Ver Movilidad y comercio
+            </span>
+          </button>
+
+          <!-- Resto de módulos -->
+          <div
+            v-for="mod in modules.slice(6)"
+            :key="mod.title"
+            class="relative overflow-hidden p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 hover:border-green-500/50 hover:shadow-lg hover:shadow-green-500/5 transition-all duration-300 group"
+          >
+            <component
+              :is="mod.icon"
+              class="pointer-events-none absolute -right-4 -bottom-4 w-28 h-28 text-green-600/[0.06] dark:text-green-400/[0.09]"
+            />
+            <div class="relative">
+              <div
+                class="w-11 h-11 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-4 text-green-600 dark:text-green-400 group-hover:bg-green-200 dark:group-hover:bg-green-900/50 transition-colors"
+              >
+                <component :is="mod.icon" class="w-5 h-5" />
+              </div>
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-3">
+                {{ mod.title }}
+              </h3>
+              <ul class="space-y-2">
+                <li
+                  v-for="point in mod.points"
+                  :key="point"
+                  class="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-400 leading-relaxed"
+                >
+                  <CheckCircle2
+                    class="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5"
+                  />
+                  <span>{{ point }}</span>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -636,65 +871,124 @@ const startVideo = (key: string) => {
           : 'opacity-0 translate-y-8'
       "
     >
-      <div class="container max-w-7xl px-4 mx-auto">
-        <div class="text-center mb-12">
-          <div
-            class="inline-flex items-center gap-2 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 text-sm font-semibold px-4 py-1.5 rounded-full mb-6"
-          >
-            <Siren class="w-4 h-4" />
-            Protección comunitaria
-          </div>
-          <h2
-            class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4"
-          >
-            Si te roban,
-            <span class="text-green-600 dark:text-green-400">
-              tu municipio se entera al instante
-            </span>
-          </h2>
-          <p class="text-lg text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
-            Reporta el robo en tres pasos y LIDIA manda una alerta push a los
-            ganaderos de tu municipio — con el catálogo oficial INEGI de 2,463
-            municipios. Tú eliges qué datos del animal se comparten en el
-            aviso; el resto queda privado. El animal se marca como
-            <strong>Robado</strong> en tu padrón sin alterar tu inventario, y al
-            recuperarlo, el reporte se resuelve.
-          </p>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
-          <div
-            class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 text-center"
-          >
-            <Siren class="w-8 h-8 text-red-500 mx-auto mb-3" />
-            <h3 class="font-bold text-slate-900 dark:text-white mb-1">
-              Reportas
-            </h3>
-            <p class="text-sm text-slate-600 dark:text-slate-400">
-              Eliges los animales robados y confirmas. Funciona aun sin señal.
+      <div class="container max-w-6xl px-4 mx-auto">
+        <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          <!-- Mensaje -->
+          <div>
+            <div class="inline-flex items-center gap-2.5 mb-5">
+              <span
+                class="w-9 h-9 rounded-xl bg-red-100 dark:bg-red-900/30 flex items-center justify-center"
+              >
+                <Siren class="w-4 h-4 text-red-500" />
+              </span>
+              <span
+                class="text-sm font-semibold text-red-600 dark:text-red-400"
+              >
+                Protección comunitaria
+              </span>
+            </div>
+            <h2
+              class="text-3xl md:text-4xl xl:text-5xl font-bold text-slate-900 dark:text-white mb-5 leading-tight"
+            >
+              Si te roban,
+              <span class="text-green-600 dark:text-green-400"
+                >tu municipio se entera al instante</span
+              >
+            </h2>
+            <p
+              class="text-lg text-slate-600 dark:text-slate-400 leading-relaxed"
+            >
+              Reporta el robo en tres pasos y LIDIA manda una alerta push a los
+              ganaderos de tu municipio — con el catálogo oficial INEGI de 2,463
+              municipios. Tú eliges qué datos se comparten; el resto queda
+              privado. El animal se marca como <strong>Robado</strong> sin
+              alterar tu inventario, y al recuperarlo, el reporte se resuelve.
             </p>
           </div>
-          <div
-            class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 text-center"
-          >
-            <Bell class="w-8 h-8 text-green-600 dark:text-green-400 mx-auto mb-3" />
-            <h3 class="font-bold text-slate-900 dark:text-white mb-1">
-              Todos alerta
-            </h3>
-            <p class="text-sm text-slate-600 dark:text-slate-400">
-              Los ganaderos de tu municipio reciben la notificación de
-              inmediato.
-            </p>
-          </div>
-          <div
-            class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 text-center"
-          >
-            <ShieldCheck class="w-8 h-8 text-green-600 dark:text-green-400 mx-auto mb-3" />
-            <h3 class="font-bold text-slate-900 dark:text-white mb-1">
-              Tú controlas
-            </h3>
-            <p class="text-sm text-slate-600 dark:text-slate-400">
-              Privacidad por campo: compartes solo lo que tú decidas.
-            </p>
+
+          <!-- Los 3 pasos, en lista -->
+          <div class="space-y-3">
+            <div
+              class="flex items-start gap-4 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 hover:border-green-500/40 hover:shadow-md transition-all duration-300"
+            >
+              <div
+                class="w-12 h-12 rounded-xl bg-red-100 dark:bg-red-900/30 flex items-center justify-center shrink-0"
+              >
+                <Siren class="w-6 h-6 text-red-500" />
+              </div>
+              <div>
+                <div class="flex items-baseline gap-2 mb-1">
+                  <span
+                    class="text-xs font-black text-slate-300 dark:text-slate-600"
+                    >01</span
+                  >
+                  <h3 class="font-bold text-slate-900 dark:text-white">
+                    Reportas
+                  </h3>
+                </div>
+                <p
+                  class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed"
+                >
+                  Eliges los animales robados y confirmas. Funciona aun sin
+                  señal.
+                </p>
+              </div>
+            </div>
+
+            <div
+              class="flex items-start gap-4 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 hover:border-green-500/40 hover:shadow-md transition-all duration-300"
+            >
+              <div
+                class="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center shrink-0"
+              >
+                <Bell class="w-6 h-6 text-green-600 dark:text-green-400" />
+              </div>
+              <div>
+                <div class="flex items-baseline gap-2 mb-1">
+                  <span
+                    class="text-xs font-black text-slate-300 dark:text-slate-600"
+                    >02</span
+                  >
+                  <h3 class="font-bold text-slate-900 dark:text-white">
+                    Todos alerta
+                  </h3>
+                </div>
+                <p
+                  class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed"
+                >
+                  Los ganaderos de tu municipio reciben la notificación de
+                  inmediato.
+                </p>
+              </div>
+            </div>
+
+            <div
+              class="flex items-start gap-4 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 hover:border-green-500/40 hover:shadow-md transition-all duration-300"
+            >
+              <div
+                class="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center shrink-0"
+              >
+                <ShieldCheck
+                  class="w-6 h-6 text-green-600 dark:text-green-400"
+                />
+              </div>
+              <div>
+                <div class="flex items-baseline gap-2 mb-1">
+                  <span
+                    class="text-xs font-black text-slate-300 dark:text-slate-600"
+                    >03</span
+                  >
+                  <h3 class="font-bold text-slate-900 dark:text-white">
+                    Tú controlas
+                  </h3>
+                </div>
+                <p
+                  class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed"
+                >
+                  Privacidad por campo: compartes solo lo que tú decidas.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -724,87 +1018,202 @@ const startVideo = (key: string) => {
           </p>
         </div>
 
-        <!-- Videos -->
+        <!-- Galería: escenario (izq) + miniaturas (der en desktop) -->
         <div
-          class="media-strip flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 -mx-4 px-4 sm:mx-auto sm:px-0 sm:grid sm:grid-cols-3 sm:gap-6 sm:overflow-visible sm:pb-0 max-w-4xl mb-12"
+          class="max-w-5xl mx-auto flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-10"
         >
-          <figure
-            v-for="v in videos"
-            :key="v.key"
-            class="group flex-shrink-0 w-[230px] sm:w-auto snap-center"
-          >
-            <div
-              class="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-900 shadow-lg"
+          <!-- Escenario -->
+          <div class="lg:flex-1 min-w-0 flex flex-col items-center">
+            <div class="flex items-center justify-center gap-2 sm:gap-6">
+            <button
+              type="button"
+              aria-label="Anterior"
+              class="shrink-0 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-md flex items-center justify-center text-slate-700 dark:text-slate-200 hover:border-green-500/50 hover:text-green-600 dark:hover:text-green-400 transition-colors"
+              @click="galleryPrev"
             >
-              <video
-                :ref="setVideoRef(v.key)"
-                :poster="`${v.poster}.jpg`"
-                :controls="playingVideos.has(v.key)"
-                preload="none"
-                muted
-                loop
-                playsinline
-                width="540"
-                height="1168"
-                class="w-full h-auto"
-              >
-                <source :src="v.src" type="video/mp4" />
-              </video>
-              <button
-                v-if="!playingVideos.has(v.key)"
-                type="button"
-                :aria-label="`Reproducir video: ${v.caption}`"
-                class="absolute inset-0 flex items-center justify-center bg-slate-900/20 hover:bg-slate-900/10 transition-colors"
-                @click="startVideo(v.key)"
-              >
-                <span
-                  class="w-14 h-14 rounded-full bg-white/90 dark:bg-slate-800/90 backdrop-blur flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform"
-                >
-                  <Play class="w-6 h-6 text-green-600 dark:text-green-400 ml-0.5" />
-                </span>
-              </button>
-            </div>
-            <figcaption
-              class="mt-3 text-sm text-center text-slate-600 dark:text-slate-400 font-medium"
-            >
-              {{ v.caption }}
-            </figcaption>
-          </figure>
-        </div>
+              <ChevronLeft class="w-5 h-5" />
+            </button>
 
-        <!-- Screenshots: scroll-snap en móvil, grid en desktop -->
-        <div
-          class="media-strip flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 -mx-4 px-4 lg:mx-0 lg:px-0 lg:grid lg:grid-cols-4 lg:overflow-visible lg:pb-0"
-        >
-          <figure
-            v-for="s in screens"
-            :key="s.name"
-            class="flex-shrink-0 w-[200px] sm:w-[220px] lg:w-auto snap-center"
-          >
-            <picture>
-              <source
-                :srcset="`/img/lidia/pantalla-${s.name}.webp`"
-                type="image/webp"
-              />
-              <img
-                :src="`/img/lidia/pantalla-${s.name}.jpg`"
-                :alt="s.caption"
-                width="739"
-                height="1600"
-                loading="lazy"
-                decoding="async"
-                class="w-full h-auto rounded-2xl border border-slate-200 dark:border-slate-800 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
-              />
-            </picture>
-            <figcaption
-              class="mt-2 text-xs text-center text-slate-500 dark:text-slate-400"
+            <!-- Escenario (teléfono) -->
+            <div class="relative w-[220px] sm:w-[280px] shrink-0">
+              <div
+                class="rounded-[2.2rem] overflow-hidden border-[6px] border-slate-900 dark:border-slate-700 shadow-2xl bg-slate-900"
+              >
+                <video
+                  v-if="gallery[galleryIndex].kind === 'video'"
+                  :key="'v' + galleryIndex"
+                  :src="gallery[galleryIndex].src"
+                  :poster="gallery[galleryIndex].poster"
+                  controls
+                  muted
+                  loop
+                  playsinline
+                  width="540"
+                  height="1168"
+                  class="w-full h-auto block bg-slate-900"
+                ></video>
+                <button
+                  v-else
+                  type="button"
+                  :aria-label="`Ampliar: ${gallery[galleryIndex].caption}`"
+                  class="group relative block w-full"
+                  @click="openLightbox(gallery[galleryIndex].screenIdx)"
+                >
+                  <picture>
+                    <source
+                      :srcset="`/img/lidia/pantalla-${gallery[galleryIndex].name}.webp`"
+                      type="image/webp"
+                    />
+                    <img
+                      :src="`/img/lidia/pantalla-${gallery[galleryIndex].name}.jpg`"
+                      :alt="gallery[galleryIndex].caption"
+                      width="739"
+                      height="1600"
+                      class="w-full h-auto block"
+                    />
+                  </picture>
+                  <span
+                    class="absolute inset-0 flex items-center justify-center bg-slate-950/0 group-hover:bg-slate-950/25 transition-colors"
+                  >
+                    <span
+                      class="w-11 h-11 rounded-full bg-white/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <ZoomIn class="w-5 h-5 text-slate-900" aria-hidden="true" />
+                    </span>
+                  </span>
+                </button>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              aria-label="Siguiente"
+              class="shrink-0 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-md flex items-center justify-center text-slate-700 dark:text-slate-200 hover:border-green-500/50 hover:text-green-600 dark:hover:text-green-400 transition-colors"
+              @click="galleryNext"
             >
-              {{ s.caption }}
-            </figcaption>
-          </figure>
+              <ChevronRight class="w-5 h-5" />
+            </button>
+          </div>
+
+          <!-- Leyenda + contador -->
+          <p
+            class="mt-5 text-center text-sm font-medium text-slate-600 dark:text-slate-400"
+          >
+            {{ gallery[galleryIndex].caption }}
+            <span class="text-slate-400 dark:text-slate-500"
+              >· {{ galleryIndex + 1 }}/{{ gallery.length }}</span
+            >
+          </p>
+          </div>
+
+          <!-- Miniaturas: abajo en móvil, a la derecha en desktop -->
+          <div
+            class="media-strip lg:flex-1 min-w-0 mt-6 lg:mt-0 flex gap-2.5 overflow-x-auto pb-2 sm:justify-center lg:grid lg:grid-cols-3 lg:gap-3 lg:overflow-x-visible lg:overflow-y-auto lg:max-h-[540px] lg:pb-0 lg:pr-1"
+          >
+            <button
+              v-for="(m, i) in gallery"
+              :key="i"
+              type="button"
+              :aria-label="`Ver ${m.caption}`"
+              class="relative shrink-0 w-12 sm:w-14 lg:w-full rounded-lg overflow-hidden border-2 transition-all"
+              :class="
+                i === galleryIndex
+                  ? 'border-green-500'
+                  : 'border-transparent opacity-50 hover:opacity-100'
+              "
+              @click="galleryIndex = i"
+            >
+              <picture>
+                <source
+                  :srcset="
+                    m.kind === 'video'
+                      ? m.posterWebp
+                      : `/img/lidia/pantalla-${m.name}.webp`
+                  "
+                  type="image/webp"
+                />
+                <img
+                  :src="
+                    m.kind === 'video' ? m.poster : `/img/lidia/pantalla-${m.name}.jpg`
+                  "
+                  alt=""
+                  width="739"
+                  height="1600"
+                  loading="lazy"
+                  class="w-full h-auto block"
+                />
+              </picture>
+              <span
+                v-if="m.kind === 'video'"
+                class="absolute inset-0 flex items-center justify-center bg-slate-950/40"
+              >
+                <Play class="w-3.5 h-3.5 text-white" />
+              </span>
+            </button>
+          </div>
         </div>
       </div>
     </section>
+
+    <!-- Lightbox de la galería: foto en grande con anterior / siguiente -->
+    <Teleport to="body">
+      <Transition name="lb-fade">
+        <div
+          v-if="lightboxIndex !== null"
+          class="fixed inset-0 z-[100] bg-slate-950/90 backdrop-blur-sm flex items-center justify-center p-4 sm:p-8"
+          role="dialog"
+          aria-modal="true"
+          @click.self="closeLightbox"
+        >
+          <button
+            type="button"
+            aria-label="Cerrar"
+            class="absolute top-4 right-4 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
+            @click="closeLightbox"
+          >
+            <X class="w-5 h-5" />
+          </button>
+
+          <button
+            type="button"
+            aria-label="Anterior"
+            class="absolute left-3 sm:left-6 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
+            @click="prevShot"
+          >
+            <ChevronLeft class="w-6 h-6" />
+          </button>
+
+          <figure class="flex flex-col items-center max-w-full">
+            <picture>
+              <source
+                :srcset="`/img/lidia/pantalla-${screens[lightboxIndex].name}.webp`"
+                type="image/webp"
+              />
+              <img
+                :src="`/img/lidia/pantalla-${screens[lightboxIndex].name}.jpg`"
+                :alt="screens[lightboxIndex].caption"
+                class="max-h-[78vh] w-auto rounded-2xl shadow-2xl"
+              />
+            </picture>
+            <figcaption class="mt-4 text-sm text-white/90 text-center max-w-md">
+              {{ screens[lightboxIndex].caption }}
+              <span class="block text-white/50 mt-1"
+                >{{ lightboxIndex + 1 }} / {{ screens.length }}</span
+              >
+            </figcaption>
+          </figure>
+
+          <button
+            type="button"
+            aria-label="Siguiente"
+            class="absolute right-3 sm:right-6 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
+            @click="nextShot"
+          >
+            <ChevronRight class="w-6 h-6" />
+          </button>
+        </div>
+      </Transition>
+    </Teleport>
 
     <!-- Números -->
     <section
@@ -856,16 +1265,36 @@ const startVideo = (key: string) => {
             LIDIA nace de la necesidad real del rancho: tecnología que sirve
             con botas puestas, no desde un escritorio.
           </p>
-          <div class="space-y-3 text-left">
+          <!-- Carrusel de texto: rota los puntos con fundido, ancho pequeño -->
+          <div class="max-w-md mx-auto">
             <div
-              v-for="point in visionPoints"
-              :key="point"
-              class="flex items-center gap-3 p-4 rounded-xl bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700"
+              class="min-h-[5.5rem] sm:min-h-[4.5rem] flex items-center justify-center"
             >
-              <LidiaLogo class="w-5 h-5 flex-shrink-0" />
-              <span class="text-sm font-medium text-slate-700 dark:text-slate-300">
-                {{ point }}
-              </span>
+              <Transition name="vision-fade" mode="out-in">
+                <p
+                  :key="visionIndex"
+                  class="text-lg md:text-xl font-medium text-slate-800 dark:text-slate-100 leading-relaxed"
+                >
+                  {{ visionPoints[visionIndex] }}
+                </p>
+              </Transition>
+            </div>
+
+            <!-- Puntos de navegación -->
+            <div class="mt-6 flex justify-center gap-2.5">
+              <button
+                v-for="(point, i) in visionPoints"
+                :key="point"
+                type="button"
+                :aria-label="`Ver punto ${i + 1}`"
+                class="h-2 rounded-full transition-all duration-300"
+                :class="
+                  i === visionIndex
+                    ? 'w-6 bg-green-600 dark:bg-green-400'
+                    : 'w-2 bg-slate-300 dark:bg-slate-700 hover:bg-slate-400 dark:hover:bg-slate-600'
+                "
+                @click="visionIndex = i"
+              ></button>
             </div>
           </div>
         </div>
@@ -916,13 +1345,6 @@ const startVideo = (key: string) => {
       </div>
     </section>
 
-    <!-- CTA -->
-    <SharedCtaBanner
-      title="Sé de los primeros"
-      subtitle="en usar LIDIA"
-      description="Regístrate para ser notificado cuando lancemos y obtén acceso anticipado con beneficios exclusivos."
-      primary-label="Quiero Acceso Anticipado"
-    />
   </div>
 </template>
 
@@ -932,5 +1354,31 @@ const startVideo = (key: string) => {
 }
 .media-strip::-webkit-scrollbar {
   display: none;
+}
+
+/* Lightbox: fundido de entrada/salida */
+.lb-fade-enter-active,
+.lb-fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+.lb-fade-enter-from,
+.lb-fade-leave-to {
+  opacity: 0;
+}
+
+/* Carrusel de texto de la visión: fundido con leve desplazamiento */
+.vision-fade-enter-active,
+.vision-fade-leave-active {
+  transition:
+    opacity 0.45s ease,
+    transform 0.45s ease;
+}
+.vision-fade-enter-from {
+  opacity: 0;
+  transform: translateY(8px);
+}
+.vision-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
 }
 </style>

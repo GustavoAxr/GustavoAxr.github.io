@@ -101,7 +101,7 @@ onMounted(() => {
               class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6"
             >
               {{ service.title }}
-              <span class="block text-emerald-600 dark:text-emerald-400"
+              <span class="block"
                 >con Impacto Real</span
               >
             </h1>
@@ -254,12 +254,5 @@ onMounted(() => {
       </div>
     </section>
 
-    <!-- CTA -->
-    <SharedCtaBanner
-      title="Lleva tu empresa"
-      subtitle="al siguiente nivel"
-      description="Solicita una consultoría gratuita y descubre cómo potenciar tu presencia digital corporativa."
-      primary-label="Agendar Consultoría"
-    />
   </div>
 </template>

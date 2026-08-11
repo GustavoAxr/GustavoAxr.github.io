@@ -47,9 +47,8 @@ const cards = [
     >
       <div class="flex items-center justify-between">
         <span
-          class="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-primary bg-primary/10 rounded-full px-2.5 py-1"
+          class="text-[11px] font-semibold uppercase tracking-wide text-primary"
         >
-          <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
           Nuestro producto insignia
         </span>
         <ArrowUpRight

@@ -166,10 +166,7 @@ onMounted(() => {
         >
           Sitios web que
           <span class="relative inline-block">
-            <span
-              class="text-primary"
-              >convierten</span
-            >
+            <span>convierten</span>
             <svg
               class="absolute -bottom-2 left-0 w-full"
               height="8"
@@ -459,12 +456,6 @@ onMounted(() => {
     </section>
 
     <!-- CTA — full width gradient -->
-    <SharedCtaBanner
-      title="¿Listo para"
-      subtitle="tu nuevo sitio?"
-      description="Cuéntanos tu idea y recibe una propuesta personalizada en 24 horas. Sin compromiso."
-      primary-label="Comenzar Mi Proyecto"
-    />
   </div>
 </template>
 

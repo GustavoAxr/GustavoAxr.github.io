@@ -120,7 +120,7 @@ onMounted(() => {
               class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6"
             >
               {{ service.title }}
-              <span class="block text-emerald-500"
+              <span class="block"
                 >Conectividad sin Límites</span
               >
             </h1>
@@ -385,12 +385,5 @@ onMounted(() => {
       </div>
     </section>
 
-    <!-- CTA -->
-    <SharedCtaBanner
-      title="Conecta tu empresa"
-      subtitle="sin límites"
-      description="Diseñamos la red perfecta para las necesidades de tu empresa. Evaluación gratuita incluida."
-      primary-label="Solicitar Evaluación"
-    />
   </div>
 </template>

@@ -210,7 +210,7 @@ const { currentColorHex } = useServiceTheme();
                   class="absolute -inset-1 bg-primary/50 rounded-2xl blur-lg group-hover/btn:bg-primary/70 transition-all duration-500"
                 ></div>
                 <div
-                  class="relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-primary hover:bg-primary-dark text-white font-bold text-lg rounded-2xl hover:shadow-2xl transition-all duration-300 overflow-hidden"
+                  class="relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-primary hover:bg-primary-dark text-white font-bold text-lg rounded-xl hover:shadow-2xl transition-all duration-300 overflow-hidden"
                 >
                   <!-- Shimmer -->
                   <div
@@ -226,7 +226,7 @@ const { currentColorHex } = useServiceTheme();
               <!-- Secondary Button -->
               <NuxtLink
                 :to="secondaryLink"
-                class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-slate-900/[0.04] dark:bg-white/[0.06] backdrop-blur-sm text-slate-800 dark:text-white font-bold text-lg rounded-2xl border border-slate-200 dark:border-white/10 hover:border-primary/40 hover:bg-primary/5 dark:hover:bg-white/[0.1] transition-all duration-300"
+                class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-slate-900/[0.04] dark:bg-white/[0.06] backdrop-blur-sm text-slate-800 dark:text-white font-bold text-lg rounded-xl border border-slate-200 dark:border-white/10 hover:border-primary/40 hover:bg-primary/5 dark:hover:bg-white/[0.1] transition-all duration-300"
               >
                 <Calendar class="w-5 h-5 text-primary" />
                 {{ secondaryLabel }}

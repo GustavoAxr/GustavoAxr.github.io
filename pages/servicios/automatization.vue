@@ -115,15 +115,9 @@ onMounted(() => {
             class="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-4"
           >
             Automatización de
-            <span
-              class="text-primary"
-              >Procesos</span
-            >
+            <span>Procesos</span>
             e
-            <span
-              class="text-primary"
-              >IA</span
-            >
+            <span>IA</span>
           </h1>
           <p
             class="text-xl text-slate-500 dark:text-slate-400 font-medium mb-4"
@@ -256,13 +250,5 @@ onMounted(() => {
       </div>
     </section>
 
-    <!-- CTA -->
-    <SharedCtaBanner
-      title="El futuro es automático"
-      subtitle="empieza hoy mismo"
-      description="Cuéntanos cuál es la tarea técnica o administrativa que roba más tiempo a tu equipo y la convertiremos en un flujo automático inteligente."
-      primary-label="Agendar Auditoría Gratuita"
-      to="/contacto"
-    />
   </div>
 </template>

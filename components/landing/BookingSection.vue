@@ -11,6 +11,8 @@ import {
   ChevronRight,
   Check,
   X,
+  Loader2,
+  AlertCircle,
 } from "lucide-vue-next";
 
 const isVisible = ref(false);
@@ -48,9 +50,8 @@ const form = ref({
 
 const formSubmitted = ref(false);
 
-// Horarios ocupados (formato "YYYY-MM-DD-HH:MM"); la agenda real
-// se confirma por WhatsApp al recibir la solicitud.
-const busySlots: string[] = [];
+// Horarios ya ocupados (instantes ISO de inicio), traídos del backend.
+const busyStarts = ref<Set<string>>(new Set());
 
 const timeSlots = [
   "09:00",
@@ -128,10 +129,17 @@ const isWeekend = (date: Date) => {
   return day === 0 || day === 6;
 };
 
+// Instante ISO de inicio para una fecha + hora ("09:00") en la zona local.
+const slotStartsAt = (date: Date, time: string) => {
+  const d = new Date(date);
+  const [h, m] = time.split(":").map(Number);
+  d.setHours(h, m, 0, 0);
+  return d.toISOString();
+};
+
 const isSlotBusy = (time: string) => {
   if (!selectedDate.value) return false;
-  const dateStr = formatDateKey(selectedDate.value);
-  return busySlots.includes(`${dateStr}-${time}`);
+  return busyStarts.value.has(slotStartsAt(selectedDate.value, time));
 };
 
 const formatDateKey = (date: Date) => {
@@ -192,17 +200,69 @@ const canSubmit = computed(() => {
   );
 });
 
-const submitForm = () => {
-  if (!canSubmit.value) return;
+// Envío real al microservicio (POST /meetings).
+const { scheduleMeeting, getBusySlots } = useBackend();
+const sending = ref(false);
+const errorMsg = ref("");
+
+// Carga los horarios ya ocupados para deshabilitarlos en el calendario.
+const loadBusy = async () => {
+  try {
+    const slots = await getBusySlots();
+    busyStarts.value = new Set(slots.map((s) => s.startsAt));
+  } catch {
+    // Si falla, no bloqueamos la UI: el backend valida igual al agendar.
+  }
+};
+onMounted(loadBusy);
+
+// Combina la fecha y la hora elegidas en un instante ISO-8601.
+const buildStartsAt = () =>
+  slotStartsAt(selectedDate.value as Date, selectedTime.value as string);
+
+const submitForm = async () => {
+  if (!canSubmit.value || sending.value) return;
+  errorMsg.value = "";
+  sending.value = true;
+  try {
+    await scheduleMeeting({
+      name: form.value.name,
+      email: form.value.email,
+      subject: form.value.subject,
+      startsAt: buildStartsAt(),
+      durationMin: 30,
+    });
+    formSubmitted.value = true;
+    void loadBusy();
+  } catch (e: unknown) {
+    const status =
+      (e as { statusCode?: number })?.statusCode ??
+      (e as { response?: { status?: number } })?.response?.status;
+    if (status === 409) {
+      // El horario se ocupó (aquí o entre que cargó y envió). Reintenta.
+      errorMsg.value = "Ese horario acaba de ocuparse. Elige otro, por favor.";
+      selectedTime.value = null;
+      await loadBusy();
+    } else {
+      errorMsg.value =
+        "No pudimos agendar tu reunión ahora mismo. Intenta de nuevo o solicítala por WhatsApp.";
+    }
+  } finally {
+    sending.value = false;
+  }
+};
+
+// Alternativa: solicitar por WhatsApp si algo falla.
+const submitByWhatsApp = () => {
   const text = encodeURIComponent(
     `Hola CODEGAHP, soy ${form.value.name}. Quiero agendar una videollamada el ${formatDisplayDate(selectedDate.value)} a las ${selectedTime.value} hrs.\n\nTema: ${form.value.subject}\nMi correo: ${form.value.email}`,
   );
   window.open(`https://wa.me/529381065606?text=${text}`, "_blank", "noopener");
-  formSubmitted.value = true;
 };
 
 const resetForm = () => {
   formSubmitted.value = false;
+  errorMsg.value = "";
   selectedDate.value = null;
   selectedTime.value = null;
   form.value = { name: "", email: "", subject: "" };
@@ -238,14 +298,15 @@ const resetForm = () => {
           Reserva una sesión técnica de 30 minutos sin costo para analizar los requerimientos de tu proyecto y proponer la estrategia tecnológica ideal.
         </p>
 
-        <!-- Google Meet Badge -->
+        <!-- Videollamada Badge -->
         <div
           class="inline-flex items-center gap-2 mt-6 px-4 py-2 bg-slate-100 dark:bg-slate-800 rounded-full"
         >
           <Video class="w-5 h-5 text-primary" />
           <span class="text-sm text-slate-600 dark:text-slate-400">
-            Reunión vía
-            <strong class="text-slate-900 dark:text-white">Google Meet</strong>
+            Reunión por
+            <strong class="text-slate-900 dark:text-white">videollamada</strong>
+            — recibes el enlace por correo
           </span>
         </div>
       </div>
@@ -265,10 +326,9 @@ const resetForm = () => {
           ¡Solicitud lista!
         </h3>
         <p class="text-slate-600 dark:text-slate-400 mb-6">
-          Se abrió WhatsApp con tu solicitud — mándala y te confirmamos el
-          horario junto con el enlace de Google Meet a
-          <strong>{{ form.email }}</strong
-          >.
+          Te enviamos la invitación con el enlace de la videollamada a
+          <strong>{{ form.email }}</strong> y te llegará un recordatorio antes
+          de la reunión.
         </p>
         <div
           class="bg-slate-100 dark:bg-slate-800 rounded-xl p-6 inline-block text-left"
@@ -285,7 +345,7 @@ const resetForm = () => {
         </div>
         <button
           @click="resetForm"
-          class="mt-8 px-6 py-3 text-primary hover:bg-primary/10 rounded-lg transition-colors"
+          class="mt-8 px-6 py-3 text-primary hover:bg-primary/10 rounded-xl transition-colors"
         >
           Agendar otra cita
         </button>
@@ -483,21 +543,47 @@ const resetForm = () => {
             <!-- Submit -->
             <button
               @click="submitForm"
-              :disabled="!canSubmit"
+              :disabled="!canSubmit || sending"
               class="w-full py-4 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2"
               :class="
-                canSubmit
+                canSubmit && !sending
                   ? 'bg-primary text-white hover:bg-primary-dark hover:shadow-lg hover:-translate-y-0.5'
                   : 'bg-slate-200 dark:bg-slate-700 text-slate-400 cursor-not-allowed'
               "
             >
-              <Video class="w-5 h-5" aria-hidden="true" />
-              Solicitar reunión por WhatsApp
+              <Loader2
+                v-if="sending"
+                class="w-5 h-5 animate-spin"
+                aria-hidden="true"
+              />
+              <Video v-else class="w-5 h-5" aria-hidden="true" />
+              {{ sending ? "Agendando…" : "Agendar reunión" }}
             </button>
 
-            <p class="text-xs text-center text-slate-500 dark:text-slate-400">
-              Confirmamos tu horario por WhatsApp y te mandamos el enlace de
-              Google Meet
+            <!-- Error + alternativa WhatsApp -->
+            <div
+              v-if="errorMsg"
+              class="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900/40 rounded-xl px-4 py-3"
+            >
+              <p class="flex items-start gap-2">
+                <AlertCircle class="w-5 h-5 shrink-0" aria-hidden="true" />
+                {{ errorMsg }}
+              </p>
+              <button
+                type="button"
+                @click="submitByWhatsApp"
+                class="mt-2 font-semibold underline underline-offset-2 hover:no-underline"
+              >
+                Solicitar por WhatsApp
+              </button>
+            </div>
+
+            <p
+              v-else
+              class="text-xs text-center text-slate-500 dark:text-slate-400"
+            >
+              Recibes la invitación con el enlace de la videollamada por correo,
+              más un recordatorio antes de la reunión.
             </p>
           </div>
         </div>

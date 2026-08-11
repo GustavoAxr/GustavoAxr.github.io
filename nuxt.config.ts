@@ -2,9 +2,43 @@
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
-  modules: ["@nuxtjs/tailwindcss", "shadcn-nuxt", "@nuxtjs/color-mode"],
+  modules: [
+    "@nuxtjs/tailwindcss",
+    "shadcn-nuxt",
+    "@nuxtjs/color-mode",
+    // Módulo inline (después de shadcn-nuxt): shadcn registra `components/ui`
+    // con `extensions: []`, que Nuxt interpreta como "extensiones por defecto"
+    // (incluye .ts). Eso hacía que `button/index.ts` se escaneara como componente
+    // con el nombre de su carpeta ("Button") y chocara con `Button.vue`. Aquí lo
+    // restringimos a solo `.vue`, así el barrel `index.ts` deja de ser escaneado.
+    (_options, nuxt) => {
+      nuxt.hook("components:dirs", (dirs) => {
+        for (const dir of dirs) {
+          if (
+            typeof dir === "object" &&
+            dir !== null &&
+            typeof (dir as { path?: string }).path === "string" &&
+            (dir as { path: string }).path.endsWith("components/ui")
+          ) {
+            (dir as { extensions?: string[] }).extensions = ["vue"];
+          }
+        }
+      });
+    },
+  ],
 
   css: ["~/assets/css/main.css"],
+
+  // Configuración en runtime. `public` queda expuesto al cliente (el sitio es
+  // estático, así que el valor se "hornea" en build: en producción define
+  // NUXT_PUBLIC_API_BASE con la URL pública del microservicio).
+  runtimeConfig: {
+    public: {
+      // Backend NestJS (microservicios-web). En local corre en :3003 (ver su
+      // .env), separado del dev server de Nuxt (:3000).
+      apiBase: process.env.NUXT_PUBLIC_API_BASE || "http://localhost:3003",
+    },
+  },
 
   // SEO Global Configuration
   app: {
@@ -115,7 +149,12 @@ export default defineNuxtConfig({
     fallback: "light",
   },
   shadcn: {
-    prefix: "",
+    // Prefijo "Ui" para los componentes que shadcn-nuxt registra desde su
+    // barrel `index.ts` (p. ej. UiButton). Evita la colisión con el componente
+    // auto-importado `Button` (de Button.vue). No afecta los imports explícitos
+    // `import { Button } from "@/components/ui/button"` (son imports ESM del
+    // archivo, no del registro de auto-componentes).
+    prefix: "Ui",
     componentDir: "./components/ui",
   },
 });
