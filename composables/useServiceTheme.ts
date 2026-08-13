@@ -15,7 +15,8 @@ interface ServiceTheme {
 // propio color (morado, azul, ámbar…) — ese "arcoíris" daba el aire de
 // plantilla/IA. Ahora todo el sitio usa los dos verdes de la marca.
 const DEFAULT_THEME: ServiceTheme = {
-  light: { default: "64 144 40", dark: "47 106 30", light: "121 197 166" },
+  // Mismo verde de marca (salvia #79C5A6) en claro y oscuro.
+  light: { default: "121 197 166", dark: "90 169 138", light: "155 214 190" },
   dark: { default: "121 197 166", dark: "90 169 138", light: "155 214 190" },
 };
 

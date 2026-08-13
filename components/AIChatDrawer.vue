@@ -358,9 +358,12 @@ watch(
             </p>
           </div>
         </div>
-        <button
+        <Button
+          variant="bare"
+          size="free"
+          type="button"
           @click="emit('close')"
-          class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+          class="p-2 rounded-[5px] hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors [&_svg]:size-5"
         >
           <svg
             class="w-5 h-5 text-slate-500"
@@ -375,7 +378,7 @@ watch(
               d="M6 18L18 6M6 6l12 12"
             />
           </svg>
-        </button>
+        </Button>
       </div>
 
       <!-- Messages -->
@@ -404,15 +407,17 @@ watch(
 
         <!-- Preguntas precargadas / caminos a seguir -->
         <div v-if="showSuggestions" class="flex flex-wrap gap-2 pt-1">
-          <button
+          <Button
             v-for="s in suggestions"
             :key="s"
+            variant="bare"
+            size="free"
             type="button"
             @click="sendMessage(s)"
-            class="text-xs font-medium px-3 py-1.5 rounded-full border border-primary/30 text-primary hover:bg-primary/10 hover:border-primary/60 transition-colors"
+            class="text-xs font-medium px-3 py-1.5 rounded-[5px] border border-primary/30 text-primary hover:bg-primary/10 hover:border-primary/60 transition-colors"
           >
             {{ s }}
-          </button>
+          </Button>
         </div>
 
         <!-- Typing indicator -->
@@ -448,10 +453,13 @@ watch(
             placeholder="Escribe tu pregunta..."
             class="flex-1 px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-transparent focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-slate-900 dark:text-white placeholder-slate-400"
           />
-          <button
+          <Button
+            variant="bare"
+            size="free"
+            type="button"
             @click="sendMessage()"
             :disabled="!userInput.trim() || isSending"
-            class="px-4 py-3 bg-primary hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-xl transition-all flex items-center justify-center"
+            class="px-4 py-3 bg-primary hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-[5px] transition-all flex items-center justify-center [&_svg]:size-5"
           >
             <svg
               class="w-5 h-5"
@@ -466,7 +474,7 @@ watch(
                 d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
               />
             </svg>
-          </button>
+          </Button>
         </div>
         <p class="text-xs text-slate-400 mt-2 text-center">
           Presiona Enter para enviar

@@ -71,11 +71,13 @@ function cardStyle(i: number) {
     ></div>
 
     <div class="cf-stage">
-      <button
+      <Button
         v-for="(s, i) in screens"
         :key="s.name"
+        variant="bare"
+        size="free"
         type="button"
-        class="cf-card"
+        class="cf-card block"
         :style="cardStyle(i)"
         :aria-hidden="i !== active"
         :aria-label="`Ver ${s.label}`"
@@ -96,20 +98,22 @@ function cardStyle(i: number) {
             />
           </picture>
         </div>
-      </button>
+      </Button>
     </div>
 
     <!-- Indicadores -->
     <div class="cf-dots">
-      <button
+      <Button
         v-for="(s, i) in screens"
         :key="s.name"
+        variant="bare"
+        size="free"
         type="button"
-        class="cf-dot"
+        class="cf-dot rounded-full"
         :class="{ 'cf-dot--on': i === active }"
         :aria-label="`Ir a ${s.label}`"
         @click="go(i)"
-      ></button>
+      ></Button>
     </div>
   </div>
 </template>

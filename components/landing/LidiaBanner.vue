@@ -41,15 +41,17 @@ const ganado = "/img/ganado.jpg";
               aunque no haya señal.
             </p>
 
-            <NuxtLink
-              to="/servicios/lidia"
-              class="group inline-flex items-center gap-2 h-12 px-8 rounded-xl bg-white text-[#2f6a1e] font-bold shadow-lg hover:bg-emerald-50 hover:-translate-y-0.5 transition-all self-start"
-            >
-              Conoce LIDIA
-              <ArrowRight
-                class="w-5 h-5 group-hover:translate-x-1 transition-transform"
-              />
-            </NuxtLink>
+            <Button as-child variant="bare" size="free" class="[&_svg]:size-5">
+              <NuxtLink
+                to="/servicios/lidia"
+                class="group inline-flex items-center gap-2 h-12 px-8 rounded-[5px] bg-white text-[#2f6a1e] font-bold shadow-lg hover:bg-emerald-50 hover:-translate-y-0.5 transition-all self-start"
+              >
+                Conoce LIDIA
+                <ArrowRight
+                  class="w-5 h-5 group-hover:translate-x-1 transition-transform"
+                />
+              </NuxtLink>
+            </Button>
 
             <div
               class="mt-8 flex flex-wrap items-center gap-x-3 gap-y-2 text-xs font-medium text-white/75"

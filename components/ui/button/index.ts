@@ -4,7 +4,7 @@ import { cva } from "class-variance-authority";
 export { default as Button } from "./Button.vue";
 
 export const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-medium ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 dark:ring-offset-slate-950 dark:focus-visible:ring-slate-300",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[5px] text-sm font-medium ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 dark:ring-offset-slate-950 dark:focus-visible:ring-slate-300",
   {
     variants: {
       variant: {
@@ -19,14 +19,19 @@ export const buttonVariants = cva(
         ghost:
           "hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-50",
         link: "text-slate-900 underline-offset-4 hover:underline dark:text-slate-50",
+        // Sin estilos de color: para botones con estética propia que solo
+        // necesitan volverse componente <Button> sin heredar bg/hover del tema.
+        bare: "",
       },
       size: {
         default: "h-10 px-4 py-2",
-        sm: "h-9 rounded-xl px-3",
-        lg: "h-11 rounded-xl px-8",
+        sm: "h-9 rounded-[5px] px-3",
+        lg: "h-11 rounded-[5px] px-8",
         icon: "h-10 w-10",
         "icon-sm": "size-9",
         "icon-lg": "size-11",
+        // Sin geometría propia: el `class` del uso controla alto/padding.
+        free: "",
       },
     },
     defaultVariants: {

@@ -238,30 +238,35 @@ const isMobileServicesOpen = ref(false);
         <ThemeToggle />
 
         <!-- Botón CTA Desktop -->
-        <NuxtLink
-          to="/contacto"
-          class="hidden md:flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-semibold rounded-xl shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:scale-105 transition-all duration-300"
-        >
-          <span>Hablemos</span>
-          <svg
-            class="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+        <Button as-child variant="bare" size="free">
+          <NuxtLink
+            to="/contacto"
+            class="hidden md:flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-semibold rounded-[5px] shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:scale-105 transition-all duration-300"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M17 8l4 4m0 0l-4 4m4-4H3"
-            ></path>
-          </svg>
-        </NuxtLink>
+            <span>Hablemos</span>
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              ></path>
+            </svg>
+          </NuxtLink>
+        </Button>
 
         <!-- Botón Menú Móvil -->
-        <button
+        <Button
+          variant="bare"
+          size="free"
+          type="button"
           @click="isMobileMenuOpen = !isMobileMenuOpen"
-          class="md:hidden p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+          class="md:hidden p-2 rounded-[5px] text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors [&_svg]:size-6"
           :aria-label="isMobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'"
           :aria-expanded="isMobileMenuOpen"
         >
@@ -293,7 +298,7 @@ const isMobileServicesOpen = ref(false);
               d="M6 18L18 6M6 6l12 12"
             ></path>
           </svg>
-        </button>
+        </Button>
       </div>
     </div>
 
@@ -321,9 +326,12 @@ const isMobileServicesOpen = ref(false);
         </NuxtLink>
         <!-- Servicios Accordion Mobile -->
         <div class="flex flex-col">
-          <button
+          <Button
+            variant="bare"
+            size="free"
+            type="button"
             @click="isMobileServicesOpen = !isMobileServicesOpen"
-            class="text-xl font-medium py-4 rounded-xl text-slate-700 dark:text-slate-200 hover:text-primary transition-colors flex items-center justify-center gap-2"
+            class="text-xl font-medium py-4 rounded-[5px] text-slate-700 dark:text-slate-200 hover:text-primary transition-colors flex items-center justify-center gap-2 [&_svg]:size-5"
             :class="{ 'text-primary bg-primary/10': isMobileServicesOpen }"
           >
             Servicios
@@ -333,7 +341,7 @@ const isMobileServicesOpen = ref(false);
                 isMobileServicesOpen ? 'rotate-180' : '',
               ]"
             />
-          </button>
+          </Button>
 
           <div
             v-show="isMobileServicesOpen"
@@ -385,26 +393,28 @@ const isMobileServicesOpen = ref(false);
 
         <div class="h-px bg-slate-200 dark:bg-slate-800 my-2"></div>
 
-        <NuxtLink
-          to="/contacto"
-          @click="isMobileMenuOpen = false"
-          class="flex items-center justify-center gap-2 px-6 py-4 bg-primary text-white text-lg font-bold rounded-xl shadow-lg shadow-primary/25 mt-2"
-        >
-          <span>Hablemos</span>
-          <svg
-            class="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+        <Button as-child variant="bare" size="free" class="[&_svg]:size-5">
+          <NuxtLink
+            to="/contacto"
+            @click="isMobileMenuOpen = false"
+            class="flex items-center justify-center gap-2 px-6 py-4 bg-primary text-white text-lg font-bold rounded-[5px] shadow-lg shadow-primary/25 mt-2"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M17 8l4 4m0 0l-4 4m4-4H3"
-            ></path>
-          </svg>
-        </NuxtLink>
+            <span>Hablemos</span>
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              ></path>
+            </svg>
+          </NuxtLink>
+        </Button>
       </nav>
     </div>
   </header>

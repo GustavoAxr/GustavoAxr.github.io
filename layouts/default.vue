@@ -33,11 +33,13 @@ const isChatOpen = useState("aiChatOpen", () => false);
 
     <!-- Globo de chat flotante — visible en todas las vistas -->
     <Transition name="fade">
-      <button
+      <Button
         v-if="!isChatOpen"
+        variant="bare"
+        size="free"
         type="button"
         aria-label="Abrir el asistente de CODEGAHP"
-        class="group fixed bottom-5 right-5 z-40 flex items-center gap-2 rounded-full bg-[#409028] py-3 pl-3 pr-4 text-white shadow-lg shadow-[#409028]/30 ring-1 ring-black/5 transition-transform duration-200 hover:scale-105 active:scale-95 sm:bottom-6 sm:right-6"
+        class="group fixed bottom-5 right-5 z-40 flex items-center gap-2 rounded-[5px] bg-primary py-3 pl-3 pr-4 text-white shadow-lg shadow-[#409028]/30 ring-1 ring-black/5 transition-transform duration-200 hover:scale-105 active:scale-95 sm:bottom-6 sm:right-6 [&_svg]:size-6"
         @click="isChatOpen = true"
       >
         <span class="relative flex h-6 w-6 items-center justify-center">
@@ -47,7 +49,7 @@ const isChatOpen = useState("aiChatOpen", () => false);
           <MessageCircle class="relative h-6 w-6" />
         </span>
         <span class="text-sm font-medium">¿Hablamos?</span>
-      </button>
+      </Button>
     </Transition>
 
     <AIChatDrawer :is-open="isChatOpen" @close="isChatOpen = false" />

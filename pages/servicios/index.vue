@@ -152,7 +152,7 @@ onMounted(() => {
         <NuxtLink to="/contacto">
           <Button
             size="lg"
-            class="bg-primary hover:bg-primary-dark text-white text-lg h-12 px-8 shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all transform hover:-translate-y-0.5 rounded-xl"
+            class="bg-primary hover:bg-primary-dark text-white text-lg h-12 px-8 shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all transform hover:-translate-y-0.5 rounded-[5px]"
           >
             Solicitar Diagnóstico Sin Costo
             <ArrowRight class="w-5 h-5 ml-2" />

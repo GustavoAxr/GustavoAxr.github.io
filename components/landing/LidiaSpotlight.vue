@@ -79,7 +79,7 @@ const stats = [
 <template>
   <section
     id="proud-products"
-    class="relative overflow-hidden py-24 lg:py-32 bg-slate-50 dark:bg-slate-950"
+    class="relative overflow-hidden py-10 lg:py-10 bg-slate-50 dark:bg-slate-950"
   >
     <!-- Glows de marca (solo desktop: el blur de 130px es pesado en móvil) -->
     <div
@@ -95,26 +95,22 @@ const stats = [
         class="text-center max-w-3xl mx-auto mb-16 transition-all duration-700"
         :class="isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
       >
-        <span
-          class="inline-flex items-center gap-2 text-primary font-semibold text-sm uppercase tracking-widest mb-5 px-4 py-2 bg-primary/10 rounded-full"
-        >
-          <span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
-          Nuestro producto insignia
-        </span>
+       
+       
         <h2
           class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white leading-[1.05] mb-5"
         >
-          LIDIA, la app que
-          <span
-            class="text-primary"
-          >
+        <span class="text-primary">
+
+          LIDIA
+        </span>
+          
+          , la app que
+      
             aguanta el campo
-          </span>
+         
         </h2>
-        <p class="text-lg lg:text-xl text-slate-600 dark:text-slate-400 leading-relaxed">
-          Trazabilidad y administración ganadera hecha para el rancho mexicano:
-          inventario, sanidad, reproducción y ventas, con o sin internet.
-        </p>
+        
       </div>
 
       <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -208,13 +204,15 @@ const stats = [
             </span>
           </div>
 
-          <NuxtLink
-            to="/servicios/lidia"
-            class="mt-6 group inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 h-12 rounded-xl bg-primary hover:bg-primary-dark text-white dark:text-slate-950 font-bold shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all"
-          >
-            Conoce LIDIA a fondo
-            <ArrowRight class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </NuxtLink>
+          <Button as-child variant="bare" size="free" class="[&_svg]:size-5">
+            <NuxtLink
+              to="/servicios/lidia"
+              class="mt-6 group inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 h-12 rounded-[5px] bg-primary hover:bg-primary-dark text-white dark:text-slate-950 font-bold shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all"
+            >
+              Conoce LIDIA a fondo
+              <ArrowRight class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </NuxtLink>
+          </Button>
         </div>
       </div>
 
@@ -222,25 +220,8 @@ const stats = [
       <div
         class="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto"
       >
-        <div
-          v-for="s in stats"
-          :key="s.label"
-          class="flex items-center gap-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-5"
-        >
-          <div
-            class="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center shrink-0"
-          >
-            <component :is="s.icon" class="w-5 h-5 text-primary" />
-          </div>
-          <div>
-            <div class="text-xl font-extrabold text-slate-900 dark:text-white">
-              {{ s.value }}
-            </div>
-            <div class="text-xs text-slate-500 dark:text-slate-400">
-              {{ s.label }}
-            </div>
-          </div>
-        </div>
+       
+      
       </div>
     </div>
   </section>

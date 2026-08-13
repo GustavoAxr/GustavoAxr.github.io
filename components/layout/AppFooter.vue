@@ -120,19 +120,26 @@ const technologies = ["Vue.js", "Nuxt", "TypeScript", "Laravel", "Java", "AWS"];
 
           <!-- Social Links -->
           <div class="flex gap-3 mt-6">
-            <a
+            <Button
+              as-child
+              variant="bare"
+              size="free"
               v-for="social in socialLinks"
               :key="social.name"
-              :href="social.url"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="w-10 h-10 rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-400 transition-all"
-              :class="social.color"
-              :aria-label="social.name"
-              :title="social.name"
+              class="[&_svg]:size-5"
             >
-              <component :is="social.icon" class="w-5 h-5" />
-            </a>
+              <a
+                :href="social.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-10 h-10 rounded-[5px] bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-400 transition-all"
+                :class="social.color"
+                :aria-label="social.name"
+                :title="social.name"
+              >
+                <component :is="social.icon" class="w-5 h-5" />
+              </a>
+            </Button>
           </div>
         </div>
 
@@ -225,22 +232,26 @@ const technologies = ["Vue.js", "Nuxt", "TypeScript", "Laravel", "Java", "AWS"];
             de 24 horas.
           </p>
           <div class="space-y-2">
-            <a
-              href="https://wa.me/529381065606?text=Hola%20CODEGAHP%2C%20quiero%20platicarles%20de%20un%20proyecto."
-              target="_blank"
-              rel="noopener noreferrer"
-              class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-primary-dark transition-colors"
-            >
-              <MessageCircle class="w-4 h-4" />
-              Escríbenos por WhatsApp
-            </a>
-            <NuxtLink
-              to="/#booking-section"
-              class="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-semibold hover:border-primary hover:text-primary transition-colors"
-            >
-              <CalendarClock class="w-4 h-4" />
-              Agenda una videollamada
-            </NuxtLink>
+            <Button as-child variant="bare" size="free">
+              <a
+                href="https://wa.me/529381065606?text=Hola%20CODEGAHP%2C%20quiero%20platicarles%20de%20un%20proyecto."
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-center gap-2 px-4 py-2.5 rounded-[5px] bg-primary text-white text-sm font-semibold hover:bg-primary-dark transition-colors"
+              >
+                <MessageCircle class="w-4 h-4" />
+                Escríbenos por WhatsApp
+              </a>
+            </Button>
+            <Button as-child variant="bare" size="free">
+              <NuxtLink
+                to="/#booking-section"
+                class="flex items-center gap-2 px-4 py-2.5 rounded-[5px] border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-semibold hover:border-primary hover:text-primary transition-colors"
+              >
+                <CalendarClock class="w-4 h-4" />
+                Agenda una videollamada
+              </NuxtLink>
+            </Button>
           </div>
 
           <!-- Technologies -->

@@ -198,7 +198,7 @@ onMounted(() => {
           <NuxtLink to="/contacto">
             <Button
               size="lg"
-              class="bg-emerald-600 hover:bg-emerald-700 text-white text-lg h-14 px-10 shadow-xl shadow-emerald-500/25 hover:shadow-emerald-500/40 transition-all transform hover:-translate-y-0.5 rounded-xl"
+              class="bg-emerald-600 hover:bg-emerald-700 text-white text-lg h-14 px-10 shadow-xl shadow-emerald-500/25 hover:shadow-emerald-500/40 transition-all transform hover:-translate-y-0.5 rounded-[5px]"
             >
               Solicitar Presupuesto
               <ArrowRight class="w-5 h-5 ml-2" />

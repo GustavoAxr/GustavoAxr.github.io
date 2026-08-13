@@ -9,9 +9,12 @@ const toggleColorMode = () => {
 </script>
 
 <template>
-  <button
+  <Button
+    variant="bare"
+    size="free"
+    type="button"
     @click="toggleColorMode"
-    class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors"
+    class="p-2 rounded-[5px] hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors [&_svg]:size-5"
     :aria-label="
       colorMode.value === 'dark'
         ? 'Cambiar a modo claro'
@@ -33,5 +36,5 @@ const toggleColorMode = () => {
         />
       </template>
     </ClientOnly>
-  </button>
+  </Button>
 </template>

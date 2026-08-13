@@ -275,21 +275,28 @@ const submitByWhatsApp = () => {
                   Síguenos
                 </p>
                 <div class="flex flex-wrap gap-2.5">
-                  <a
+                  <Button
+                    as-child
+                    variant="bare"
+                    size="free"
                     v-for="channel in channels"
                     :key="channel.name"
-                    :href="channel.href"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    :aria-label="channel.name"
-                    class="w-10 h-10 rounded-full bg-white/12 hover:bg-white/25 flex items-center justify-center transition-colors"
+                    class="[&_svg]:size-[18px]"
                   >
-                    <svg
-                      class="w-[18px] h-[18px] fill-white"
-                      viewBox="0 0 24 24"
-                      v-html="channel.icon"
-                    ></svg>
-                  </a>
+                    <a
+                      :href="channel.href"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      :aria-label="channel.name"
+                      class="w-10 h-10 rounded-[5px] bg-white/12 hover:bg-white/25 flex items-center justify-center transition-colors"
+                    >
+                      <svg
+                        class="w-[18px] h-[18px] fill-white"
+                        viewBox="0 0 24 24"
+                        v-html="channel.icon"
+                      ></svg>
+                    </a>
+                  </Button>
                 </div>
               </div>
             </div>
@@ -367,10 +374,12 @@ const submitByWhatsApp = () => {
               </div>
 
               <div class="grid sm:grid-cols-2 gap-3">
-                <button
+                <Button
+                  variant="bare"
+                  size="free"
                   type="submit"
                   :disabled="sending"
-                  class="h-12 rounded-xl font-semibold bg-primary text-white hover:bg-primary-dark hover:shadow-lg hover:shadow-primary/25 hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+                  class="h-12 rounded-[5px] font-semibold bg-primary text-white hover:bg-primary-dark hover:shadow-lg hover:shadow-primary/25 hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 [&_svg]:size-5"
                 >
                   <Loader2
                     v-if="sending"
@@ -379,15 +388,17 @@ const submitByWhatsApp = () => {
                   />
                   <Send v-else class="w-5 h-5" aria-hidden="true" />
                   {{ sending ? "Enviando…" : "Enviar mensaje" }}
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant="bare"
+                  size="free"
                   type="button"
                   @click="submitByWhatsApp"
-                  class="h-12 rounded-xl font-semibold border-2 border-primary/40 text-primary hover:bg-primary/10 hover:border-primary transition-all duration-300 flex items-center justify-center gap-2"
+                  class="h-12 rounded-[5px] font-semibold border-2 border-primary/40 text-primary hover:bg-primary/10 hover:border-primary transition-all duration-300 flex items-center justify-center gap-2 [&_svg]:size-5"
                 >
                   <MessageSquare class="w-5 h-5" aria-hidden="true" />
                   WhatsApp
-                </button>
+                </Button>
               </div>
 
               <!-- Éxito -->
@@ -411,10 +422,12 @@ const submitByWhatsApp = () => {
         </div>
 
         <!-- Asistente instantáneo (banner) -->
-        <button
+        <Button
+          variant="bare"
+          size="free"
           type="button"
           aria-haspopup="dialog"
-          class="group w-full mt-6 rounded-3xl border border-primary/25 bg-slate-50 dark:bg-slate-900 hover:border-primary hover:shadow-lg hover:shadow-primary/10 transition-all duration-300 p-6 flex items-center gap-4 text-left"
+          class="group w-full mt-6 rounded-[5px] border border-primary/25 bg-slate-50 dark:bg-slate-900 hover:border-primary hover:shadow-lg hover:shadow-primary/10 transition-all duration-300 p-6 flex items-center gap-4 text-left"
           :class="{
             'animate-fade-in-up delay-200': isVisible,
             'opacity-0': !isVisible,
@@ -424,7 +437,7 @@ const submitByWhatsApp = () => {
           <div
             class="w-14 h-14 rounded-2xl bg-primary flex items-center justify-center shadow-lg shadow-primary/25 shrink-0 group-hover:scale-105 transition-transform"
           >
-            <Sparkles class="w-7 h-7 text-white" />
+            <Sparkles class="!size-7 text-white" />
           </div>
           <div class="flex-1 min-w-0">
             <h3
@@ -441,10 +454,10 @@ const submitByWhatsApp = () => {
             class="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all shrink-0"
           >
             <ArrowRight
-              class="w-5 h-5 group-hover:translate-x-0.5 transition-transform"
+              class="!size-5 group-hover:translate-x-0.5 transition-transform"
             />
           </span>
-        </button>
+        </Button>
 
         <!-- FAQ Section with SOLID-style cards -->
         <div
@@ -478,9 +491,12 @@ const submitByWhatsApp = () => {
               <div
                 class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:border-primary/50 transition-all duration-300 hover:shadow-lg"
               >
-                <button
+                <Button
+                  variant="bare"
+                  size="free"
+                  type="button"
                   @click="toggleFaq(index)"
-                  class="w-full p-5 flex items-center gap-4 text-left"
+                  class="w-full p-5 flex items-center gap-4 text-left [&_svg]:size-5"
                   :aria-expanded="faq.isOpen"
                 >
                   <div
@@ -497,7 +513,7 @@ const submitByWhatsApp = () => {
                     class="w-5 h-5 text-primary shrink-0 transition-transform duration-300"
                     :class="{ 'rotate-180': faq.isOpen }"
                   />
-                </button>
+                </Button>
                 <Transition
                   enter-active-class="transition-all duration-300 ease-out"
                   enter-from-class="max-h-0 opacity-0"

@@ -114,7 +114,7 @@ onMounted(() => {
             </div>
             <NuxtLink to="/contacto">
               <Button
-                class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 rounded-xl"
+                class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 rounded-[5px]"
               >
                 Buscar
               </Button>

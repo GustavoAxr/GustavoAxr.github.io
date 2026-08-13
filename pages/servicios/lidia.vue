@@ -657,10 +657,12 @@ onMounted(() => {
           class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 grid-flow-row-dense"
         >
           <!-- Vista de teléfono (Dashboard) — abre la galería -->
-          <button
+          <Button
+            variant="bare"
+            size="free"
             type="button"
             @click="openLightbox(0)"
-            class="group relative row-span-2 min-h-[320px] rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-900 shadow-md hover:shadow-xl transition-shadow text-left"
+            class="group relative row-span-2 min-h-[320px] rounded-[5px] overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-900 shadow-md hover:shadow-xl transition-shadow text-left"
           >
             <picture>
               <source
@@ -683,7 +685,7 @@ onMounted(() => {
               <ZoomIn class="w-3.5 h-3.5" aria-hidden="true" />
               Ver Dashboard
             </span>
-          </button>
+          </Button>
 
           <!-- Primeros módulos -->
           <div
@@ -720,10 +722,12 @@ onMounted(() => {
           </div>
 
           <!-- Vista de teléfono (Movilidad y comercio) — abre la galería -->
-          <button
+          <Button
+            variant="bare"
+            size="free"
             type="button"
             @click="openLightbox(6)"
-            class="group relative row-span-2 min-h-[320px] rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-900 shadow-md hover:shadow-xl transition-shadow text-left"
+            class="group relative row-span-2 min-h-[320px] rounded-[5px] overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-900 shadow-md hover:shadow-xl transition-shadow text-left"
           >
             <picture>
               <source srcset="/img/lidia/pantalla-reemo.webp" type="image/webp" />
@@ -743,7 +747,7 @@ onMounted(() => {
               <ZoomIn class="w-3.5 h-3.5" aria-hidden="true" />
               Ver Movilidad y comercio
             </span>
-          </button>
+          </Button>
 
           <!-- Resto de módulos -->
           <div
@@ -1025,14 +1029,16 @@ onMounted(() => {
           <!-- Escenario -->
           <div class="lg:flex-1 min-w-0 flex flex-col items-center">
             <div class="flex items-center justify-center gap-2 sm:gap-6">
-            <button
+            <Button
+              variant="bare"
+              size="free"
               type="button"
               aria-label="Anterior"
-              class="shrink-0 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-md flex items-center justify-center text-slate-700 dark:text-slate-200 hover:border-green-500/50 hover:text-green-600 dark:hover:text-green-400 transition-colors"
+              class="shrink-0 w-10 h-10 sm:w-11 sm:h-11 rounded-[5px] bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-md flex items-center justify-center text-slate-700 dark:text-slate-200 hover:border-green-500/50 hover:text-green-600 dark:hover:text-green-400 transition-colors [&_svg]:size-5"
               @click="galleryPrev"
             >
               <ChevronLeft class="w-5 h-5" />
-            </button>
+            </Button>
 
             <!-- Escenario (teléfono) -->
             <div class="relative w-[220px] sm:w-[280px] shrink-0">
@@ -1052,11 +1058,13 @@ onMounted(() => {
                   height="1168"
                   class="w-full h-auto block bg-slate-900"
                 ></video>
-                <button
+                <Button
                   v-else
+                  variant="bare"
+                  size="free"
                   type="button"
                   :aria-label="`Ampliar: ${gallery[galleryIndex].caption}`"
-                  class="group relative block w-full"
+                  class="group relative block w-full [&_svg]:size-5"
                   @click="openLightbox(gallery[galleryIndex].screenIdx)"
                 >
                   <picture>
@@ -1081,18 +1089,20 @@ onMounted(() => {
                       <ZoomIn class="w-5 h-5 text-slate-900" aria-hidden="true" />
                     </span>
                   </span>
-                </button>
+                </Button>
               </div>
             </div>
 
-            <button
+            <Button
+              variant="bare"
+              size="free"
               type="button"
               aria-label="Siguiente"
-              class="shrink-0 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-md flex items-center justify-center text-slate-700 dark:text-slate-200 hover:border-green-500/50 hover:text-green-600 dark:hover:text-green-400 transition-colors"
+              class="shrink-0 w-10 h-10 sm:w-11 sm:h-11 rounded-[5px] bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-md flex items-center justify-center text-slate-700 dark:text-slate-200 hover:border-green-500/50 hover:text-green-600 dark:hover:text-green-400 transition-colors [&_svg]:size-5"
               @click="galleryNext"
             >
               <ChevronRight class="w-5 h-5" />
-            </button>
+            </Button>
           </div>
 
           <!-- Leyenda + contador -->
@@ -1110,12 +1120,14 @@ onMounted(() => {
           <div
             class="media-strip lg:flex-1 min-w-0 mt-6 lg:mt-0 flex gap-2.5 overflow-x-auto pb-2 sm:justify-center lg:grid lg:grid-cols-3 lg:gap-3 lg:overflow-x-visible lg:overflow-y-auto lg:max-h-[540px] lg:pb-0 lg:pr-1"
           >
-            <button
+            <Button
               v-for="(m, i) in gallery"
               :key="i"
+              variant="bare"
+              size="free"
               type="button"
               :aria-label="`Ver ${m.caption}`"
-              class="relative shrink-0 w-12 sm:w-14 lg:w-full rounded-lg overflow-hidden border-2 transition-all"
+              class="relative block shrink-0 w-12 sm:w-14 lg:w-full rounded-[5px] overflow-hidden border-2 transition-all [&_svg]:size-3.5"
               :class="
                 i === galleryIndex
                   ? 'border-green-500'
@@ -1149,7 +1161,7 @@ onMounted(() => {
               >
                 <Play class="w-3.5 h-3.5 text-white" />
               </span>
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -1165,23 +1177,27 @@ onMounted(() => {
           aria-modal="true"
           @click.self="closeLightbox"
         >
-          <button
+          <Button
+            variant="bare"
+            size="free"
             type="button"
             aria-label="Cerrar"
-            class="absolute top-4 right-4 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
+            class="absolute top-4 right-4 w-11 h-11 rounded-[5px] bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors [&_svg]:size-5"
             @click="closeLightbox"
           >
             <X class="w-5 h-5" />
-          </button>
+          </Button>
 
-          <button
+          <Button
+            variant="bare"
+            size="free"
             type="button"
             aria-label="Anterior"
-            class="absolute left-3 sm:left-6 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
+            class="absolute left-3 sm:left-6 w-11 h-11 rounded-[5px] bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors [&_svg]:size-6"
             @click="prevShot"
           >
             <ChevronLeft class="w-6 h-6" />
-          </button>
+          </Button>
 
           <figure class="flex flex-col items-center max-w-full">
             <picture>
@@ -1203,14 +1219,16 @@ onMounted(() => {
             </figcaption>
           </figure>
 
-          <button
+          <Button
+            variant="bare"
+            size="free"
             type="button"
             aria-label="Siguiente"
-            class="absolute right-3 sm:right-6 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
+            class="absolute right-3 sm:right-6 w-11 h-11 rounded-[5px] bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors [&_svg]:size-6"
             @click="nextShot"
           >
             <ChevronRight class="w-6 h-6" />
-          </button>
+          </Button>
         </div>
       </Transition>
     </Teleport>
@@ -1282,9 +1300,11 @@ onMounted(() => {
 
             <!-- Puntos de navegación -->
             <div class="mt-6 flex justify-center gap-2.5">
-              <button
+              <Button
                 v-for="(point, i) in visionPoints"
                 :key="point"
+                variant="bare"
+                size="free"
                 type="button"
                 :aria-label="`Ver punto ${i + 1}`"
                 class="h-2 rounded-full transition-all duration-300"
@@ -1294,7 +1314,7 @@ onMounted(() => {
                     : 'w-2 bg-slate-300 dark:bg-slate-700 hover:bg-slate-400 dark:hover:bg-slate-600'
                 "
                 @click="visionIndex = i"
-              ></button>
+              ></Button>
             </div>
           </div>
         </div>

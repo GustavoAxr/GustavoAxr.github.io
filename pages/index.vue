@@ -116,11 +116,11 @@ useHead({
             >
               <NuxtLink to="/servicios/lidia">
                 <Button
+                  variant="bare"
                   size="lg"
-                  class="bg-primary hover:bg-primary-dark text-white dark:text-slate-950 text-lg h-12 px-8 shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all transform hover:-translate-y-0.5"
+                  class="bg-primary text-white hover:bg-primary-dark text-lg h-12 px-8 shadow-lg shadow-primary/25"
                 >
                   Conoce LIDIA
-                  <ArrowRight class="w-5 h-5 ml-2" />
                 </Button>
               </NuxtLink>
 

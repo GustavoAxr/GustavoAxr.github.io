@@ -125,15 +125,17 @@ const features = [
         </div>
 
         <div class="flex flex-col sm:flex-row sm:items-center gap-x-8 gap-y-4">
-          <NuxtLink
-            to="/servicios/lidia"
-            class="group inline-flex items-center justify-center gap-2 h-12 px-8 rounded-xl bg-white text-slate-900 font-bold shadow-lg hover:-translate-y-0.5 transition-transform self-start"
-          >
-            Conoce LIDIA a fondo
-            <ArrowRight
-              class="w-5 h-5 group-hover:translate-x-1 transition-transform"
-            />
-          </NuxtLink>
+          <Button as-child variant="bare" size="free" class="[&_svg]:size-5">
+            <NuxtLink
+              to="/servicios/lidia"
+              class="group inline-flex items-center justify-center gap-2 h-12 px-8 rounded-[5px] bg-white text-slate-900 font-bold shadow-lg hover:-translate-y-0.5 transition-transform self-start"
+            >
+              Conoce LIDIA a fondo
+              <ArrowRight
+                class="w-5 h-5 group-hover:translate-x-1 transition-transform"
+              />
+            </NuxtLink>
+          </Button>
           <NuxtLink
             to="/contacto"
             class="inline-flex items-center gap-2 text-white/90 font-medium hover:text-white transition-colors"
