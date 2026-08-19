@@ -115,6 +115,17 @@ export default defineNuxtConfig({
         // (Se quitaron los preconnect a Google Fonts: el sitio usa fuentes del
         // sistema, no cargaba ninguna fuente web y solo ensuciaban la red.)
       ],
+      // Google Analytics (gtag.js) — se carga en todas las páginas.
+      script: [
+        {
+          src: "https://www.googletagmanager.com/gtag/js?id=G-VNE6EN02MK",
+          async: true,
+        },
+        {
+          innerHTML:
+            "window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-VNE6EN02MK');",
+        },
+      ],
     },
   },
 

@@ -1,26 +1,186 @@
 <script setup lang="ts">
-// Página "Sobre mí" — en construcción. Pronto irá la historia y el CV.
+import { ref, onMounted } from "vue";
+import { ArrowUpRight } from "lucide-vue-next";
+
+// Usa el layout por defecto (header + footer + chat de CODEGAHP).
 useSeoMeta({
   title: "Sobre mí - CODEGAHP",
-  description: "Experiencia, trayectoria y CV.",
+  description:
+    "Gustavo Herrera — desarrollador de software y fundador de CODEGAHP en Ciudad del Carmen, Campeche.",
+});
+
+// Fuente Inter solo para esta vista.
+useHead({
+  link: [
+    { rel: "preconnect", href: "https://fonts.googleapis.com" },
+    { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "" },
+    {
+      rel: "stylesheet",
+      href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap",
+    },
+  ],
+});
+
+const VIDEO_URL =
+  "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260517_222138_3e3205be-3364-417b-a64a-bfe087acbec4.mp4";
+
+// Datos reales (stack) — se muestran donde iban las estadísticas.
+const skills = [
+  { area: "Front", tech: "Vue\nNuxt · React" },
+  { area: "Back", tech: "Node\nLaravel · Java" },
+  { area: "Cloud", tech: "AWS\nFirebase · SQL" },
+];
+const headingWords = ["Gustavo", "Herrera", "Pérez"];
+
+const videoRef = ref<HTMLVideoElement | null>(null);
+onMounted(() => {
+  if (videoRef.value) {
+    videoRef.value.muted = true;
+    videoRef.value.play?.().catch(() => {});
+  }
 });
 </script>
 
 <template>
-  <div class="min-h-screen bg-white dark:bg-slate-950">
-    <div
-      class="container max-w-3xl mx-auto px-4 pt-28 pb-24 min-h-screen flex flex-col items-center justify-center text-center"
+  <section
+    class="hero relative -mt-20 min-h-screen w-full overflow-hidden bg-white text-black dark:bg-slate-950 dark:text-white"
+  >
+    <video
+      ref="videoRef"
+      class="absolute inset-0 h-full w-full object-cover dark:brightness-[0.55]"
+      autoplay
+      loop
+      muted
+      playsinline
+      preload="auto"
     >
-   
+      <source :src="VIDEO_URL" type="video/mp4" />
+    </video>
 
-      <h1
-        class="mt-6 text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white"
+    <!-- Scrim para modo oscuro (oscurece el video para que el texto blanco se lea) -->
+    <div
+      class="pointer-events-none absolute inset-0 hidden bg-gradient-to-t from-slate-950 via-slate-950/70 to-slate-950/60 dark:block"
+    ></div>
+
+    <div class="relative z-10 flex min-h-screen flex-col pt-20">
+      <!-- Kicker -->
+      <div class="px-5 pt-6 sm:px-8 md:px-12">
+        <span
+          class="a-up inline-block text-[10px] font-semibold uppercase tracking-[0.3em] text-black/70 dark:text-white/70"
+          :style="{ animationDelay: '0.1s' }"
+        >
+          Sobre mí
+        </span>
+      </div>
+
+      <!-- Stack (donde iban las stats) -->
+      <section
+        class="flex flex-1 items-center justify-end px-5 py-8 sm:px-8 md:px-12 md:py-0"
       >
-        Agregando mi historia
-      </h1>
-      <p class="mt-3 text-lg text-slate-500 dark:text-slate-400">
-        Solo 1 día más.
-      </p>
+        <div class="flex items-end gap-5 sm:gap-8 md:gap-10">
+          <div
+            v-for="(s, i) in skills"
+            :key="s.area"
+            class="a-up text-right"
+            :style="{ animationDelay: (i + 2) * 0.12 + 's' }"
+          >
+            <div
+              class="font-semibold leading-none text-black dark:text-white"
+              style="font-size: clamp(1.4rem, 4.5vw, 3rem)"
+            >
+              {{ s.area
+              }}<span class="text-[#5E0ED7] dark:text-[#a78bfa]">.</span>
+            </div>
+            <div
+              class="mt-2 whitespace-pre-line text-[10px] font-semibold uppercase leading-tight tracking-widest text-black dark:text-white sm:text-xs md:text-sm"
+            >
+              {{ s.tech }}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bottom -->
+      <section
+        class="flex flex-col gap-6 px-5 pb-8 sm:px-8 md:gap-12 md:px-12 md:pb-12"
+      >
+        <div class="flex items-center justify-between gap-4">
+          <p
+            class="a-up max-w-[150px] text-[10px] font-semibold uppercase tracking-widest sm:max-w-[190px] sm:text-xs md:max-w-xs md:text-sm"
+            :style="{ animationDelay: '0.6s' }"
+          >
+            Desarrollador de software <br />
+            Fundador de CODEGAHP <br />
+            Cd. del Carmen, Campeche
+          </p>
+
+          <NuxtLink
+            to="/contacto"
+            class="a-up flex items-center gap-1 whitespace-nowrap text-base font-semibold text-[#5E0ED7] dark:text-[#a78bfa] sm:text-xl md:text-2xl"
+            :style="{ animationDelay: '0.72s' }"
+          >
+            Trabajemos juntos
+            <ArrowUpRight class="h-[18px] w-[18px] sm:h-[22px] sm:w-[22px]" />
+          </NuxtLink>
+        </div>
+
+        <div class="flex items-end justify-between gap-3 sm:gap-4">
+          <p
+            class="a-up w-[140px] shrink-0 text-left text-[9px] font-semibold uppercase tracking-widest sm:w-[200px] sm:text-xs md:w-[320px] md:text-right md:text-sm"
+            :style="{ animationDelay: '0.84s' }"
+          >
+            Construyo software a la medida —sitios, apps y automatización— que
+            aguanta el trabajo real. Creador de LIDIA, la app de trazabilidad
+            ganadera.
+          </p>
+
+          <h1 class="text-right">
+            <span
+              v-for="(word, i) in headingWords"
+              :key="word"
+              class="block overflow-hidden"
+            >
+              <span
+                class="a-word block font-semibold uppercase text-black dark:text-white"
+                style="font-size: clamp(2rem, 9vw, 8rem); line-height: 0.9"
+                :style="{ animationDelay: 0.4 + i * 0.14 + 's' }"
+                >{{ word }}</span
+              >
+            </span>
+          </h1>
+        </div>
+      </section>
     </div>
-  </div>
+  </section>
 </template>
+
+<style scoped>
+.hero {
+  font-family: "Inter", sans-serif;
+}
+
+.a-up {
+  animation: heroFadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.a-word {
+  animation: heroWordUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes heroWordUp {
+  from {
+    transform: translateY(110%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+</style>
