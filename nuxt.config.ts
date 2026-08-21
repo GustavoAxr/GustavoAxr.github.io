@@ -11,8 +11,11 @@ export default defineNuxtConfig({
     // (incluye .ts). Eso hacía que `button/index.ts` se escaneara como componente
     // con el nombre de su carpeta ("Button") y chocara con `Button.vue`. Aquí lo
     // restringimos a solo `.vue`, así el barrel `index.ts` deja de ser escaneado.
-    (_options, nuxt) => {
-      nuxt.hook("components:dirs", (dirs) => {
+    (
+      _options: Record<string, unknown>,
+      nuxt: { hook: (name: string, cb: (dirs: unknown[]) => void) => void },
+    ) => {
+      nuxt.hook("components:dirs", (dirs: unknown[]) => {
         for (const dir of dirs) {
           if (
             typeof dir === "object" &&
@@ -30,13 +33,15 @@ export default defineNuxtConfig({
   css: ["~/assets/css/main.css"],
 
   // Configuración en runtime. `public` queda expuesto al cliente (el sitio es
-  // estático, así que el valor se "hornea" en build: en producción define
-  // NUXT_PUBLIC_API_BASE con la URL pública del microservicio).
+  // estático, así que el valor se "hornea" en build). Por defecto apunta al
+  // backend de producción; para desarrollo local define NUXT_PUBLIC_API_BASE
+  // (p. ej. http://localhost:3003) en tu .env.
   runtimeConfig: {
     public: {
-      // Backend NestJS (microservicios-web). En local corre en :3003 (ver su
-      // .env), separado del dev server de Nuxt (:3000).
-      apiBase: process.env.NUXT_PUBLIC_API_BASE || "http://localhost:3003",
+      // Backend NestJS (microservicios-web) — sin barra final (las rutas se
+      // arman como `${apiBase}/email/send`, etc.).
+      apiBase:
+        process.env.NUXT_PUBLIC_API_BASE || "https://api.codegahp.com",
     },
   },
 
