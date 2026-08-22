@@ -18,14 +18,15 @@ import {
   CheckCircle2,
   AlertCircle,
 } from "lucide-vue-next";
+
+const { t } = useI18n({ useScope: "local" });
+
 // SEO Meta Tags
 useSeoMeta({
-  title: "Contacto - CODEGAHP | Habla con Nosotros",
-  description:
-    "¿Tienes un proyecto en mente? Contáctanos y desarrollemos juntos la solución digital perfecta para tu negocio.",
-  ogTitle: "Contacto | CODEGAHP - Desarrollo de Software",
-  ogDescription:
-    "Escríbenos y comienza tu proyecto de desarrollo de software con nosotros.",
+  title: t("seo.title"),
+  description: t("seo.description"),
+  ogTitle: t("seo.ogTitle"),
+  ogDescription: t("seo.ogDescription"),
 });
 
 const isVisible = ref(false);
@@ -52,30 +53,26 @@ onMounted(() => {
 const faqs = ref([
   {
     icon: Clock,
-    question: "¿Cuánto tiempo toma desarrollar un proyecto?",
-    answer:
-      "Depende del alcance. Proyectos pequeños: 2-4 semanas. Sistemas empresariales: 2-6 meses. Siempre con cronogramas claros desde el inicio.",
+    question: t("faq.q1"),
+    answer: t("faq.a1"),
     isOpen: false,
   },
   {
     icon: Code2,
-    question: "¿Qué tecnologías utilizan?",
-    answer:
-      "Vue.js, Nuxt, React, Node.js, PHP/Laravel, Java, Python, PostgreSQL y más. Elegimos la mejor stack según tu proyecto.",
+    question: t("faq.q2"),
+    answer: t("faq.a2"),
     isOpen: false,
   },
   {
     icon: Wrench,
-    question: "¿Ofrecen mantenimiento post-lanzamiento?",
-    answer:
-      "¡Sí! Planes de mantenimiento con actualizaciones de seguridad, corrección de bugs y mejoras continuas.",
+    question: t("faq.q3"),
+    answer: t("faq.a3"),
     isOpen: false,
   },
   {
     icon: Users,
-    question: "¿Trabajan con empresas de cualquier tamaño?",
-    answer:
-      "Startups, PyMEs y grandes empresas. Adaptamos metodología y soluciones a cada cliente.",
+    question: t("faq.q4"),
+    answer: t("faq.a4"),
     isOpen: false,
   },
 ]);
@@ -131,7 +128,11 @@ const form = ref({
 });
 
 const buildBody = () =>
-  `Hola CODEGAHP, soy ${form.value.name}.\n\n${form.value.message}\n\nMi correo: ${form.value.email}`;
+  t("whatsappBody", {
+    name: form.value.name,
+    message: form.value.message,
+    email: form.value.email,
+  });
 
 // Envío real al microservicio (POST /email/send). Estados para la UI.
 const { sendContactMessage } = useBackend();
@@ -152,8 +153,7 @@ const submitContact = async () => {
     sent.value = true;
     form.value = { name: "", email: "", message: "" };
   } catch {
-    errorMsg.value =
-      "No pudimos enviar tu mensaje en este momento. Intenta de nuevo o escríbenos por WhatsApp.";
+    errorMsg.value = t("form.error");
   } finally {
     sending.value = false;
   }
@@ -177,12 +177,11 @@ const submitByWhatsApp = () => {
           <h1
             class="inline-block text-primary font-semibold text-sm uppercase tracking-widest mb-3"
           >
-            Contáctanos
+            {{ t("header.eyebrow") }}
           </h1>
-   
+
           <p class="text-lg text-slate-600 dark:text-slate-400">
-            Cuéntanos tu proyecto. Elige el canal que prefieras — respondemos en
-            menos de 24 h.
+            {{ t("header.subtitle") }}
           </p>
         </div>
 
@@ -212,10 +211,9 @@ const submitByWhatsApp = () => {
             ></div>
 
             <div class="relative flex flex-col h-full">
-              <h2 class="text-2xl font-bold mb-2">Hablemos</h2>
+              <h2 class="text-2xl font-bold mb-2">{{ t("panel.title") }}</h2>
               <p class="text-emerald-50/80 leading-relaxed mb-8">
-                Escríbenos por el medio que más te acomode. Un humano te
-                responde, sin bots ni formularios eternos.
+                {{ t("panel.desc") }}
               </p>
 
               <div class="space-y-4">
@@ -232,7 +230,9 @@ const submitByWhatsApp = () => {
                     <span class="block text-sm font-semibold"
                       >contacto@codegahp.com</span
                     >
-                    <span class="block text-xs text-emerald-100/70">Correo</span>
+                    <span class="block text-xs text-emerald-100/70">{{
+                      t("contact.emailLabel")
+                    }}</span>
                   </span>
                 </a>
                 <a
@@ -248,9 +248,9 @@ const submitByWhatsApp = () => {
                     <span class="block text-sm font-semibold"
                       >+52 938 106 5606</span
                     >
-                    <span class="block text-xs text-emerald-100/70"
-                      >Teléfono</span
-                    >
+                    <span class="block text-xs text-emerald-100/70">{{
+                      t("contact.phoneLabel")
+                    }}</span>
                   </span>
                 </a>
                 <div class="flex items-center gap-3">
@@ -260,10 +260,12 @@ const submitByWhatsApp = () => {
                     <MapPin class="w-5 h-5" />
                   </span>
                   <span>
-                    <span class="block text-sm font-semibold"
-                      >Ciudad del Carmen, Campeche</span
-                    >
-                    <span class="block text-xs text-emerald-100/70">México</span>
+                    <span class="block text-sm font-semibold">{{
+                      t("location.city")
+                    }}</span>
+                    <span class="block text-xs text-emerald-100/70">{{
+                      t("location.country")
+                    }}</span>
                   </span>
                 </div>
               </div>
@@ -272,7 +274,7 @@ const submitByWhatsApp = () => {
                 <p
                   class="text-xs uppercase tracking-widest text-emerald-100/70 mb-3"
                 >
-                  Síguenos
+                  {{ t("social.follow") }}
                 </p>
                 <div class="flex flex-wrap gap-2.5">
                   <Button
@@ -312,9 +314,9 @@ const submitByWhatsApp = () => {
               </div>
               <div>
                 <h2 class="text-lg font-bold text-slate-900 dark:text-white">
-                  Envíanos un mensaje
+                  {{ t("form.title") }}
                 </h2>
-                <p class="text-sm text-slate-500">Te respondemos en 24 h</p>
+                <p class="text-sm text-slate-500">{{ t("form.subtitle") }}</p>
               </div>
             </div>
 
@@ -325,7 +327,7 @@ const submitByWhatsApp = () => {
                     for="contacto-nombre"
                     class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
                   >
-                    Nombre completo
+                    {{ t("form.nameLabel") }}
                   </label>
                   <input
                     id="contacto-nombre"
@@ -333,7 +335,7 @@ const submitByWhatsApp = () => {
                     type="text"
                     required
                     autocomplete="name"
-                    placeholder="Tu nombre"
+                    :placeholder="t('form.namePlaceholder')"
                     class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:bg-white dark:focus:bg-slate-800 outline-none transition-all"
                   />
                 </div>
@@ -342,7 +344,7 @@ const submitByWhatsApp = () => {
                     for="contacto-email"
                     class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
                   >
-                    Email
+                    {{ t("form.emailLabel") }}
                   </label>
                   <input
                     id="contacto-email"
@@ -350,7 +352,7 @@ const submitByWhatsApp = () => {
                     type="email"
                     required
                     autocomplete="email"
-                    placeholder="tu@email.com"
+                    :placeholder="t('form.emailPlaceholder')"
                     class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:bg-white dark:focus:bg-slate-800 outline-none transition-all"
                   />
                 </div>
@@ -361,14 +363,14 @@ const submitByWhatsApp = () => {
                   for="contacto-mensaje"
                   class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
                 >
-                  Cuéntanos sobre tu proyecto
+                  {{ t("form.messageLabel") }}
                 </label>
                 <textarea
                   id="contacto-mensaje"
                   v-model="form.message"
                   rows="5"
                   required
-                  placeholder="Describe brevemente tu idea, el problema que quieres resolver, o las tecnologías que te interesan..."
+                  :placeholder="t('form.messagePlaceholder')"
                   class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:bg-white dark:focus:bg-slate-800 outline-none transition-all resize-none"
                 ></textarea>
               </div>
@@ -387,7 +389,7 @@ const submitByWhatsApp = () => {
                     aria-hidden="true"
                   />
                   <Send v-else class="w-5 h-5" aria-hidden="true" />
-                  {{ sending ? "Enviando…" : "Enviar mensaje" }}
+                  {{ sending ? t("form.sending") : t("form.submit") }}
                 </Button>
                 <Button
                   variant="bare"
@@ -407,7 +409,7 @@ const submitByWhatsApp = () => {
                 class="flex items-center gap-2 text-sm font-medium text-primary bg-primary/10 border border-primary/20 rounded-xl px-4 py-3"
               >
                 <CheckCircle2 class="w-5 h-5 shrink-0" aria-hidden="true" />
-                ¡Mensaje enviado! Te responderemos a tu correo muy pronto.
+                {{ t("form.success") }}
               </p>
               <!-- Error -->
               <p
@@ -443,11 +445,10 @@ const submitByWhatsApp = () => {
             <h3
               class="font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors"
             >
-              ¿Prefieres respuesta al instante?
+              {{ t("assistant.title") }}
             </h3>
             <p class="text-sm text-slate-500 dark:text-slate-400">
-              Pregúntale al asistente sobre precios, tiempos y proceso — 24/7,
-              sin registro.
+              {{ t("assistant.desc") }}
             </p>
           </div>
           <span
@@ -472,12 +473,12 @@ const submitByWhatsApp = () => {
               class="inline-flex items-center gap-2 text-primary font-semibold text-sm uppercase tracking-widest mb-4"
             >
               <HelpCircle class="w-4 h-4" />
-              FAQ
+              {{ t("faq.badge") }}
             </span>
             <h2
               class="text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white"
             >
-              Preguntas Frecuentes
+              {{ t("faq.title") }}
             </h2>
           </div>
 
@@ -564,3 +565,124 @@ const submitByWhatsApp = () => {
   }
 }
 </style>
+
+<i18n lang="json">
+{
+  "es": {
+    "seo": {
+      "title": "Contacto - CODEGAHP | Habla con Nosotros",
+      "description": "¿Tienes un proyecto en mente? Contáctanos y desarrollemos juntos la solución digital perfecta para tu negocio.",
+      "ogTitle": "Contacto | CODEGAHP - Desarrollo de Software",
+      "ogDescription": "Escríbenos y comienza tu proyecto de desarrollo de software con nosotros."
+    },
+    "header": {
+      "eyebrow": "Contáctanos",
+      "subtitle": "Cuéntanos tu proyecto. Elige el canal que prefieras — respondemos en menos de 24 h."
+    },
+    "panel": {
+      "title": "Hablemos",
+      "desc": "Escríbenos por el medio que más te acomode. Un humano te responde, sin bots ni formularios eternos."
+    },
+    "contact": {
+      "emailLabel": "Correo",
+      "phoneLabel": "Teléfono"
+    },
+    "location": {
+      "city": "Ciudad del Carmen, Campeche",
+      "country": "México"
+    },
+    "social": {
+      "follow": "Síguenos"
+    },
+    "form": {
+      "title": "Envíanos un mensaje",
+      "subtitle": "Te respondemos en 24 h",
+      "nameLabel": "Nombre completo",
+      "namePlaceholder": "Tu nombre",
+      "emailLabel": "Email",
+      "emailPlaceholder": "tu{'@'}email.com",
+      "messageLabel": "Cuéntanos sobre tu proyecto",
+      "messagePlaceholder": "Describe brevemente tu idea, el problema que quieres resolver, o las tecnologías que te interesan...",
+      "submit": "Enviar mensaje",
+      "sending": "Enviando…",
+      "success": "¡Mensaje enviado! Te responderemos a tu correo muy pronto.",
+      "error": "No pudimos enviar tu mensaje en este momento. Intenta de nuevo o escríbenos por WhatsApp."
+    },
+    "assistant": {
+      "title": "¿Prefieres respuesta al instante?",
+      "desc": "Pregúntale al asistente sobre precios, tiempos y proceso — 24/7, sin registro."
+    },
+    "faq": {
+      "badge": "FAQ",
+      "title": "Preguntas Frecuentes",
+      "q1": "¿Cuánto tiempo toma desarrollar un proyecto?",
+      "a1": "Depende del alcance. Proyectos pequeños: 2-4 semanas. Sistemas empresariales: 2-6 meses. Siempre con cronogramas claros desde el inicio.",
+      "q2": "¿Qué tecnologías utilizan?",
+      "a2": "Vue.js, Nuxt, React, Node.js, PHP/Laravel, Java, Python, PostgreSQL y más. Elegimos la mejor stack según tu proyecto.",
+      "q3": "¿Ofrecen mantenimiento post-lanzamiento?",
+      "a3": "¡Sí! Planes de mantenimiento con actualizaciones de seguridad, corrección de bugs y mejoras continuas.",
+      "q4": "¿Trabajan con empresas de cualquier tamaño?",
+      "a4": "Startups, PyMEs y grandes empresas. Adaptamos metodología y soluciones a cada cliente."
+    },
+    "whatsappBody": "Hola CODEGAHP, soy {name}.\n\n{message}\n\nMi correo: {email}"
+  },
+  "en": {
+    "seo": {
+      "title": "Contact - CODEGAHP | Talk to Us",
+      "description": "Have a project in mind? Get in touch and let's build the perfect digital solution for your business together.",
+      "ogTitle": "Contact | CODEGAHP - Software Development",
+      "ogDescription": "Write to us and start your software development project with us."
+    },
+    "header": {
+      "eyebrow": "Contact Us",
+      "subtitle": "Tell us about your project. Pick the channel you prefer — we reply in under 24 h."
+    },
+    "panel": {
+      "title": "Let's talk",
+      "desc": "Reach out through whatever channel suits you best. A real person replies — no bots, no endless forms."
+    },
+    "contact": {
+      "emailLabel": "Email",
+      "phoneLabel": "Phone"
+    },
+    "location": {
+      "city": "Ciudad del Carmen, Campeche",
+      "country": "Mexico"
+    },
+    "social": {
+      "follow": "Follow us"
+    },
+    "form": {
+      "title": "Send us a message",
+      "subtitle": "We reply within 24 h",
+      "nameLabel": "Full name",
+      "namePlaceholder": "Your name",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you{'@'}email.com",
+      "messageLabel": "Tell us about your project",
+      "messagePlaceholder": "Briefly describe your idea, the problem you want to solve, or the technologies you're interested in...",
+      "submit": "Send message",
+      "sending": "Sending…",
+      "success": "Message sent! We'll reply to your email very soon.",
+      "error": "We couldn't send your message right now. Please try again or reach us on WhatsApp."
+    },
+    "assistant": {
+      "title": "Prefer an instant answer?",
+      "desc": "Ask the assistant about pricing, timelines, and process — 24/7, no sign-up."
+    },
+    "faq": {
+      "badge": "FAQ",
+      "title": "Frequently Asked Questions",
+      "q1": "How long does it take to develop a project?",
+      "a1": "It depends on the scope. Small projects: 2-4 weeks. Enterprise systems: 2-6 months. Always with clear timelines from the start.",
+      "q2": "What technologies do you use?",
+      "a2": "Vue.js, Nuxt, React, Node.js, PHP/Laravel, Java, Python, PostgreSQL, and more. We choose the best stack for your project.",
+      "q3": "Do you offer post-launch maintenance?",
+      "a3": "Yes! Maintenance plans with security updates, bug fixes, and continuous improvements.",
+      "q4": "Do you work with companies of any size?",
+      "a4": "Startups, SMBs, and large enterprises. We adapt our methodology and solutions to each client."
+    },
+    "whatsappBody": "Hi CODEGAHP, I'm {name}.\n\n{message}\n\nMy email: {email}"
+  }
+}
+</i18n>

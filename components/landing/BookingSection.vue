@@ -15,6 +15,8 @@ import {
   AlertCircle,
 } from "lucide-vue-next";
 
+const { t, locale } = useI18n({ useScope: "local" });
+
 const isVisible = ref(false);
 
 onMounted(() => {
@@ -66,7 +68,7 @@ const timeSlots = [
   "17:00",
 ];
 
-const monthNames = [
+const monthNamesEs = [
   "Enero",
   "Febrero",
   "Marzo",
@@ -81,9 +83,34 @@ const monthNames = [
   "Diciembre",
 ];
 
-const dayNames = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
+const monthNamesEn = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 
-const currentMonth = computed(() => monthNames[currentDate.value.getMonth()]);
+const monthNames = computed(() =>
+  locale.value === "en" ? monthNamesEn : monthNamesEs,
+);
+
+const dayNamesEs = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
+const dayNamesEn = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const dayNames = computed(() =>
+  locale.value === "en" ? dayNamesEn : dayNamesEs,
+);
+
+const currentMonth = computed(
+  () => monthNames.value[currentDate.value.getMonth()],
+);
 const currentYear = computed(() => currentDate.value.getFullYear());
 
 const calendarDays = computed(() => {
@@ -168,11 +195,22 @@ const formatDateKey = (date: Date) => {
 
 const formatDisplayDate = (date: Date | null) => {
   if (!date) return "";
-  return `${date.getDate()} de ${monthNames[date.getMonth()]} ${date.getFullYear()}`;
+  const d = date.getDate();
+  const mo = monthNames.value[date.getMonth()];
+  const y = date.getFullYear();
+  return locale.value === "en" ? `${mo} ${d}, ${y}` : `${d} de ${mo} ${y}`;
+};
+
+// Día + mes en texto corto (para el resumen de la cita).
+const formatDayMonth = (date: Date | null) => {
+  if (!date) return "";
+  const d = date.getDate();
+  const mo = monthNames.value[date.getMonth()];
+  return locale.value === "en" ? `${mo} ${d}` : `${d} de ${mo}`;
 };
 
 // Día de la semana en texto (para el resumen de la cita).
-const weekdayNames = [
+const weekdayNamesEs = [
   "domingo",
   "lunes",
   "martes",
@@ -181,8 +219,20 @@ const weekdayNames = [
   "viernes",
   "sábado",
 ];
+const weekdayNamesEn = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+const weekdayNames = computed(() =>
+  locale.value === "en" ? weekdayNamesEn : weekdayNamesEs,
+);
 const formatWeekday = (date: Date | null) =>
-  date ? weekdayNames[date.getDay()] : "";
+  date ? weekdayNames.value[date.getDay()] : "";
 
 const selectDate = (day: {
   date: Date;
@@ -276,12 +326,11 @@ const submitForm = async () => {
       (e as { response?: { status?: number } })?.response?.status;
     if (status === 409) {
       // El horario se ocupó (aquí o entre que cargó y envió). Reintenta.
-      errorMsg.value = "Ese horario acaba de ocuparse. Elige otro, por favor.";
+      errorMsg.value = t("errors.slotTaken");
       selectedTime.value = null;
       await loadBusy();
     } else {
-      errorMsg.value =
-        "No pudimos agendar tu reunión ahora mismo. Intenta de nuevo o solicítala por WhatsApp.";
+      errorMsg.value = t("errors.generic");
     }
   } finally {
     sending.value = false;
@@ -291,7 +340,13 @@ const submitForm = async () => {
 // Alternativa: solicitar por WhatsApp si algo falla.
 const submitByWhatsApp = () => {
   const text = encodeURIComponent(
-    `Hola CODEGAHP, soy ${form.value.name}. Quiero agendar una videollamada el ${formatDisplayDate(selectedDate.value)} a las ${selectedTime.value} hrs.\n\nTema: ${form.value.subject}\nMi correo: ${form.value.email}`,
+    t("whatsapp.message", {
+      name: form.value.name,
+      date: formatDisplayDate(selectedDate.value),
+      time: selectedTime.value,
+      subject: form.value.subject,
+      email: form.value.email,
+    }),
   );
   window.open(`https://wa.me/529381065606?text=${text}`, "_blank", "noopener");
 };
@@ -320,17 +375,17 @@ const resetForm = () => {
           class="inline-flex items-center gap-2 text-primary font-semibold text-xs uppercase tracking-[0.2em]"
         >
           <span class="h-px w-6 bg-primary/40"></span>
-          Diagnóstico sin costo
+          {{ t("header.badge") }}
           <span class="h-px w-6 bg-primary/40"></span>
         </span>
         <h2
           class="mt-4 text-3xl md:text-4xl font-bold text-slate-900 dark:text-white"
         >
-          Agenda tu <span class="text-primary">videollamada</span>
+          {{ t("header.titleBefore") }}
+          <span class="text-primary">{{ t("header.titleHighlight") }}</span>
         </h2>
         <p class="mt-3 text-slate-600 dark:text-slate-400">
-          30 minutos para revisar tu proyecto y proponerte la mejor ruta
-          tecnológica. Tú eliges el día y la hora.
+          {{ t("header.subtitle") }}
         </p>
       </div>
 
@@ -349,17 +404,17 @@ const resetForm = () => {
             <Check class="w-8 h-8 text-primary" />
           </div>
           <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-3">
-            ¡Cita agendada!
+            {{ t("success.title") }}
           </h3>
           <p class="text-slate-600 dark:text-slate-400 mb-6">
-            Te enviamos la invitación con el enlace de la videollamada a
+            {{ t("success.sentBefore") }}
             <strong class="text-slate-900 dark:text-white">{{
               form.email
-            }}</strong>, más un recordatorio antes de la reunión.
+            }}</strong>{{ t("success.sentAfter") }}
           </p>
           <div class="rounded-xl bg-[#2f6a1e] text-white px-5 py-4 text-left">
             <p class="text-[11px] uppercase tracking-wider text-emerald-50/70">
-              Tu cita
+              {{ t("success.yourAppointment") }}
             </p>
             <p class="mt-1 text-lg font-bold">
               <span class="capitalize">{{ formatWeekday(selectedDate) }}</span>
@@ -374,7 +429,7 @@ const resetForm = () => {
             @click="resetForm"
             class="mt-6 inline-flex items-center gap-2 px-5 py-2.5 rounded-[5px] text-sm font-semibold text-primary hover:bg-primary/10 transition-colors"
           >
-            Agendar otra cita
+            {{ t("success.scheduleAnother") }}
           </Button>
         </div>
       </div>
@@ -405,10 +460,10 @@ const resetForm = () => {
               class="inline-flex items-center gap-2 text-emerald-50/90 text-xs font-semibold uppercase tracking-wider"
             >
               <Video class="w-4 h-4" />
-              Videollamada · Jitsi
+              {{ t("aside.videoLabel") }}
             </span>
             <h3 class="mt-2.5 text-2xl font-bold leading-tight">
-              Sesión de diagnóstico
+              {{ t("aside.sessionTitle") }}
             </h3>
 
             <!-- Meta compacta -->
@@ -419,10 +474,10 @@ const resetForm = () => {
                 <Clock class="w-3.5 h-3.5" /> 30 min
               </span>
               <span class="inline-flex items-center gap-1.5">
-                <Check class="w-3.5 h-3.5" /> Sin costo
+                <Check class="w-3.5 h-3.5" /> {{ t("aside.free") }}
               </span>
               <span class="inline-flex items-center gap-1.5">
-                <Calendar class="w-3.5 h-3.5" /> Lun–Vie · 9:00–17:00
+                <Calendar class="w-3.5 h-3.5" /> {{ t("aside.hours") }}
               </span>
             </div>
 
@@ -436,7 +491,7 @@ const resetForm = () => {
                 <input
                   v-model="form.name"
                   type="text"
-                  placeholder="Nombre completo"
+                  :placeholder="t('form.namePlaceholder')"
                   class="w-full pl-9 pr-3 py-2.5 rounded-lg bg-white/10 border border-white/20 text-sm text-white placeholder-white/50 focus:border-white/70 focus:ring-2 focus:ring-white/25 focus:bg-white/15 outline-none transition-all"
                 />
               </div>
@@ -448,7 +503,7 @@ const resetForm = () => {
                 <input
                   v-model="form.email"
                   type="email"
-                  placeholder="tu@correo.com"
+                  :placeholder="t('form.emailPlaceholder')"
                   class="w-full pl-9 pr-3 py-2.5 rounded-lg bg-white/10 border border-white/20 text-sm text-white placeholder-white/50 focus:border-white/70 focus:ring-2 focus:ring-white/25 focus:bg-white/15 outline-none transition-all"
                 />
               </div>
@@ -460,7 +515,7 @@ const resetForm = () => {
                 <textarea
                   v-model="form.subject"
                   rows="2"
-                  placeholder="¿De qué te gustaría hablar?"
+                  :placeholder="t('form.subjectPlaceholder')"
                   class="w-full pl-9 pr-3 py-2.5 rounded-lg bg-white/10 border border-white/20 text-sm text-white placeholder-white/50 focus:border-white/70 focus:ring-2 focus:ring-white/25 focus:bg-white/15 outline-none transition-all resize-none"
                 ></textarea>
               </div>
@@ -473,18 +528,17 @@ const resetForm = () => {
               <template v-if="selectedDate && selectedTime">
                 <span
                   class="text-[11px] uppercase tracking-wider text-emerald-50/70"
-                  >Tu cita ·
+                  >{{ t("summary.label") }}
                 </span>
                 <span class="font-semibold">
                   <span class="capitalize">{{
                     formatWeekday(selectedDate)
                   }}</span>
-                  {{ selectedDate.getDate() }} de
-                  {{ monthNames[selectedDate.getMonth()] }}, {{ selectedTime }} h
+                  {{ formatDayMonth(selectedDate) }}, {{ selectedTime }} h
                 </span>
               </template>
               <span v-else class="text-emerald-50/75">
-                Elige un día y una hora en el calendario →
+                {{ t("summary.prompt") }}
               </span>
             </div>
 
@@ -508,7 +562,7 @@ const resetForm = () => {
                 aria-hidden="true"
               />
               <Video v-else class="w-5 h-5" aria-hidden="true" />
-              {{ sending ? "Agendando…" : "Confirmar videollamada" }}
+              {{ sending ? t("form.submitting") : t("form.submit") }}
             </Button>
 
             <div
@@ -526,12 +580,11 @@ const resetForm = () => {
                 @click="submitByWhatsApp"
                 class="mt-2 font-semibold underline underline-offset-2 hover:no-underline"
               >
-                Solicitar por WhatsApp
+                {{ t("form.requestWhatsApp") }}
               </Button>
             </div>
             <p v-else class="mt-2.5 text-[11px] text-emerald-50/70">
-              Recibes el enlace de la videollamada por correo, más un
-              recordatorio antes de la reunión.
+              {{ t("form.reminderNote") }}
             </p>
           </div>
         </aside>
@@ -548,7 +601,7 @@ const resetForm = () => {
                 class="grid place-items-center w-5 h-5 rounded-full bg-primary/15 text-primary text-[11px] font-bold"
                 >1</span
               >
-              Elige el día
+              {{ t("calendar.step1") }}
             </h4>
             <div class="flex items-center gap-1">
               <span
@@ -560,7 +613,7 @@ const resetForm = () => {
                 size="free"
                 type="button"
                 @click="prevMonth"
-                aria-label="Mes anterior"
+                :aria-label="t('calendar.prevMonth')"
                 class="p-1.5 rounded-[5px] text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors [&_svg]:size-4"
               >
                 <ChevronLeft class="w-4 h-4" aria-hidden="true" />
@@ -570,7 +623,7 @@ const resetForm = () => {
                 size="free"
                 type="button"
                 @click="nextMonth"
-                aria-label="Mes siguiente"
+                :aria-label="t('calendar.nextMonth')"
                 class="p-1.5 rounded-[5px] text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors [&_svg]:size-4"
               >
                 <ChevronRight class="w-4 h-4" aria-hidden="true" />
@@ -631,11 +684,11 @@ const resetForm = () => {
           >
             <span class="inline-flex items-center gap-1.5">
               <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-              Con horarios ocupados
+              {{ t("calendar.legendBusy") }}
             </span>
             <span class="inline-flex items-center gap-1.5">
               <span class="line-through">00</span>
-              Día completo
+              {{ t("calendar.legendFull") }}
             </span>
           </div>
           </div>
@@ -662,21 +715,20 @@ const resetForm = () => {
                         class="grid place-items-center w-5 h-5 rounded-full bg-primary/15 text-primary text-[11px] font-bold"
                         >2</span
                       >
-                      Elige la hora
+                      {{ t("timePicker.title") }}
                     </h4>
                     <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                       <span class="capitalize">{{
                         formatWeekday(selectedDate)
                       }}</span>
-                      {{ selectedDate.getDate() }} de
-                      {{ monthNames[selectedDate.getMonth()] }} · 30 min
+                      {{ formatDayMonth(selectedDate) }} · 30 min
                     </p>
                   </div>
                   <Button
                     variant="bare"
                     size="free"
                     type="button"
-                    aria-label="Cerrar"
+                    :aria-label="t('timePicker.close')"
                     @click="closeTimePicker"
                     class="p-1.5 rounded-[5px] text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors [&_svg]:size-4"
                   >
@@ -705,7 +757,7 @@ const resetForm = () => {
                   </Button>
                 </div>
                 <p class="mt-2 text-[11px] text-slate-400">
-                  Los horarios tachados ya están ocupados.
+                  {{ t("timePicker.note") }}
                 </p>
               </div>
             </div>
@@ -750,3 +802,114 @@ const resetForm = () => {
   transform: scale(0.96);
 }
 </style>
+
+<i18n lang="json">
+{
+  "es": {
+    "header": {
+      "badge": "Diagnóstico sin costo",
+      "titleBefore": "Agenda tu",
+      "titleHighlight": "videollamada",
+      "subtitle": "30 minutos para revisar tu proyecto y proponerte la mejor ruta tecnológica. Tú eliges el día y la hora."
+    },
+    "success": {
+      "title": "¡Cita agendada!",
+      "sentBefore": "Te enviamos la invitación con el enlace de la videollamada a",
+      "sentAfter": ", más un recordatorio antes de la reunión.",
+      "yourAppointment": "Tu cita",
+      "scheduleAnother": "Agendar otra cita"
+    },
+    "aside": {
+      "videoLabel": "Videollamada · Jitsi",
+      "sessionTitle": "Sesión de diagnóstico",
+      "free": "Sin costo",
+      "hours": "Lun–Vie · 9:00–17:00"
+    },
+    "form": {
+      "namePlaceholder": "Nombre completo",
+      "emailPlaceholder": "tu{'@'}correo.com",
+      "subjectPlaceholder": "¿De qué te gustaría hablar?",
+      "submitting": "Agendando…",
+      "submit": "Confirmar videollamada",
+      "requestWhatsApp": "Solicitar por WhatsApp",
+      "reminderNote": "Recibes el enlace de la videollamada por correo, más un recordatorio antes de la reunión."
+    },
+    "summary": {
+      "label": "Tu cita ·",
+      "prompt": "Elige un día y una hora en el calendario →"
+    },
+    "calendar": {
+      "step1": "Elige el día",
+      "prevMonth": "Mes anterior",
+      "nextMonth": "Mes siguiente",
+      "legendBusy": "Con horarios ocupados",
+      "legendFull": "Día completo"
+    },
+    "timePicker": {
+      "title": "Elige la hora",
+      "close": "Cerrar",
+      "note": "Los horarios tachados ya están ocupados."
+    },
+    "errors": {
+      "slotTaken": "Ese horario acaba de ocuparse. Elige otro, por favor.",
+      "generic": "No pudimos agendar tu reunión ahora mismo. Intenta de nuevo o solicítala por WhatsApp."
+    },
+    "whatsapp": {
+      "message": "Hola CODEGAHP, soy {name}. Quiero agendar una videollamada el {date} a las {time} hrs.\n\nTema: {subject}\nMi correo: {email}"
+    }
+  },
+  "en": {
+    "header": {
+      "badge": "Free assessment",
+      "titleBefore": "Schedule your",
+      "titleHighlight": "video call",
+      "subtitle": "30 minutes to review your project and propose the best technology path. You pick the day and time."
+    },
+    "success": {
+      "title": "Appointment booked!",
+      "sentBefore": "We've sent the invitation with the video call link to",
+      "sentAfter": ", plus a reminder before the meeting.",
+      "yourAppointment": "Your appointment",
+      "scheduleAnother": "Book another appointment"
+    },
+    "aside": {
+      "videoLabel": "Video call · Jitsi",
+      "sessionTitle": "Diagnostic session",
+      "free": "Free",
+      "hours": "Mon–Fri · 9:00–17:00"
+    },
+    "form": {
+      "namePlaceholder": "Full name",
+      "emailPlaceholder": "you{'@'}email.com",
+      "subjectPlaceholder": "What would you like to talk about?",
+      "submitting": "Booking…",
+      "submit": "Confirm video call",
+      "requestWhatsApp": "Request via WhatsApp",
+      "reminderNote": "You'll get the video call link by email, plus a reminder before the meeting."
+    },
+    "summary": {
+      "label": "Your appointment ·",
+      "prompt": "Pick a day and time on the calendar →"
+    },
+    "calendar": {
+      "step1": "Pick the day",
+      "prevMonth": "Previous month",
+      "nextMonth": "Next month",
+      "legendBusy": "Has booked slots",
+      "legendFull": "Fully booked"
+    },
+    "timePicker": {
+      "title": "Pick the time",
+      "close": "Close",
+      "note": "Struck-through times are already booked."
+    },
+    "errors": {
+      "slotTaken": "That time was just booked. Please choose another.",
+      "generic": "We couldn't book your meeting right now. Please try again or request it via WhatsApp."
+    },
+    "whatsapp": {
+      "message": "Hi CODEGAHP, I'm {name}. I'd like to schedule a video call on {date} at {time} hrs.\n\nTopic: {subject}\nMy email: {email}"
+    }
+  }
+}
+</i18n>

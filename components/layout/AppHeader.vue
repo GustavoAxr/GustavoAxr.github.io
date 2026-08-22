@@ -2,6 +2,8 @@
 import ThemeToggle from "~/components/ThemeToggle.vue";
 import { ChevronDown, Calculator, Lightbulb } from "lucide-vue-next";
 const { servicesMenu } = useServices();
+const { t, locale } = useI18n({ useScope: "local" });
+const switchLocalePath = useSwitchLocalePath();
 
 // Estado para el menú móvil y acordeón
 const isMobileMenuOpen = ref(false);
@@ -24,7 +26,7 @@ const isMobileServicesOpen = ref(false);
       class="container mx-auto px-6 h-20 flex items-center justify-between relative"
     >
       <!-- Logo con imagen real -->
-      <NuxtLink to="/" class="flex items-center gap-3 group">
+      <NuxtLinkLocale to="/" class="flex items-center gap-3 group">
         <div class="relative w-10 h-10 flex items-center justify-center">
           <img
             src="~/assets/img/logo-code.svg"
@@ -40,45 +42,45 @@ const isMobileServicesOpen = ref(false);
           <span class="text-slate-600 dark:text-slate-300">CODE</span
           ><span class="text-primary">GAHP</span>
         </span>
-      </NuxtLink>
+      </NuxtLinkLocale>
 
       <!-- Navegación Desktop -->
       <nav class="hidden md:flex items-center gap-1">
-        <NuxtLink
+        <NuxtLinkLocale
           to="/"
           exact-active-class="!text-primary-dark dark:!text-primary bg-primary/10 dark:bg-primary/20"
           class="relative px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary transition-colors rounded-lg group"
         >
-          <span class="relative z-10">Inicio</span>
+          <span class="relative z-10">{{ t("nav.home") }}</span>
           <span
             class="absolute inset-0 bg-primary/5 dark:bg-primary/10 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"
           ></span>
-        </NuxtLink>
-        <NuxtLink
+        </NuxtLinkLocale>
+        <NuxtLinkLocale
           to="/proyectos"
           active-class="!text-primary-dark dark:!text-primary bg-primary/10 dark:bg-primary/20"
           class="relative px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary transition-colors rounded-lg group"
         >
-          <span class="relative z-10">Proyectos</span>
+          <span class="relative z-10">{{ t("nav.projects") }}</span>
           <span
             class="absolute inset-0 bg-primary/5 dark:bg-primary/10 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"
           ></span>
-        </NuxtLink>
+        </NuxtLinkLocale>
         <!-- Servicios Mega Menu Trigger -->
         <div class="group relative">
-          <NuxtLink
+          <NuxtLinkLocale
             to="/servicios"
             active-class="!text-primary-dark dark:!text-primary bg-primary/10 dark:bg-primary/20"
             class="relative px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 group-hover:text-primary transition-colors rounded-lg flex items-center gap-1"
           >
-            <span class="relative z-10">Servicios</span>
+            <span class="relative z-10">{{ t("nav.services") }}</span>
             <ChevronDown
               class="w-4 h-4 transition-transform duration-300 group-hover:rotate-180"
             />
             <span
               class="absolute inset-0 bg-primary/5 dark:bg-primary/10 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300 z-0"
             ></span>
-          </NuxtLink>
+          </NuxtLinkLocale>
 
           <!-- Mega Menu Dropdown -->
           <div
@@ -101,7 +103,7 @@ const isMobileServicesOpen = ref(false);
                     {{ category.category }}
                   </h3>
                   <div class="space-y-4">
-                    <NuxtLink
+                    <NuxtLinkLocale
                       v-for="(item, itemIdx) in category.items"
                       :key="itemIdx"
                       :to="item.to"
@@ -132,7 +134,7 @@ const isMobileServicesOpen = ref(false);
                           {{ item.desc }}
                         </p>
                       </div>
-                    </NuxtLink>
+                    </NuxtLinkLocale>
                   </div>
                 </div>
               </div>
@@ -141,7 +143,7 @@ const isMobileServicesOpen = ref(false);
               <div
                 class="grid grid-cols-2 gap-px bg-slate-100 dark:bg-slate-800 border-t border-slate-100 dark:border-slate-800"
               >
-                <NuxtLink
+                <NuxtLinkLocale
                   to="/contacto"
                   class="bg-gradient-to-br from-slate-900 to-slate-950 p-6 flex items-center justify-between group cursor-pointer hover:from-slate-800 hover:to-slate-900 transition-all"
                 >
@@ -153,10 +155,10 @@ const isMobileServicesOpen = ref(false);
                     </div>
                     <div>
                       <p class="font-semibold text-white text-sm">
-                        Cotiza tu proyecto
+                        {{ t("mega.quoteTitle") }}
                       </p>
                       <p class="text-xs text-slate-400">
-                        Obtén una estimación rápida.
+                        {{ t("mega.quoteDesc") }}
                       </p>
                     </div>
                   </div>
@@ -173,8 +175,8 @@ const isMobileServicesOpen = ref(false);
                       d="M17 8l4 4m0 0l-4 4m4-4H3"
                     ></path>
                   </svg>
-                </NuxtLink>
-                <NuxtLink
+                </NuxtLinkLocale>
+                <NuxtLinkLocale
                   to="/#booking-section"
                   class="bg-gradient-to-br from-slate-900 to-slate-950 p-6 flex items-center justify-between group cursor-pointer hover:from-slate-800 hover:to-slate-900 transition-all border-l border-slate-800"
                 >
@@ -186,10 +188,10 @@ const isMobileServicesOpen = ref(false);
                     </div>
                     <div>
                       <p class="font-semibold text-white text-sm">
-                        Asesoría sin costo
+                        {{ t("mega.adviceTitle") }}
                       </p>
                       <p class="text-xs text-slate-400">
-                        Agenda una videollamada.
+                        {{ t("mega.adviceDesc") }}
                       </p>
                     </div>
                   </div>
@@ -206,44 +208,69 @@ const isMobileServicesOpen = ref(false);
                       d="M17 8l4 4m0 0l-4 4m4-4H3"
                     ></path>
                   </svg>
-                </NuxtLink>
+                </NuxtLinkLocale>
               </div>
             </div>
           </div>
         </div>
-        <NuxtLink
+        <NuxtLinkLocale
           to="/contacto"
           active-class="!text-primary-dark dark:!text-primary bg-primary/10 dark:bg-primary/20"
           class="relative px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary transition-colors rounded-lg group"
         >
-          <span class="relative z-10">Contacto</span>
+          <span class="relative z-10">{{ t("nav.contact") }}</span>
           <span
             class="absolute inset-0 bg-primary/5 dark:bg-primary/10 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"
           ></span>
-        </NuxtLink>
-        <NuxtLink
+        </NuxtLinkLocale>
+        <NuxtLinkLocale
           to="/sobre-mi"
           active-class="!text-primary-dark dark:!text-primary bg-primary/10 dark:bg-primary/20"
           class="relative px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary transition-colors rounded-lg group"
         >
-          <span class="relative z-10">Sobre mí</span>
+          <span class="relative z-10">{{ t("nav.about") }}</span>
           <span
             class="absolute inset-0 bg-primary/5 dark:bg-primary/10 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"
           ></span>
-        </NuxtLink>
+        </NuxtLinkLocale>
       </nav>
 
       <!-- Acciones del header y Menú Hamburguesa -->
       <div class="flex items-center gap-3">
+        <!-- Selector de idioma ES / EN -->
+        <div
+          class="flex items-center gap-1 text-xs font-semibold tracking-wide"
+        >
+          <NuxtLink
+            :to="switchLocalePath('es')"
+            :class="
+              locale === 'es'
+                ? 'text-primary'
+                : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
+            "
+            >ES</NuxtLink
+          >
+          <span class="text-slate-300 dark:text-slate-600">/</span>
+          <NuxtLink
+            :to="switchLocalePath('en')"
+            :class="
+              locale === 'en'
+                ? 'text-primary'
+                : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
+            "
+            >EN</NuxtLink
+          >
+        </div>
+
         <ThemeToggle />
 
         <!-- Botón CTA Desktop -->
         <Button as-child variant="bare" size="free">
-          <NuxtLink
+          <NuxtLinkLocale
             to="/contacto"
             class="hidden md:flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-semibold rounded-[5px] shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:scale-105 transition-all duration-300"
           >
-            <span>Hablemos</span>
+            <span>{{ t("cta") }}</span>
             <svg
               class="w-4 h-4"
               fill="none"
@@ -257,7 +284,7 @@ const isMobileServicesOpen = ref(false);
                 d="M17 8l4 4m0 0l-4 4m4-4H3"
               ></path>
             </svg>
-          </NuxtLink>
+          </NuxtLinkLocale>
         </Button>
 
         <!-- Botón Menú Móvil -->
@@ -267,7 +294,7 @@ const isMobileServicesOpen = ref(false);
           type="button"
           @click="isMobileMenuOpen = !isMobileMenuOpen"
           class="md:hidden p-2 rounded-[5px] text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors [&_svg]:size-6"
-          :aria-label="isMobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'"
+          :aria-label="isMobileMenuOpen ? t('menuClose') : t('menuOpen')"
           :aria-expanded="isMobileMenuOpen"
         >
           <svg
@@ -308,22 +335,22 @@ const isMobileServicesOpen = ref(false);
       class="absolute top-20 left-0 w-full h-[calc(100vh-80px)] bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl md:hidden flex flex-col p-6 animate-fade-in-down border-t border-slate-200 dark:border-slate-800"
     >
       <nav class="flex flex-col gap-4 text-center">
-        <NuxtLink
+        <NuxtLinkLocale
           to="/"
           @click="isMobileMenuOpen = false"
           exact-active-class="text-primary bg-primary/10"
           class="text-xl font-medium py-4 rounded-xl text-slate-700 dark:text-slate-200 hover:text-primary transition-colors"
         >
-          Inicio
-        </NuxtLink>
-        <NuxtLink
+          {{ t("nav.home") }}
+        </NuxtLinkLocale>
+        <NuxtLinkLocale
           to="/proyectos"
           @click="isMobileMenuOpen = false"
           active-class="text-primary bg-primary/10"
           class="text-xl font-medium py-4 rounded-xl text-slate-700 dark:text-slate-200 hover:text-primary transition-colors"
         >
-          Proyectos
-        </NuxtLink>
+          {{ t("nav.projects") }}
+        </NuxtLinkLocale>
         <!-- Servicios Accordion Mobile -->
         <div class="flex flex-col">
           <Button
@@ -334,7 +361,7 @@ const isMobileServicesOpen = ref(false);
             class="text-xl font-medium py-4 rounded-[5px] text-slate-700 dark:text-slate-200 hover:text-primary transition-colors flex items-center justify-center gap-2 [&_svg]:size-5"
             :class="{ 'text-primary bg-primary/10': isMobileServicesOpen }"
           >
-            Servicios
+            {{ t("nav.services") }}
             <ChevronDown
               :class="[
                 'w-5 h-5 transition-transform duration-300',
@@ -354,7 +381,7 @@ const isMobileServicesOpen = ref(false);
                 {{ category.category }}
               </h3>
               <div class="space-y-3">
-                <NuxtLink
+                <NuxtLinkLocale
                   v-for="(item, itemIdx) in category.items"
                   :key="itemIdx"
                   :to="item.to"
@@ -369,37 +396,37 @@ const isMobileServicesOpen = ref(false);
                     class="text-sm font-medium text-slate-700 dark:text-slate-200"
                     >{{ item.title }}</span
                   >
-                </NuxtLink>
+                </NuxtLinkLocale>
               </div>
             </div>
           </div>
         </div>
-        <NuxtLink
+        <NuxtLinkLocale
           to="/contacto"
           @click="isMobileMenuOpen = false"
           active-class="text-primary bg-primary/10"
           class="text-xl font-medium py-4 rounded-xl text-slate-700 dark:text-slate-200 hover:text-primary transition-colors"
         >
-          Contacto
-        </NuxtLink>
-        <NuxtLink
+          {{ t("nav.contact") }}
+        </NuxtLinkLocale>
+        <NuxtLinkLocale
           to="/sobre-mi"
           @click="isMobileMenuOpen = false"
           active-class="text-primary bg-primary/10"
           class="text-xl font-medium py-4 rounded-xl text-slate-700 dark:text-slate-200 hover:text-primary transition-colors"
         >
-          Sobre mí
-        </NuxtLink>
+          {{ t("nav.about") }}
+        </NuxtLinkLocale>
 
         <div class="h-px bg-slate-200 dark:bg-slate-800 my-2"></div>
 
         <Button as-child variant="bare" size="free" class="[&_svg]:size-5">
-          <NuxtLink
+          <NuxtLinkLocale
             to="/contacto"
             @click="isMobileMenuOpen = false"
             class="flex items-center justify-center gap-2 px-6 py-4 bg-primary text-white text-lg font-bold rounded-[5px] shadow-lg shadow-primary/25 mt-2"
           >
-            <span>Hablemos</span>
+            <span>{{ t("cta") }}</span>
             <svg
               class="w-5 h-5"
               fill="none"
@@ -413,9 +440,50 @@ const isMobileServicesOpen = ref(false);
                 d="M17 8l4 4m0 0l-4 4m4-4H3"
               ></path>
             </svg>
-          </NuxtLink>
+          </NuxtLinkLocale>
         </Button>
       </nav>
     </div>
   </header>
 </template>
+
+<i18n lang="json">
+{
+  "es": {
+    "nav": {
+      "home": "Inicio",
+      "projects": "Proyectos",
+      "services": "Servicios",
+      "contact": "Contacto",
+      "about": "Sobre mí"
+    },
+    "cta": "Hablemos",
+    "mega": {
+      "quoteTitle": "Cotiza tu proyecto",
+      "quoteDesc": "Obtén una estimación rápida.",
+      "adviceTitle": "Asesoría sin costo",
+      "adviceDesc": "Agenda una videollamada."
+    },
+    "menuOpen": "Abrir menú",
+    "menuClose": "Cerrar menú"
+  },
+  "en": {
+    "nav": {
+      "home": "Home",
+      "projects": "Projects",
+      "services": "Services",
+      "contact": "Contact",
+      "about": "About"
+    },
+    "cta": "Let's talk",
+    "mega": {
+      "quoteTitle": "Get a quote",
+      "quoteDesc": "Get a quick estimate.",
+      "adviceTitle": "Free consultation",
+      "adviceDesc": "Book a video call."
+    },
+    "menuOpen": "Open menu",
+    "menuClose": "Close menu"
+  }
+}
+</i18n>

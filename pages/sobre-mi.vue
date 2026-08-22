@@ -2,11 +2,12 @@
 import { ref, onMounted } from "vue";
 import { ArrowUpRight } from "lucide-vue-next";
 
+const { t } = useI18n({ useScope: "local" });
+
 // Usa el layout por defecto (header + footer + chat de CODEGAHP).
 useSeoMeta({
-  title: "Sobre mí - CODEGAHP",
-  description:
-    "Gustavo Herrera — desarrollador de software y fundador de CODEGAHP en Ciudad del Carmen, Campeche.",
+  title: () => t("seo.title"),
+  description: () => t("seo.description"),
 });
 
 // Fuente Inter solo para esta vista.
@@ -69,7 +70,7 @@ onMounted(() => {
           class="a-up inline-block text-[10px] font-semibold uppercase tracking-[0.3em] text-black/70 dark:text-white/70"
           :style="{ animationDelay: '0.1s' }"
         >
-          Sobre mí
+          {{ t("kicker") }}
         </span>
       </div>
 
@@ -109,19 +110,19 @@ onMounted(() => {
             class="a-up max-w-[150px] text-[10px] font-semibold uppercase tracking-widest sm:max-w-[190px] sm:text-xs md:max-w-xs md:text-sm"
             :style="{ animationDelay: '0.6s' }"
           >
-            Desarrollador de software <br />
-            Fundador de CODEGAHP <br />
-            Cd. del Carmen, Campeche
+            {{ t("role") }} <br />
+            {{ t("founder") }} <br />
+            {{ t("location") }}
           </p>
 
-          <NuxtLink
+          <NuxtLinkLocale
             to="/contacto"
             class="a-up flex items-center gap-1 whitespace-nowrap text-base font-semibold text-[#5E0ED7] dark:text-[#a78bfa] sm:text-xl md:text-2xl"
             :style="{ animationDelay: '0.72s' }"
           >
-            Trabajemos juntos
+            {{ t("cta") }}
             <ArrowUpRight class="h-[18px] w-[18px] sm:h-[22px] sm:w-[22px]" />
-          </NuxtLink>
+          </NuxtLinkLocale>
         </div>
 
         <div class="flex items-end justify-between gap-3 sm:gap-4">
@@ -129,9 +130,7 @@ onMounted(() => {
             class="a-up w-[140px] shrink-0 text-left text-[9px] font-semibold uppercase tracking-widest sm:w-[200px] sm:text-xs md:w-[320px] md:text-right md:text-sm"
             :style="{ animationDelay: '0.84s' }"
           >
-            Construyo software a la medida —sitios, apps y automatización— que
-            aguanta el trabajo real. Creador de LIDIA, la app de trazabilidad
-            ganadera.
+            {{ t("bio") }}
           </p>
 
           <h1 class="text-right">
@@ -184,3 +183,32 @@ onMounted(() => {
   }
 }
 </style>
+
+<i18n lang="json">
+{
+  "es": {
+    "kicker": "Sobre mí",
+    "role": "Desarrollador de software",
+    "founder": "Fundador de CODEGAHP",
+    "location": "Cd. del Carmen, Campeche",
+    "cta": "Trabajemos juntos",
+    "bio": "Construyo software a la medida —sitios, apps y automatización— que aguanta el trabajo real. Creador de LIDIA, la app de trazabilidad ganadera.",
+    "seo": {
+      "title": "Sobre mí - CODEGAHP",
+      "description": "Gustavo Herrera — desarrollador de software y fundador de CODEGAHP en Ciudad del Carmen, Campeche."
+    }
+  },
+  "en": {
+    "kicker": "About me",
+    "role": "Software developer",
+    "founder": "Founder of CODEGAHP",
+    "location": "Cd. del Carmen, Campeche",
+    "cta": "Let's work together",
+    "bio": "I build custom software —websites, apps and automation— that holds up to real work. Creator of LIDIA, the livestock traceability app.",
+    "seo": {
+      "title": "About me - CODEGAHP",
+      "description": "Gustavo Herrera — software developer and founder of CODEGAHP in Ciudad del Carmen, Campeche."
+    }
+  }
+}
+</i18n>

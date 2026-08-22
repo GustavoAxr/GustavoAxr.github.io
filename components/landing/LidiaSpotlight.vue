@@ -13,6 +13,8 @@ import {
   ShieldCheck,
 } from "lucide-vue-next";
 
+const { t } = useI18n({ useScope: "local" });
+
 const isVisible = ref(false);
 let observer: IntersectionObserver | null = null;
 
@@ -39,40 +41,40 @@ onUnmounted(() => observer?.disconnect());
 const features = [
   {
     icon: WifiOff,
-    title: "Funciona sin señal",
-    desc: "Captura en el potrero y se sincroniza sola al reconectar.",
+    title: t("features.offline.title"),
+    desc: t("features.offline.desc"),
   },
   {
     icon: ClipboardList,
-    title: "Padrón e inventario",
-    desc: "Aretes SINIIGA, pesos, fotos y categorías siempre al día.",
+    title: t("features.registry.title"),
+    desc: t("features.registry.desc"),
   },
   {
     icon: Syringe,
-    title: "Sanidad",
-    desc: "Campañas de vacunación y tratamientos con su MVZ y cédula.",
+    title: t("features.health.title"),
+    desc: t("features.health.desc"),
   },
   {
     icon: Baby,
-    title: "Reproducción",
-    desc: "El parto crea al becerro y actualiza a la madre en un paso.",
+    title: t("features.breeding.title"),
+    desc: t("features.breeding.desc"),
   },
   {
     icon: QrCode,
-    title: "Compra-venta con QR",
-    desc: "Trato firmado entre dos teléfonos, con comprobante PDF.",
+    title: t("features.trade.title"),
+    desc: t("features.trade.desc"),
   },
   {
     icon: Siren,
-    title: "Alertas de robo",
-    desc: "Aviso push a los ganaderos de tu municipio al instante.",
+    title: t("features.theft.title"),
+    desc: t("features.theft.desc"),
   },
 ];
 
 const stats = [
-  { icon: WifiOff, value: "100%", label: "de la captura, sin internet" },
-  { icon: ShieldCheck, value: "2,463", label: "municipios en alertas de robo" },
-  { icon: Smartphone, value: "iOS + Android", label: "una sola app" },
+  { icon: WifiOff, value: "100%", label: t("stats.offline") },
+  { icon: ShieldCheck, value: "2,463", label: t("stats.municipalities") },
+  { icon: Smartphone, value: "iOS + Android", label: t("stats.oneApp") },
 ];
 </script>
 
@@ -104,11 +106,7 @@ const stats = [
 
           LIDIA
         </span>
-          
-          , la app que
-      
-            aguanta el campo
-         
+          {{ t("tagline") }}
         </h2>
         
       </div>
@@ -150,7 +148,7 @@ const stats = [
                 />
                 <img
                   src="/img/lidia/pantalla-dashboard.jpg"
-                  alt="Pantalla principal de LIDIA con el padrón de ganado"
+                  :alt="t('dashboardAlt')"
                   width="739"
                   height="1600"
                   loading="lazy"
@@ -164,7 +162,7 @@ const stats = [
               class="absolute left-2 bottom-2 flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white/90 dark:bg-slate-800/90 backdrop-blur border border-slate-200 dark:border-slate-700 shadow-lg text-xs font-semibold text-slate-700 dark:text-slate-200 z-10"
             >
               <WifiOff class="w-3.5 h-3.5 text-primary" />
-              Sin señal · Guardado ✓
+              {{ t("chip") }}
             </div>
           </div>
         </div>
@@ -200,18 +198,18 @@ const stats = [
               class="inline-flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400"
             >
               <Truck class="w-4 h-4 text-primary" />
-              …y también movilizaciones REEMO y genealogía.
+              {{ t("more") }}
             </span>
           </div>
 
           <Button as-child variant="bare" size="free" class="[&_svg]:size-5">
-            <NuxtLink
+            <NuxtLinkLocale
               to="/servicios/lidia"
               class="mt-6 group inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 h-12 rounded-[5px] bg-primary hover:bg-primary-dark text-white dark:text-slate-950 font-bold shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all"
             >
-              Conoce LIDIA a fondo
+              {{ t("cta") }}
               <ArrowRight class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </NuxtLink>
+            </NuxtLinkLocale>
           </Button>
         </div>
       </div>
@@ -226,3 +224,84 @@ const stats = [
     </div>
   </section>
 </template>
+
+<i18n lang="json">
+{
+  "es": {
+    "tagline": ", la app que aguanta el campo",
+    "chip": "Sin señal · Guardado ✓",
+    "dashboardAlt": "Pantalla principal de LIDIA con el padrón de ganado",
+    "more": "…y también movilizaciones REEMO y genealogía.",
+    "cta": "Conoce LIDIA a fondo",
+    "features": {
+      "offline": {
+        "title": "Funciona sin señal",
+        "desc": "Captura en el potrero y se sincroniza sola al reconectar."
+      },
+      "registry": {
+        "title": "Padrón e inventario",
+        "desc": "Aretes SINIIGA, pesos, fotos y categorías siempre al día."
+      },
+      "health": {
+        "title": "Sanidad",
+        "desc": "Campañas de vacunación y tratamientos con su MVZ y cédula."
+      },
+      "breeding": {
+        "title": "Reproducción",
+        "desc": "El parto crea al becerro y actualiza a la madre en un paso."
+      },
+      "trade": {
+        "title": "Compra-venta con QR",
+        "desc": "Trato firmado entre dos teléfonos, con comprobante PDF."
+      },
+      "theft": {
+        "title": "Alertas de robo",
+        "desc": "Aviso push a los ganaderos de tu municipio al instante."
+      }
+    },
+    "stats": {
+      "offline": "de la captura, sin internet",
+      "municipalities": "municipios en alertas de robo",
+      "oneApp": "una sola app"
+    }
+  },
+  "en": {
+    "tagline": ", the app built for ranch life",
+    "chip": "No signal · Saved ✓",
+    "dashboardAlt": "LIDIA main screen with the cattle registry",
+    "more": "…plus REEMO movements and genealogy.",
+    "cta": "Explore LIDIA in depth",
+    "features": {
+      "offline": {
+        "title": "Works with no signal",
+        "desc": "Capture out in the pasture and it syncs on its own once you reconnect."
+      },
+      "registry": {
+        "title": "Registry and inventory",
+        "desc": "SINIIGA ear tags, weights, photos and categories always up to date."
+      },
+      "health": {
+        "title": "Animal health",
+        "desc": "Vaccination campaigns and treatments with your MVZ and license number."
+      },
+      "breeding": {
+        "title": "Breeding",
+        "desc": "Calving creates the calf and updates the mother in a single step."
+      },
+      "trade": {
+        "title": "Buy/sell with QR",
+        "desc": "A deal signed between two phones, with a PDF receipt."
+      },
+      "theft": {
+        "title": "Theft alerts",
+        "desc": "An instant push alert to the ranchers in your municipality."
+      }
+    },
+    "stats": {
+      "offline": "of data capture, offline",
+      "municipalities": "municipalities on theft alerts",
+      "oneApp": "one single app"
+    }
+  }
+}
+</i18n>

@@ -10,6 +10,8 @@ const emit = defineEmits<{
   (e: "close"): void;
 }>();
 
+const { t, locale } = useI18n({ useScope: "local" });
+
 interface Message {
   id: number;
   text: string;
@@ -21,7 +23,7 @@ const userInput = ref("");
 const messages = ref<Message[]>([
   {
     id: 1,
-    text: "¡Hola! 👋 Soy el asistente virtual de CODEGAHP. ¿En qué puedo ayudarte hoy?",
+    text: t("greeting"),
     isBot: true,
     timestamp: new Date(),
   },
@@ -30,47 +32,33 @@ const isTyping = ref(false);
 const chatContainer = ref<HTMLElement | null>(null);
 
 // FAQ responses based on keywords
+// Las claves (palabras clave) son lógica de coincidencia contra la entrada del
+// usuario; los valores apuntan a las claves i18n del mensaje mostrado.
 const faqResponses: Record<string, string> = {
-  precio:
-    "Nuestros precios varían según la complejidad del proyecto. Para software a medida, trabajamos con cotizaciones personalizadas. ¿Te gustaría agendar una llamada para discutir tu proyecto específico?",
-  costo:
-    "Nuestros precios varían según la complejidad del proyecto. Para software a medida, trabajamos con cotizaciones personalizadas. ¿Te gustaría agendar una llamada para discutir tu proyecto específico?",
-  tiempo:
-    "El tiempo de desarrollo depende del alcance. Proyectos pequeños pueden tomar 2-4 semanas, mientras que sistemas empresariales pueden requerir 2-6 meses. Siempre definimos cronogramas claros desde el inicio.",
-  tecnología:
-    "Trabajamos con tecnologías modernas: Vue.js, Nuxt, React, Node.js, PHP/Laravel, Python, y bases de datos SQL y NoSQL. Elegimos la mejor tecnología según las necesidades de tu proyecto.",
-  tecnologias:
-    "Trabajamos con tecnologías modernas: Vue.js, Nuxt, React, Node.js, PHP/Laravel, Python, y bases de datos SQL y NoSQL. Elegimos la mejor tecnología según las necesidades de tu proyecto.",
-  mantenimiento:
-    "¡Sí! Ofrecemos planes de mantenimiento post-lanzamiento que incluyen actualizaciones de seguridad, corrección de bugs, y mejoras continuas. Tu software siempre estará en óptimas condiciones.",
-  soporte:
-    "Brindamos soporte técnico continuo. Nuestros planes incluyen atención por correo, WhatsApp y videollamadas según el nivel de servicio contratado.",
-  proceso:
-    "Nuestro proceso incluye: 1) Análisis de requerimientos, 2) Diseño de arquitectura y UI/UX, 3) Desarrollo iterativo con demos frecuentes, 4) Pruebas rigurosas, 5) Lanzamiento y 6) Soporte continuo.",
-  empresa:
-    "CODEGAHP es una empresa mexicana especializada en desarrollo de software a medida. Nos enfocamos en soluciones empresariales con arquitectura limpia y código mantenible.",
-  servicios:
-    "Ofrecemos: Desarrollo de software a medida, Aplicaciones web y móviles, APIs y microservicios, Consultoría tecnológica, y Migración de sistemas legacy.",
-  contacto:
-    "Puedes contactarnos por WhatsApp, correo electrónico, o agendando una cita directamente en nuestra página. También estamos en LinkedIn, Facebook e Instagram.",
-  ubicación:
-    "Somos una empresa mexicana con capacidad de trabajar de forma remota con clientes de toda Latinoamérica y el mundo.",
-  hola: "¡Hola! 👋 ¿En qué puedo ayudarte hoy? Puedes preguntarme sobre nuestros servicios, precios, tecnologías que usamos, o cualquier duda sobre tu proyecto.",
-  gracias:
-    "¡Con gusto! Si tienes más preguntas, no dudes en escribirme. También puedes contactar directamente a nuestro equipo para una asesoría personalizada. 🚀",
+  precio: "faq.precio",
+  costo: "faq.precio",
+  tiempo: "faq.tiempo",
+  tecnología: "faq.tecnologia",
+  tecnologias: "faq.tecnologia",
+  mantenimiento: "faq.mantenimiento",
+  soporte: "faq.soporte",
+  proceso: "faq.proceso",
+  empresa: "faq.empresa",
+  servicios: "faq.servicios",
+  contacto: "faq.contacto",
+  ubicación: "faq.ubicacion",
+  hola: "faq.hola",
+  gracias: "faq.gracias",
 };
-
-const defaultResponse =
-  "Interesante pregunta. Te recomiendo contactar directamente a nuestro equipo para obtener información más detallada. Puedes escribirnos por WhatsApp o agendar una videollamada. ¿Hay algo más en lo que pueda orientarte?";
 
 // Respaldo offline (bot básico por palabras clave) para cuando el backend de
 // IA no esté disponible (p. ej. producción antes de desplegar el microservicio).
 const getFallbackResponse = (input: string): string => {
   const lowerInput = input.toLowerCase();
-  for (const [keyword, response] of Object.entries(faqResponses)) {
-    if (lowerInput.includes(keyword)) return response;
+  for (const [keyword, key] of Object.entries(faqResponses)) {
+    if (lowerInput.includes(keyword)) return t(key);
   }
-  return defaultResponse;
+  return t("faq.default");
 };
 
 // Cliente del backend de IA (Gemini) + hilo de conversación persistente.
@@ -80,12 +68,12 @@ const isSending = ref(false);
 
 // Preguntas precargadas / caminos a seguir. Se muestran al inicio y tras
 // cada respuesta del bot, mientras no se esté enviando.
-const suggestions = [
-  "¿Qué servicios ofrecen?",
-  "¿Cuánto cuesta un sitio web?",
-  "¿Qué es LIDIA?",
-  "¿Cómo agendo una llamada?",
-];
+const suggestions = computed(() => [
+  t("suggestions.services"),
+  t("suggestions.price"),
+  t("suggestions.lidia"),
+  t("suggestions.schedule"),
+]);
 const showSuggestions = computed(
   () => !isSending.value && messages.value[messages.value.length - 1]?.isBot,
 );
@@ -180,7 +168,7 @@ const pushBot = (text: string) => {
 };
 
 const fmtDateTime = (d: Date) =>
-  d.toLocaleString("es-MX", {
+  d.toLocaleString(locale.value === "en" ? "en-US" : "es-MX", {
     weekday: "long",
     day: "numeric",
     month: "long",
@@ -209,7 +197,7 @@ const handleSchedule = async (jsonStr: string) => {
   const [h, mi] = String(time).split(":").map(Number);
   const dt = new Date(y, (mo || 1) - 1, da, h || 0, mi || 0, 0, 0);
 
-  const status = pushBot("Agendando tu reunión… ⏳");
+  const status = pushBot(t("schedule.scheduling"));
   try {
     await scheduleMeeting({
       name,
@@ -218,17 +206,15 @@ const handleSchedule = async (jsonStr: string) => {
       startsAt: dt.toISOString(),
       durationMin: 30,
     });
-    status.text = `✅ ¡Listo! Agendé tu videollamada para el **${fmtDateTime(
-      dt,
-    )}**. Te envié la invitación con el enlace a **${email}** (revisa spam). ¡Nos vemos!`;
+    status.text = t("schedule.success", {
+      datetime: fmtDateTime(dt),
+      email,
+    });
   } catch (e: unknown) {
     const code =
       (e as { statusCode?: number })?.statusCode ??
       (e as { response?: { status?: number } })?.response?.status;
-    status.text =
-      code === 409
-        ? "Ese horario ya está ocupado 😕. ¿Probamos con otra hora u otro día?"
-        : "No pude agendarla en este momento. ¿Lo intentamos de nuevo, o prefieres agendar desde la página de contacto?";
+    status.text = code === 409 ? t("schedule.busy") : t("schedule.error");
   }
   scrollToBottom();
 };
@@ -282,7 +268,7 @@ const sendMessage = async (preset?: string) => {
     // ¿La IA pidió agendar? Ejecuta la reserva real.
     const action = raw.match(AGENDAR_RE);
     if (action) {
-      if (!botMessage.text) botMessage.text = "Perfecto, agendo tu reunión.";
+      if (!botMessage.text) botMessage.text = t("schedule.confirming");
       await handleSchedule(action[1]);
     }
   }
@@ -351,10 +337,10 @@ watch(
           </div>
           <div>
             <h3 class="font-semibold text-slate-900 dark:text-white">
-              Agente de IA
+              {{ t("header.title") }}
             </h3>
             <p class="text-xs text-slate-500 dark:text-slate-400">
-              CODEGAHP Assistant
+              {{ t("header.subtitle") }}
             </p>
           </div>
         </div>
@@ -450,7 +436,7 @@ watch(
             v-model="userInput"
             @keydown="handleKeydown"
             type="text"
-            placeholder="Escribe tu pregunta..."
+            :placeholder="t('input.placeholder')"
             class="flex-1 px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-transparent focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-slate-900 dark:text-white placeholder-slate-400"
           />
           <Button
@@ -477,7 +463,7 @@ watch(
           </Button>
         </div>
         <p class="text-xs text-slate-400 mt-2 text-center">
-          Presiona Enter para enviar
+          {{ t("input.hint") }}
         </p>
       </div>
     </div>
@@ -542,3 +528,86 @@ watch(
   text-underline-offset: 2px;
 }
 </style>
+
+<i18n lang="json">
+{
+  "es": {
+    "greeting": "¡Hola! 👋 Soy el asistente virtual de CODEGAHP. ¿En qué puedo ayudarte hoy?",
+    "faq": {
+      "precio": "Nuestros precios varían según la complejidad del proyecto. Para software a medida, trabajamos con cotizaciones personalizadas. ¿Te gustaría agendar una llamada para discutir tu proyecto específico?",
+      "tiempo": "El tiempo de desarrollo depende del alcance. Proyectos pequeños pueden tomar 2-4 semanas, mientras que sistemas empresariales pueden requerir 2-6 meses. Siempre definimos cronogramas claros desde el inicio.",
+      "tecnologia": "Trabajamos con tecnologías modernas: Vue.js, Nuxt, React, Node.js, PHP/Laravel, Python, y bases de datos SQL y NoSQL. Elegimos la mejor tecnología según las necesidades de tu proyecto.",
+      "mantenimiento": "¡Sí! Ofrecemos planes de mantenimiento post-lanzamiento que incluyen actualizaciones de seguridad, corrección de bugs, y mejoras continuas. Tu software siempre estará en óptimas condiciones.",
+      "soporte": "Brindamos soporte técnico continuo. Nuestros planes incluyen atención por correo, WhatsApp y videollamadas según el nivel de servicio contratado.",
+      "proceso": "Nuestro proceso incluye: 1) Análisis de requerimientos, 2) Diseño de arquitectura y UI/UX, 3) Desarrollo iterativo con demos frecuentes, 4) Pruebas rigurosas, 5) Lanzamiento y 6) Soporte continuo.",
+      "empresa": "CODEGAHP es una empresa mexicana especializada en desarrollo de software a medida. Nos enfocamos en soluciones empresariales con arquitectura limpia y código mantenible.",
+      "servicios": "Ofrecemos: Desarrollo de software a medida, Aplicaciones web y móviles, APIs y microservicios, Consultoría tecnológica, y Migración de sistemas legacy.",
+      "contacto": "Puedes contactarnos por WhatsApp, correo electrónico, o agendando una cita directamente en nuestra página. También estamos en LinkedIn, Facebook e Instagram.",
+      "ubicacion": "Somos una empresa mexicana con capacidad de trabajar de forma remota con clientes de toda Latinoamérica y el mundo.",
+      "hola": "¡Hola! 👋 ¿En qué puedo ayudarte hoy? Puedes preguntarme sobre nuestros servicios, precios, tecnologías que usamos, o cualquier duda sobre tu proyecto.",
+      "gracias": "¡Con gusto! Si tienes más preguntas, no dudes en escribirme. También puedes contactar directamente a nuestro equipo para una asesoría personalizada. 🚀",
+      "default": "Interesante pregunta. Te recomiendo contactar directamente a nuestro equipo para obtener información más detallada. Puedes escribirnos por WhatsApp o agendar una videollamada. ¿Hay algo más en lo que pueda orientarte?"
+    },
+    "suggestions": {
+      "services": "¿Qué servicios ofrecen?",
+      "price": "¿Cuánto cuesta un sitio web?",
+      "lidia": "¿Qué es LIDIA?",
+      "schedule": "¿Cómo agendo una llamada?"
+    },
+    "schedule": {
+      "scheduling": "Agendando tu reunión… ⏳",
+      "success": "✅ ¡Listo! Agendé tu videollamada para el **{datetime}**. Te envié la invitación con el enlace a **{email}** (revisa spam). ¡Nos vemos!",
+      "busy": "Ese horario ya está ocupado 😕. ¿Probamos con otra hora u otro día?",
+      "error": "No pude agendarla en este momento. ¿Lo intentamos de nuevo, o prefieres agendar desde la página de contacto?",
+      "confirming": "Perfecto, agendo tu reunión."
+    },
+    "header": {
+      "title": "Agente de IA",
+      "subtitle": "CODEGAHP Assistant"
+    },
+    "input": {
+      "placeholder": "Escribe tu pregunta...",
+      "hint": "Presiona Enter para enviar"
+    }
+  },
+  "en": {
+    "greeting": "Hi! 👋 I'm the CODEGAHP virtual assistant. How can I help you today?",
+    "faq": {
+      "precio": "Our pricing varies depending on the complexity of the project. For custom software, we work with personalized quotes. Would you like to schedule a call to discuss your specific project?",
+      "tiempo": "Development time depends on the scope. Small projects can take 2-4 weeks, while enterprise systems may require 2-6 months. We always define clear timelines from the start.",
+      "tecnologia": "We work with modern technologies: Vue.js, Nuxt, React, Node.js, PHP/Laravel, Python, and SQL and NoSQL databases. We choose the best technology based on your project's needs.",
+      "mantenimiento": "Yes! We offer post-launch maintenance plans that include security updates, bug fixes, and continuous improvements. Your software will always be in top shape.",
+      "soporte": "We provide ongoing technical support. Our plans include assistance via email, WhatsApp, and video calls depending on the service level you choose.",
+      "proceso": "Our process includes: 1) Requirements analysis, 2) Architecture and UI/UX design, 3) Iterative development with frequent demos, 4) Rigorous testing, 5) Launch, and 6) Ongoing support.",
+      "empresa": "CODEGAHP is a Mexican company specialized in custom software development. We focus on enterprise solutions with clean architecture and maintainable code.",
+      "servicios": "We offer: Custom software development, Web and mobile apps, APIs and microservices, Technology consulting, and Legacy system migration.",
+      "contacto": "You can reach us via WhatsApp, email, or by scheduling an appointment directly on our website. We're also on LinkedIn, Facebook, and Instagram.",
+      "ubicacion": "We're a Mexican company able to work remotely with clients across Latin America and around the world.",
+      "hola": "Hi! 👋 How can I help you today? You can ask me about our services, pricing, the technologies we use, or any questions about your project.",
+      "gracias": "You're welcome! If you have more questions, don't hesitate to write to me. You can also contact our team directly for personalized advice. 🚀",
+      "default": "Great question. I recommend contacting our team directly for more detailed information. You can write to us on WhatsApp or schedule a video call. Is there anything else I can help you with?"
+    },
+    "suggestions": {
+      "services": "What services do you offer?",
+      "price": "How much does a website cost?",
+      "lidia": "What is LIDIA?",
+      "schedule": "How do I schedule a call?"
+    },
+    "schedule": {
+      "scheduling": "Scheduling your meeting… ⏳",
+      "success": "✅ All set! I scheduled your video call for **{datetime}**. I sent the invitation with the link to **{email}** (check your spam folder). See you there!",
+      "busy": "That time slot is already taken 😕. Shall we try another time or another day?",
+      "error": "I couldn't schedule it right now. Should we try again, or would you rather schedule from the contact page?",
+      "confirming": "Great, I'll schedule your meeting."
+    },
+    "header": {
+      "title": "AI Agent",
+      "subtitle": "CODEGAHP Assistant"
+    },
+    "input": {
+      "placeholder": "Type your question...",
+      "hint": "Press Enter to send"
+    }
+  }
+}
+</i18n>

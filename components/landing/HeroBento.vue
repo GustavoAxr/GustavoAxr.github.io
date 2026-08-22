@@ -14,26 +14,28 @@ import {
   Camera,
 } from "lucide-vue-next";
 
+const { t } = useI18n({ useScope: "local" });
+
 // Bento de categorías de servicio — mantiene todo el catálogo al frente,
 // con "Software Especializado" (productos propios) como tarjeta destacada.
 const cards = [
   {
     key: "negocio",
-    title: "Lo que se te ocurra, nosotros lo creamos para tí",
-    desc: "La complejidad no existe para nosotros",
+    title: t("cards.negocio.title"),
+    desc: t("cards.negocio.desc"),
     icon: LayoutTemplate,
     to: "/servicios/landing-page",
     accent: "text-primary bg-primary/10",
-    items: ["ERP", "SaaS", "Siempre creando herramientas para tí"],
+    items: ["ERP", "SaaS", t("cards.negocio.item3")],
   },
   {
     key: "infra",
-    title: "Infraestructura",
-    desc: "Siempre en línea, sin sobrecostos",
+    title: t("cards.infra.title"),
+    desc: t("cards.infra.desc"),
     icon: Server,
     to: "/servicios/aws",
     accent: "text-primary bg-primary/10",
-    items: ["Hosting premium", "HTTPS", "Nube AWS"],
+    items: [t("cards.infra.item1"), "HTTPS", t("cards.infra.item3")],
   },
 ];
 </script>
@@ -41,7 +43,7 @@ const cards = [
 <template>
   <div class="grid grid-cols-2 gap-3 sm:gap-4">
     <!-- Tarjeta destacada: LIDIA (nuestro producto) -->
-    <NuxtLink
+    <NuxtLinkLocale
       to="/servicios/lidia"
       class="group relative col-span-2 sm:col-span-1 sm:row-span-2 flex flex-col overflow-hidden rounded-2xl border border-primary/20 bg-white dark:bg-slate-900 p-5 shadow-sm transition-all duration-300 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1"
     >
@@ -49,7 +51,7 @@ const cards = [
         <span
           class="text-[11px] font-semibold uppercase tracking-wide text-primary"
         >
-          Nuestro producto insignia
+          {{ t("flagship") }}
         </span>
         <ArrowUpRight
           class="w-5 h-5 text-primary/60 group-hover:text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
@@ -64,9 +66,9 @@ const cards = [
         </div>
         <p class="text-lg font-bold text-slate-900 dark:text-white">LIDIA</p>
         <p class="text-sm text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
-          Trazabilidad ganadera que funciona
-          <span class="font-semibold text-primary">sin señal</span> —
-          inventario, sanidad y compra-venta desde el celular.
+          {{ t("lidiaBefore") }}
+          <span class="font-semibold text-primary">{{ t("lidiaHighlight") }}</span>
+          {{ t("lidiaAfter") }}
         </p>
       </div>
 
@@ -76,19 +78,19 @@ const cards = [
           class="inline-flex items-center gap-1.5 text-xs font-medium text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 rounded-lg px-2.5 py-1.5"
         >
           <QrCode class="w-3.5 h-3.5 text-primary" />
-          Compra-venta QR
+          {{ t("chipQr") }}
         </span>
         <span
           class="inline-flex items-center gap-1.5 text-xs font-medium text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 rounded-lg px-2.5 py-1.5"
         >
           <Siren class="w-3.5 h-3.5 text-red-500" />
-          Alertas de robo
+          {{ t("chipTheft") }}
         </span>
         <span
           class="inline-flex items-center gap-1.5 text-xs font-medium text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 rounded-lg px-2.5 py-1.5"
         >
           <Camera class="w-3.5 h-3.5 text-blue-500" />
-          Busqueda por IA a través de cámara
+          {{ t("chipCamera") }}
         </span>
       </div>
 
@@ -101,7 +103,7 @@ const cards = [
           class="absolute -left-2 bottom-3 flex items-center gap-1.5 text-[10px] font-semibold text-slate-500 dark:text-slate-400 z-10"
         >
           <WifiOff class="w-3 h-3 text-primary" />
-          Funciona sin señal
+          {{ t("worksOffline") }}
         </div>
         <picture>
           <source
@@ -119,10 +121,10 @@ const cards = [
           />
         </picture>
       </div>
-    </NuxtLink>
+    </NuxtLinkLocale>
 
     <!-- Tarjetas de categoría -->
-    <NuxtLink
+    <NuxtLinkLocale
       v-for="card in cards"
       :key="card.key"
       :to="card.to"
@@ -158,6 +160,57 @@ const cards = [
           {{ item }}
         </span>
       </div>
-    </NuxtLink>
+    </NuxtLinkLocale>
   </div>
 </template>
+
+<i18n lang="json">
+{
+  "es": {
+    "flagship": "Nuestro producto insignia",
+    "lidiaBefore": "Trazabilidad ganadera que funciona",
+    "lidiaHighlight": "sin señal",
+    "lidiaAfter": "— inventario, sanidad y compra-venta desde el celular.",
+    "chipQr": "Compra-venta QR",
+    "chipTheft": "Alertas de robo",
+    "chipCamera": "Busqueda por IA a través de cámara",
+    "worksOffline": "Funciona sin señal",
+    "cards": {
+      "negocio": {
+        "title": "Lo que se te ocurra, nosotros lo creamos para tí",
+        "desc": "La complejidad no existe para nosotros",
+        "item3": "Siempre creando herramientas para tí"
+      },
+      "infra": {
+        "title": "Infraestructura",
+        "desc": "Siempre en línea, sin sobrecostos",
+        "item1": "Hosting premium",
+        "item3": "Nube AWS"
+      }
+    }
+  },
+  "en": {
+    "flagship": "Our flagship product",
+    "lidiaBefore": "Livestock traceability that works",
+    "lidiaHighlight": "without signal",
+    "lidiaAfter": "— inventory, health and buying-selling from your phone.",
+    "chipQr": "QR buy-sell",
+    "chipTheft": "Theft alerts",
+    "chipCamera": "AI search via camera",
+    "worksOffline": "Works without signal",
+    "cards": {
+      "negocio": {
+        "title": "Whatever you can imagine, we build it for you",
+        "desc": "Complexity doesn't exist for us",
+        "item3": "Always creating tools for you"
+      },
+      "infra": {
+        "title": "Infrastructure",
+        "desc": "Always online, no overspending",
+        "item1": "Premium hosting",
+        "item3": "AWS Cloud"
+      }
+    }
+  }
+}
+</i18n>

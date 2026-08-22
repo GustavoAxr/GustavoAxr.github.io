@@ -1,7 +1,5 @@
 <script setup lang="ts">
-// Canonical y og:url dinámicos por página. Antes había un canonical fijo a la
-// home en nuxt.config, lo que hacía que Google tratara todas las páginas como
-// duplicados de la portada y no las indexara por separado.
+// Canonical y og:url dinámicos por página (incluye el prefijo /en en inglés).
 const SITE = "https://codegahp.com";
 const route = useRoute();
 const canonical = computed(() => {
@@ -9,9 +7,20 @@ const canonical = computed(() => {
   return `${SITE}${path}`;
 });
 
-useHead({
-  link: [{ rel: "canonical", href: canonical }],
-});
+// i18n: <html lang>, dir y enlaces hreflang alternos (SEO bilingüe).
+const i18nHead = useLocaleHead();
+
+useHead(() => ({
+  htmlAttrs: {
+    lang: i18nHead.value.htmlAttrs?.lang,
+    dir: i18nHead.value.htmlAttrs?.dir,
+  },
+  link: [
+    ...(i18nHead.value.link || []),
+    { rel: "canonical", href: canonical.value },
+  ],
+  meta: [...(i18nHead.value.meta || [])],
+}));
 useSeoMeta({
   ogUrl: canonical,
 });

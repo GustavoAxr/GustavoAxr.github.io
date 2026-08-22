@@ -2,6 +2,8 @@
 import { ref, onMounted, onUnmounted } from "vue";
 import { Lightbulb, Star, Handshake, Search } from "lucide-vue-next";
 
+const { t } = useI18n({ useScope: "local" });
+
 const parallaxOffset = ref(0);
 const sectionRef = ref<HTMLElement | null>(null);
 const isVisible = ref(false);
@@ -33,23 +35,23 @@ onUnmounted(() => {
 
 const values = [
   {
-    title: "Enfoque en Resultados",
-    desc: "Desarrollos diseñados para generar retorno de inversión inmediato.",
+    title: t("values.results.title"),
+    desc: t("values.results.desc"),
     icon: Lightbulb,
   },
   {
-    title: "Garantía de Operación",
-    desc: "Sistemas estables y robustos que protegen tu operación diaria.",
+    title: t("values.operation.title"),
+    desc: t("values.operation.desc"),
     icon: Star,
   },
   {
-    title: "Simplicidad Absoluta",
-    desc: "Diseños intuitivos que eliminan la fricción para todo tu equipo.",
+    title: t("values.simplicity.title"),
+    desc: t("values.simplicity.desc"),
     icon: Handshake,
   },
   {
-    title: "Acompañamiento Estratégico",
-    desc: "Soporte cercano y continuo para asegurar tu crecimiento digital.",
+    title: t("values.support.title"),
+    desc: t("values.support.desc"),
     icon: Search,
   },
 ];
@@ -70,7 +72,7 @@ const values = [
         <source srcset="/img/presentacion.webp" type="image/webp" />
         <img
           src="/img/presentacion.jpg"
-          alt="Alexander - Fundador de CODEGAHP"
+          :alt="t('imgAlt')"
           width="1920"
           height="1025"
           loading="lazy"
@@ -101,26 +103,26 @@ const values = [
           <span
             class="inline-block text-primary font-semibold text-sm uppercase tracking-widest"
           >
-            Nuestra Esencia
+            {{ t("essence") }}
           </span>
 
           <!-- Misión -->
           <div>
-            <h3 class="text-3xl lg:text-4xl font-bold text-white mb-3">Misión</h3>
+            <h3 class="text-3xl lg:text-4xl font-bold text-white mb-3">{{ t("missionTitle") }}</h3>
             <p class="text-lg text-slate-300/90 leading-relaxed">
-              Diseñar tecnología que resuelva
-              <span class="text-primary/90 font-medium">desafíos reales de negocio</span>,
-              optimizando los tiempos de trabajo y potenciando la rentabilidad de cada organización.
+              {{ t("missionBefore") }}
+              <span class="text-primary/90 font-medium">{{ t("missionHighlight") }}</span
+              >{{ t("missionAfter") }}
             </p>
           </div>
 
           <!-- Visión -->
           <div>
-            <h3 class="text-3xl lg:text-4xl font-bold text-white mb-3">Visión</h3>
+            <h3 class="text-3xl lg:text-4xl font-bold text-white mb-3">{{ t("visionTitle") }}</h3>
             <p class="text-lg text-slate-300/90 leading-relaxed">
-              Ser el aliado tecnológico que impulsa la
-              <span class="text-primary/90 font-medium">transformación digital</span>
-              de empresas y organismos de México y Latinoamérica, con soluciones estables, escalables y a la medida.
+              {{ t("visionBefore") }}
+              <span class="text-primary/90 font-medium">{{ t("visionHighlight") }}</span>
+              {{ t("visionAfter") }}
             </p>
           </div>
         </div>
@@ -133,7 +135,7 @@ const values = [
             'opacity-0': !isVisible,
           }"
         >
-          <h3 class="text-2xl font-bold text-white">Valores</h3>
+          <h3 class="text-2xl font-bold text-white">{{ t("valuesTitle") }}</h3>
 
           <div class="grid gap-3">
             <div
@@ -194,3 +196,70 @@ const values = [
   animation: fadeInRight 0.8s ease-out 0.2s forwards;
 }
 </style>
+
+<i18n lang="json">
+{
+  "es": {
+    "imgAlt": "Alexander - Fundador de CODEGAHP",
+    "essence": "Nuestra Esencia",
+    "missionTitle": "Misión",
+    "missionBefore": "Diseñar tecnología que resuelva",
+    "missionHighlight": "desafíos reales de negocio",
+    "missionAfter": ", optimizando los tiempos de trabajo y potenciando la rentabilidad de cada organización.",
+    "visionTitle": "Visión",
+    "visionBefore": "Ser el aliado tecnológico que impulsa la",
+    "visionHighlight": "transformación digital",
+    "visionAfter": "de empresas y organismos de México y Latinoamérica, con soluciones estables, escalables y a la medida.",
+    "valuesTitle": "Valores",
+    "values": {
+      "results": {
+        "title": "Enfoque en Resultados",
+        "desc": "Desarrollos diseñados para generar retorno de inversión inmediato."
+      },
+      "operation": {
+        "title": "Garantía de Operación",
+        "desc": "Sistemas estables y robustos que protegen tu operación diaria."
+      },
+      "simplicity": {
+        "title": "Simplicidad Absoluta",
+        "desc": "Diseños intuitivos que eliminan la fricción para todo tu equipo."
+      },
+      "support": {
+        "title": "Acompañamiento Estratégico",
+        "desc": "Soporte cercano y continuo para asegurar tu crecimiento digital."
+      }
+    }
+  },
+  "en": {
+    "imgAlt": "Alexander - Founder of CODEGAHP",
+    "essence": "Our Essence",
+    "missionTitle": "Mission",
+    "missionBefore": "Design technology that solves",
+    "missionHighlight": "real business challenges",
+    "missionAfter": ", streamlining work times and boosting every organization's profitability.",
+    "visionTitle": "Vision",
+    "visionBefore": "Be the technology partner driving the",
+    "visionHighlight": "digital transformation",
+    "visionAfter": "of companies and institutions across Mexico and Latin America, with stable, scalable and tailor-made solutions.",
+    "valuesTitle": "Values",
+    "values": {
+      "results": {
+        "title": "Results Focus",
+        "desc": "Builds designed to generate immediate return on investment."
+      },
+      "operation": {
+        "title": "Operational Guarantee",
+        "desc": "Stable, robust systems that protect your day-to-day operation."
+      },
+      "simplicity": {
+        "title": "Absolute Simplicity",
+        "desc": "Intuitive designs that remove friction for your entire team."
+      },
+      "support": {
+        "title": "Strategic Partnership",
+        "desc": "Close, continuous support to secure your digital growth."
+      }
+    }
+  }
+}
+</i18n>

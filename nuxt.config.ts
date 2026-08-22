@@ -6,6 +6,7 @@ export default defineNuxtConfig({
     "@nuxtjs/tailwindcss",
     "shadcn-nuxt",
     "@nuxtjs/color-mode",
+    "@nuxtjs/i18n",
     // Módulo inline (después de shadcn-nuxt): shadcn registra `components/ui`
     // con `extensions: []`, que Nuxt interpreta como "extensiones por defecto"
     // (incluye .ts). Eso hacía que `button/index.ts` se escaneara como componente
@@ -31,6 +32,21 @@ export default defineNuxtConfig({
   ],
 
   css: ["~/assets/css/main.css"],
+
+  // Bilingüe: español (por defecto, en `/`) e inglés (en `/en/...`). Los textos
+  // viven en bloques <i18n> de cada componente/página (autocontenidos). No se
+  // redirige por idioma del navegador: ES es el idioma base y EN se elige con
+  // el selector del header.
+  i18n: {
+    strategy: "prefix_except_default",
+    defaultLocale: "es",
+    locales: [
+      { code: "es", language: "es-MX", name: "Español" },
+      { code: "en", language: "en-US", name: "English" },
+    ],
+    detectBrowserLanguage: false,
+    bundle: { optimizeTranslationDirective: false },
+  },
 
   // Configuración en runtime. `public` queda expuesto al cliente (el sitio es
   // estático, así que el valor se "hornea" en build). Por defecto apunta al
@@ -115,6 +131,8 @@ export default defineNuxtConfig({
         { rel: "icon", type: "image/png", sizes: "192x192", href: "/favicon-192x192.png" },
         { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
         { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
+        // Web App Manifest (PWA / instalable; Lighthouse marcaba su ausencia).
+        { rel: "manifest", href: "/site.webmanifest" },
         // El canonical se define por página en app.vue (antes era fijo a la
         // home y hacía que Google tratara todas las páginas como duplicados).
         // (Se quitaron los preconnect a Google Fonts: el sitio usa fuentes del

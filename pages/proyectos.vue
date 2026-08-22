@@ -10,53 +10,53 @@ import {
   ClipboardList,
 } from "lucide-vue-next";
 
+const { t } = useI18n({ useScope: "local" });
+
 useSeoMeta({
-  title: "Proyectos - CODEGAHP | LIDIA, nuestro producto insignia",
-  description:
-    "LIDIA es nuestro producto insignia: una app de trazabilidad ganadera que funciona sin señal — inventario, sanidad, reproducción y compra-venta con QR.",
-  ogTitle: "Proyectos | CODEGAHP — LIDIA, trazabilidad ganadera offline",
-  ogDescription:
-    "Nuestro producto insignia LIDIA: trazabilidad ganadera que funciona sin señal, hecha para el rancho mexicano.",
+  title: () => t("seo.title"),
+  description: () => t("seo.description"),
+  ogTitle: () => t("seo.ogTitle"),
+  ogDescription: () => t("seo.ogDescription"),
   ogImage: "https://codegahp.com/img/lidia/pantalla-dashboard.jpg",
 });
 
 const stats = [
-  { value: "100%", label: "de la captura funciona sin internet" },
-  { value: "2,463", label: "municipios en las alertas de robo" },
-  { value: "+200", label: "pruebas automatizadas por versión" },
-  { value: "iOS + Android", label: "una sola app" },
+  { value: "100%", label: t("stats.offline") },
+  { value: "2,463", label: t("stats.municipios") },
+  { value: "+200", label: t("stats.pruebas") },
+  { value: "iOS + Android", label: t("stats.app") },
 ];
 
 const features = [
   {
     icon: WifiOff,
-    title: "Offline-first",
-    desc: "captura sin señal y sincroniza al reconectar.",
+    title: t("features.offlineTitle"),
+    desc: t("features.offlineDesc"),
   },
   {
     icon: ClipboardList,
-    title: "Padrón e inventario",
-    desc: "aretes SINIIGA, pesos con historial y galería por animal.",
+    title: t("features.padronTitle"),
+    desc: t("features.padronDesc"),
   },
   {
     icon: Syringe,
-    title: "Sanidad",
-    desc: "campañas y tratamientos, cada evento con su MVZ.",
+    title: t("features.sanidadTitle"),
+    desc: t("features.sanidadDesc"),
   },
   {
     icon: Baby,
-    title: "Reproducción",
-    desc: "el parto crea al becerro y actualiza a la madre.",
+    title: t("features.reproduccionTitle"),
+    desc: t("features.reproduccionDesc"),
   },
   {
     icon: QrCode,
-    title: "Compra-venta con QR",
-    desc: "trato firmado entre dos teléfonos, con comprobante.",
+    title: t("features.qrTitle"),
+    desc: t("features.qrDesc"),
   },
   {
     icon: Siren,
-    title: "Alertas de robo",
-    desc: "aviso push a los ganaderos de tu municipio.",
+    title: t("features.roboTitle"),
+    desc: t("features.roboDesc"),
   },
 ];
 </script>
@@ -71,7 +71,7 @@ const features = [
         <source srcset="/img/vaca2.webp" type="image/webp" />
         <img
           src="/img/vaca2.jpg"
-          alt="Ganado en el potrero con arete de identificación SINIIGA"
+          :alt="t('heroImgAlt')"
           class="absolute inset-0 w-full h-full object-cover"
         />
       </picture>
@@ -97,15 +97,13 @@ const features = [
         <p
           class="text-sm font-semibold uppercase tracking-widest text-emerald-300 mb-5 [text-shadow:0_1px_10px_rgba(0,0,0,0.6)]"
         >
-          Trazabilidad ganadera offline-first · Acceso anticipado
+          {{ t("kicker") }}
         </p>
 
         <p
           class="text-lg sm:text-2xl text-slate-100 leading-relaxed max-w-3xl mb-9 [text-shadow:0_1px_12px_rgba(0,0,0,0.55)]"
         >
-          La app que administra el rancho desde el celular, haya o no señal:
-          padrón, sanidad, reproducción, movilizaciones REEMO, compra-venta con
-          QR y alertas de robo.
+          {{ t("heroDesc") }}
         </p>
 
         <!-- Datos, a lo ancho -->
@@ -126,23 +124,23 @@ const features = [
 
         <div class="flex flex-col sm:flex-row sm:items-center gap-x-8 gap-y-4">
           <Button as-child variant="bare" size="free" class="[&_svg]:size-5">
-            <NuxtLink
+            <NuxtLinkLocale
               to="/servicios/lidia"
               class="group inline-flex items-center justify-center gap-2 h-12 px-8 rounded-[5px] bg-white text-slate-900 font-bold shadow-lg hover:-translate-y-0.5 transition-transform self-start"
             >
-              Conoce LIDIA a fondo
+              {{ t("ctaPrimary") }}
               <ArrowRight
                 class="w-5 h-5 group-hover:translate-x-1 transition-transform"
               />
-            </NuxtLink>
+            </NuxtLinkLocale>
           </Button>
-          <NuxtLink
+          <NuxtLinkLocale
             to="/contacto"
             class="inline-flex items-center gap-2 text-white/90 font-medium hover:text-white transition-colors"
           >
-            ¿Tienes un proyecto? Hablemos
+            {{ t("ctaSecondary") }}
             <ArrowUpRight class="w-4 h-4" />
-          </NuxtLink>
+          </NuxtLinkLocale>
         </div>
       </div>
     </section>
@@ -153,11 +151,10 @@ const features = [
         <h2
           class="text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white mb-2"
         >
-          Lo que hace por dentro
+          {{ t("insideTitle") }}
         </h2>
         <p class="text-slate-600 dark:text-slate-400 mb-10 max-w-2xl">
-          No es una libreta digital: es la operación completa de tu ganadería en
-          el celular.
+          {{ t("insideDesc") }}
         </p>
 
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-7">
@@ -180,9 +177,86 @@ const features = [
         </div>
 
         <p class="mt-8 text-sm text-slate-400 dark:text-slate-500">
-          …y también REEMO, genealogía y seguridad biométrica.
+          {{ t("insideFootnote") }}
         </p>
       </div>
     </section>
   </div>
 </template>
+
+<i18n lang="json">
+{
+  "es": {
+    "seo": {
+      "title": "Proyectos - CODEGAHP | LIDIA, nuestro producto insignia",
+      "description": "LIDIA es nuestro producto insignia: una app de trazabilidad ganadera que funciona sin señal — inventario, sanidad, reproducción y compra-venta con QR.",
+      "ogTitle": "Proyectos | CODEGAHP — LIDIA, trazabilidad ganadera offline",
+      "ogDescription": "Nuestro producto insignia LIDIA: trazabilidad ganadera que funciona sin señal, hecha para el rancho mexicano."
+    },
+    "heroImgAlt": "Ganado en el potrero con arete de identificación SINIIGA",
+    "kicker": "Trazabilidad ganadera offline-first · Acceso anticipado",
+    "heroDesc": "La app que administra el rancho desde el celular, haya o no señal: padrón, sanidad, reproducción, movilizaciones REEMO, compra-venta con QR y alertas de robo.",
+    "ctaPrimary": "Conoce LIDIA a fondo",
+    "ctaSecondary": "¿Tienes un proyecto? Hablemos",
+    "insideTitle": "Lo que hace por dentro",
+    "insideDesc": "No es una libreta digital: es la operación completa de tu ganadería en el celular.",
+    "insideFootnote": "…y también REEMO, genealogía y seguridad biométrica.",
+    "stats": {
+      "offline": "de la captura funciona sin internet",
+      "municipios": "municipios en las alertas de robo",
+      "pruebas": "pruebas automatizadas por versión",
+      "app": "una sola app"
+    },
+    "features": {
+      "offlineTitle": "Offline-first",
+      "offlineDesc": "captura sin señal y sincroniza al reconectar.",
+      "padronTitle": "Padrón e inventario",
+      "padronDesc": "aretes SINIIGA, pesos con historial y galería por animal.",
+      "sanidadTitle": "Sanidad",
+      "sanidadDesc": "campañas y tratamientos, cada evento con su MVZ.",
+      "reproduccionTitle": "Reproducción",
+      "reproduccionDesc": "el parto crea al becerro y actualiza a la madre.",
+      "qrTitle": "Compra-venta con QR",
+      "qrDesc": "trato firmado entre dos teléfonos, con comprobante.",
+      "roboTitle": "Alertas de robo",
+      "roboDesc": "aviso push a los ganaderos de tu municipio."
+    }
+  },
+  "en": {
+    "seo": {
+      "title": "Projects - CODEGAHP | LIDIA, our flagship product",
+      "description": "LIDIA is our flagship product: a livestock traceability app that works without signal — inventory, health, breeding and QR buy-sell.",
+      "ogTitle": "Projects | CODEGAHP — LIDIA, offline livestock traceability",
+      "ogDescription": "Our flagship product LIDIA: livestock traceability that works without signal, built for the Mexican ranch."
+    },
+    "heroImgAlt": "Cattle in the pasture with a SINIIGA identification ear tag",
+    "kicker": "Offline-first livestock traceability · Early access",
+    "heroDesc": "The app that runs the ranch from your phone, with or without signal: registry, health, breeding, REEMO movements, QR buy-sell and theft alerts.",
+    "ctaPrimary": "Get to know LIDIA in depth",
+    "ctaSecondary": "Have a project? Let's talk",
+    "insideTitle": "What it does under the hood",
+    "insideDesc": "It's not a digital notebook: it's your entire livestock operation on your phone.",
+    "insideFootnote": "…and also REEMO, genealogy and biometric security.",
+    "stats": {
+      "offline": "of data capture works without internet",
+      "municipios": "municipalities covered by theft alerts",
+      "pruebas": "automated tests per release",
+      "app": "a single app"
+    },
+    "features": {
+      "offlineTitle": "Offline-first",
+      "offlineDesc": "capture without signal and sync when you reconnect.",
+      "padronTitle": "Registry and inventory",
+      "padronDesc": "SINIIGA ear tags, weights with history and a gallery per animal.",
+      "sanidadTitle": "Health",
+      "sanidadDesc": "campaigns and treatments, each event with its vet.",
+      "reproduccionTitle": "Breeding",
+      "reproduccionDesc": "calving creates the calf and updates the mother.",
+      "qrTitle": "QR buy-sell",
+      "qrDesc": "a deal signed between two phones, with a receipt.",
+      "roboTitle": "Theft alerts",
+      "roboDesc": "push notification to ranchers in your municipality."
+    }
+  }
+}
+</i18n>

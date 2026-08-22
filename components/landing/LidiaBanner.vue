@@ -4,6 +4,7 @@
 // sanidad) — comunica la trazabilidad real en vez de un texto sobre foto.
 // El marco se adapta a claro/oscuro; el panel verde es constante en ambos.
 import { ArrowRight, Tag, Weight, Syringe } from "lucide-vue-next";
+const { t } = useI18n({ useScope: "local" });
 // Imágenes servidas desde /public (sin import): evita errores de tipos y es
 // consistente con el resto del sitio.
 const ganado = "/img/ganado.jpg";
@@ -31,36 +32,34 @@ const ganado = "/img/ganado.jpg";
             <h2
               class="text-3xl md:text-4xl xl:text-5xl font-extrabold text-white leading-[1.1] mb-4"
             >
-              Cada animal, con su historia completa
+              {{ t("title") }}
             </h2>
             <p
               class="text-emerald-50/90 text-base md:text-lg leading-relaxed mb-8 max-w-md"
             >
-              LIDIA le da identidad digital a tu hato: arete SINIIGA, peso,
-              sanidad, genealogía y compra-venta con QR — desde el celular y
-              aunque no haya señal.
+              {{ t("desc") }}
             </p>
 
             <Button as-child variant="bare" size="free" class="[&_svg]:size-5">
-              <NuxtLink
+              <NuxtLinkLocale
                 to="/servicios/lidia"
                 class="group inline-flex items-center gap-2 h-12 px-8 rounded-[5px] bg-white text-[#2f6a1e] font-bold shadow-lg hover:bg-emerald-50 hover:-translate-y-0.5 transition-all self-start"
               >
-                Conoce LIDIA
+                {{ t("cta") }}
                 <ArrowRight
                   class="w-5 h-5 group-hover:translate-x-1 transition-transform"
                 />
-              </NuxtLink>
+              </NuxtLinkLocale>
             </Button>
 
             <div
               class="mt-8 flex flex-wrap items-center gap-x-3 gap-y-2 text-xs font-medium text-white/75"
             >
-              <span>Funciona sin señal</span>
+              <span>{{ t("badgeOffline") }}</span>
               <span class="text-white/40" aria-hidden="true">•</span>
-              <span>iOS y Android</span>
+              <span>{{ t("badgePlatforms") }}</span>
               <span class="text-white/40" aria-hidden="true">•</span>
-              <span>Hecha para el campo mexicano</span>
+              <span>{{ t("badgeMade") }}</span>
             </div>
           </div>
         </div>
@@ -103,7 +102,7 @@ const ganado = "/img/ganado.jpg";
             >
               <Syringe class="w-3.5 h-3.5" aria-hidden="true" />
             </span>
-            Vacunas al día
+            {{ t("health") }}
             <span class="text-primary font-bold">✓</span>
           </div>
         </div>
@@ -111,3 +110,26 @@ const ganado = "/img/ganado.jpg";
     </div>
   </section>
 </template>
+
+<i18n lang="json">
+{
+  "es": {
+    "title": "Cada animal, con su historia completa",
+    "desc": "LIDIA le da identidad digital a tu hato: arete SINIIGA, peso, sanidad, genealogía y compra-venta con QR — desde el celular y aunque no haya señal.",
+    "cta": "Conoce LIDIA",
+    "badgeOffline": "Funciona sin señal",
+    "badgePlatforms": "iOS y Android",
+    "badgeMade": "Hecha para el campo mexicano",
+    "health": "Vacunas al día"
+  },
+  "en": {
+    "title": "Every animal, with its full history",
+    "desc": "LIDIA gives your herd a digital identity: SINIIGA ear tag, weight, animal health, genealogy and buy/sell with QR — from your phone and even with no signal.",
+    "cta": "Discover LIDIA",
+    "badgeOffline": "Works with no signal",
+    "badgePlatforms": "iOS and Android",
+    "badgeMade": "Built for the Mexican countryside",
+    "health": "Vaccines up to date"
+  }
+}
+</i18n>

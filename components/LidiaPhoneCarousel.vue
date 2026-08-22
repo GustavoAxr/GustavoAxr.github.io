@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from "vue";
 
+const { t } = useI18n({ useScope: "local" });
+
 // Carrusel coverflow 3D de pantallas de LIDIA. Ligero: solo anima transform/
 // opacity (GPU), imágenes webp con lazy-load salvo la central. El peso solo
 // ocurre en la primera carga; luego quedan en caché del navegador.
 const screens = [
-  { name: "dashboard", label: "Padrón y balance del hato" },
-  { name: "identidad", label: "Identidad de cada animal" },
-  { name: "genealogia", label: "Genealogía y descendencia" },
-  { name: "salud", label: "Sanidad y tratamientos" },
-  { name: "reemo", label: "Movilizaciones y compra-venta" },
+  { name: "dashboard", label: "labelDashboard" },
+  { name: "identidad", label: "labelIdentidad" },
+  { name: "genealogia", label: "labelGenealogia" },
+  { name: "salud", label: "labelSalud" },
+  { name: "reemo", label: "labelReemo" },
 ];
 
 const active = ref(0);
@@ -62,8 +64,8 @@ function cardStyle(i: number) {
     class="cf"
     @mouseenter="stop"
     @mouseleave="start"
-    aria-roledescription="carrusel"
-    aria-label="Pantallas de la app LIDIA"
+    :aria-roledescription="t('carousel')"
+    :aria-label="t('carouselLabel')"
   >
     <!-- Glow de fondo -->
     <div
@@ -80,7 +82,7 @@ function cardStyle(i: number) {
         class="cf-card block"
         :style="cardStyle(i)"
         :aria-hidden="i !== active"
-        :aria-label="`Ver ${s.label}`"
+        :aria-label="`${t('view')} ${t(s.label)}`"
         @click="go(i)"
       >
         <div class="cf-phone">
@@ -88,7 +90,7 @@ function cardStyle(i: number) {
             <source :srcset="`/img/lidia/pantalla-${s.name}.webp`" type="image/webp" />
             <img
               :src="`/img/lidia/pantalla-${s.name}.jpg`"
-              :alt="s.label"
+              :alt="t(s.label)"
               width="739"
               height="1600"
               :loading="i === 0 ? 'eager' : 'lazy'"
@@ -111,7 +113,7 @@ function cardStyle(i: number) {
         type="button"
         class="cf-dot rounded-full"
         :class="{ 'cf-dot--on': i === active }"
-        :aria-label="`Ir a ${s.label}`"
+        :aria-label="`${t('goTo')} ${t(s.label)}`"
         @click="go(i)"
       ></Button>
     </div>
@@ -190,3 +192,30 @@ function cardStyle(i: number) {
   }
 }
 </style>
+
+<i18n lang="json">
+{
+  "es": {
+    "carousel": "carrusel",
+    "carouselLabel": "Pantallas de la app LIDIA",
+    "view": "Ver",
+    "goTo": "Ir a",
+    "labelDashboard": "Padrón y balance del hato",
+    "labelIdentidad": "Identidad de cada animal",
+    "labelGenealogia": "Genealogía y descendencia",
+    "labelSalud": "Sanidad y tratamientos",
+    "labelReemo": "Movilizaciones y compra-venta"
+  },
+  "en": {
+    "carousel": "carousel",
+    "carouselLabel": "LIDIA app screens",
+    "view": "View",
+    "goTo": "Go to",
+    "labelDashboard": "Herd registry and balance",
+    "labelIdentidad": "Each animal's identity",
+    "labelGenealogia": "Genealogy and offspring",
+    "labelSalud": "Health and treatments",
+    "labelReemo": "Movements and buy-sell"
+  }
+}
+</i18n>

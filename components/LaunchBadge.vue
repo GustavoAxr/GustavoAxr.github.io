@@ -2,6 +2,8 @@
 // Marcador de lanzamiento, discreto (sin badge neón ni "Próximamente"): una
 // sola línea con la fecha y las tiendas. Ligero y bueno para SEO (usa <time>).
 import { CalendarDays } from "lucide-vue-next";
+
+const { t } = useI18n({ useScope: "local" });
 </script>
 
 <template>
@@ -10,13 +12,13 @@ import { CalendarDays } from "lucide-vue-next";
   >
     <CalendarDays class="w-4 h-4 text-primary" aria-hidden="true" />
     <span>
-      Disponible el
+      {{ t("availableOn") }}
       <time
         datetime="2026-08-01"
         class="font-semibold text-slate-700 dark:text-slate-200"
-        >15 de septiembre</time
+        >{{ t("date") }}</time
       >
-      en
+      {{ t("atStores") }}
     </span>
     <span class="inline-flex items-center gap-1.5">
       <svg
@@ -47,3 +49,18 @@ import { CalendarDays } from "lucide-vue-next";
     </span>
   </p>
 </template>
+
+<i18n lang="json">
+{
+  "es": {
+    "availableOn": "Disponible el",
+    "date": "15 de septiembre",
+    "atStores": "en"
+  },
+  "en": {
+    "availableOn": "Available",
+    "date": "September 15",
+    "atStores": "on"
+  }
+}
+</i18n>

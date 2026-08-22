@@ -10,16 +10,14 @@ import LidiaBanner from "@/components/landing/LidiaBanner.vue";
 import LidiaSpotlight from "@/components/landing/LidiaSpotlight.vue";
 import BookingSection from "@/components/landing/BookingSection.vue";
 
+const { t, locale } = useI18n({ useScope: "local" });
+
 // SEO Meta Tags para la página principal
 useSeoMeta({
-  title:
-    "Inicio - CODEGAHP | Desarrollo de software y automatizaciones perpetuas",
-  description:
-    "Agencia de desarrollo, Inteligencia artificial y automatizaciones, hardware y más.",
-  ogTitle:
-    "CODEGAHP | Desarrollo de Software Profesional",
-  ogDescription:
-    "Desarrollamos soluciones de software escalables y robustas. Transformamos ideas en productos digitales que impulsan el crecimiento de tu negocio.",
+  title: t("seo.title"),
+  description: t("seo.description"),
+  ogTitle: t("seo.ogTitle"),
+  ogDescription: t("seo.ogDescription"),
   ogType: "website",
   twitterCard: "summary_large_image",
 });
@@ -58,7 +56,7 @@ useHead({
               email: "contacto@codegahp.com",
               contactType: "customer service",
               areaServed: "MX",
-              availableLanguage: ["es"],
+              availableLanguage: ["es", "en"],
             },
             sameAs: [
               "https://facebook.com/codegahp",
@@ -72,7 +70,7 @@ useHead({
             "@id": "https://codegahp.com/#website",
             url: "https://codegahp.com",
             name: "CODEGAHP",
-            inLanguage: "es-MX",
+            inLanguage: locale.value === "en" ? "en-US" : "es-MX",
             publisher: { "@id": "https://codegahp.com/#organization" },
           },
         ],
@@ -100,39 +98,38 @@ useHead({
             <h1
               class="text-5xl md:text-6xl xl:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.05]"
             >
-              Software que aguanta<br />
-              el trabajo real
+              {{ t("hero.titleLine1") }}<br />
+              {{ t("hero.titleLine2") }}
             </h1>
 
             <p
               class="mt-6 text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed max-w-xl mx-auto lg:mx-0"
             >
-              Desarrollo web, software y automatización para tu
-              negocio.
+              {{ t("hero.subtitle") }}
             </p>
 
             <div
               class="mt-8 flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-4"
             >
-              <NuxtLink to="/servicios/lidia">
+              <NuxtLinkLocale to="/servicios/lidia">
                 <Button
                   variant="bare"
                   size="lg"
                   class="bg-primary text-white hover:bg-primary-dark text-lg h-12 px-8 shadow-lg shadow-primary/25"
                 >
-                  Conoce LIDIA
+                  {{ t("hero.ctaLidia") }}
                 </Button>
-              </NuxtLink>
+              </NuxtLinkLocale>
 
-              <NuxtLink to="/contacto">
+              <NuxtLinkLocale to="/contacto">
                 <Button
                   variant="outline"
                   size="lg"
                   class="border-primary/40 text-primary hover:bg-primary/10 text-lg h-12 px-8 backdrop-blur-sm bg-transparent"
                 >
-                  Hablemos
+                  {{ t("hero.ctaContact") }}
                 </Button>
-              </NuxtLink>
+              </NuxtLinkLocale>
             </div>
 
             <!-- Marcador de lanzamiento oficial en tiendas -->
@@ -146,8 +143,7 @@ useHead({
             >
               <strong class="font-semibold text-slate-700 dark:text-slate-300"
                 >LIDIA</strong
-              >, nuestra app de trazabilidad ganadera offline, está en acceso
-              anticipado. También hacemos software y soporte a la medida.
+              >{{ t("hero.socialProof") }}
             </p>
           </div>
 
@@ -166,3 +162,40 @@ useHead({
     <BookingSection />
   </div>
 </template>
+
+<i18n lang="json">
+{
+  "es": {
+    "seo": {
+      "title": "Inicio - CODEGAHP | Desarrollo de software y automatizaciones perpetuas",
+      "description": "Agencia de desarrollo, Inteligencia artificial y automatizaciones, hardware y más.",
+      "ogTitle": "CODEGAHP | Desarrollo de Software Profesional",
+      "ogDescription": "Desarrollamos soluciones de software escalables y robustas. Transformamos ideas en productos digitales que impulsan el crecimiento de tu negocio."
+    },
+    "hero": {
+      "titleLine1": "Software que aguanta",
+      "titleLine2": "el trabajo real",
+      "subtitle": "Desarrollo web, software y automatización para tu negocio.",
+      "ctaLidia": "Conoce LIDIA",
+      "ctaContact": "Hablemos",
+      "socialProof": ", nuestra app de trazabilidad ganadera offline, está en acceso anticipado. También hacemos software y soporte a la medida."
+    }
+  },
+  "en": {
+    "seo": {
+      "title": "Home - CODEGAHP | Software development and perpetual automations",
+      "description": "Development agency, artificial intelligence and automations, hardware and more.",
+      "ogTitle": "CODEGAHP | Professional Software Development",
+      "ogDescription": "We build scalable, robust software solutions. We turn ideas into digital products that drive your business growth."
+    },
+    "hero": {
+      "titleLine1": "Software that holds up",
+      "titleLine2": "to real work",
+      "subtitle": "Web development, software and automation for your business.",
+      "ctaLidia": "Meet LIDIA",
+      "ctaContact": "Let's talk",
+      "socialProof": ", our offline livestock traceability app, is in early access. We also build custom software and support."
+    }
+  }
+}
+</i18n>

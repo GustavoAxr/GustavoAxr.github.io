@@ -7,6 +7,8 @@ import { MessageCircle } from "lucide-vue-next";
 // Color primario dinámico según la página de servicio activa
 useServiceTheme();
 
+const { t } = useI18n({ useScope: "local" });
+
 // Estado global del chat (compartido con el banner de /contacto vía useState).
 const isChatOpen = useState("aiChatOpen", () => false);
 </script>
@@ -20,7 +22,7 @@ const isChatOpen = useState("aiChatOpen", () => false);
       href="#contenido-principal"
       class="sr-only focus:not-sr-only focus:fixed focus:top-24 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-primary focus:text-white dark:focus:text-slate-950 focus:rounded-lg focus:shadow-lg"
     >
-      Saltar al contenido
+      {{ t("skip") }}
     </a>
 
     <AppHeader />
@@ -38,7 +40,7 @@ const isChatOpen = useState("aiChatOpen", () => false);
         variant="bare"
         size="free"
         type="button"
-        aria-label="Abrir el asistente de CODEGAHP"
+        :aria-label="t('openChat')"
         class="group fixed bottom-5 right-5 z-40 flex items-center gap-2 rounded-[5px] bg-primary py-3 pl-3 pr-4 text-white shadow-lg shadow-[#409028]/30 ring-1 ring-black/5 transition-transform duration-200 hover:scale-105 active:scale-95 sm:bottom-6 sm:right-6 [&_svg]:size-6"
         @click="isChatOpen = true"
       >
@@ -48,13 +50,28 @@ const isChatOpen = useState("aiChatOpen", () => false);
           />
           <MessageCircle class="relative h-6 w-6" />
         </span>
-        <span class="text-sm font-medium">¿Hablamos?</span>
+        <span class="text-sm font-medium">{{ t("chatBubble") }}</span>
       </Button>
     </Transition>
 
     <AIChatDrawer :is-open="isChatOpen" @close="isChatOpen = false" />
   </div>
 </template>
+
+<i18n lang="json">
+{
+  "es": {
+    "skip": "Saltar al contenido",
+    "openChat": "Abrir el asistente de CODEGAHP",
+    "chatBubble": "¿Hablamos?"
+  },
+  "en": {
+    "skip": "Skip to content",
+    "openChat": "Open the CODEGAHP assistant",
+    "chatBubble": "Let's chat"
+  }
+}
+</i18n>
 
 <style scoped>
 .fade-enter-active,

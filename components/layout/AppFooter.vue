@@ -11,25 +11,27 @@ import {
   CalendarClock,
 } from "lucide-vue-next";
 
+const { t } = useI18n({ useScope: "local" });
+
 const currentYear = new Date().getFullYear();
 
 const { servicesMenu } = useServices();
 
 const footerLinks = {
   company: [
-    { name: "Sobre Nosotros", to: "/#about" },
-    { name: "LIDIA", to: "/servicios/lidia" },
-    { name: "Proyectos", to: "/proyectos" },
+    { name: "companyAbout", to: "/#about" },
+    { name: "companyLidia", to: "/servicios/lidia" },
+    { name: "companyProjects", to: "/proyectos" },
   ],
   legal: [
-    { name: "Política de Privacidad", to: "/privacidad" },
-    { name: "Términos de Servicio", to: "/terminos" },
-    { name: "Política de Cookies", to: "/cookies" },
+    { name: "legalPrivacy", to: "/privacidad" },
+    { name: "legalTerms", to: "/terminos" },
+    { name: "legalCookies", to: "/cookies" },
   ],
   support: [
-    { name: "Contacto", to: "/contacto" },
-    { name: "Agenda una Cita", to: "/#booking-section" },
-    { name: "Servicios", to: "/servicios" },
+    { name: "supportContact", to: "/contacto" },
+    { name: "supportBooking", to: "/#booking-section" },
+    { name: "supportServices", to: "/servicios" },
   ],
 };
 
@@ -72,7 +74,7 @@ const technologies = ["Vue.js", "Nuxt", "TypeScript", "Laravel", "Java", "AWS"];
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12">
         <!-- Brand Column -->
         <div class="lg:col-span-2">
-          <NuxtLink to="/" class="flex items-center gap-3 mb-6">
+          <NuxtLinkLocale to="/" class="flex items-center gap-3 mb-6">
             <div class="w-10 h-10 flex items-center justify-center">
               <img
                 src="~/assets/img/codegahp2-03.png"
@@ -84,14 +86,12 @@ const technologies = ["Vue.js", "Nuxt", "TypeScript", "Laravel", "Java", "AWS"];
               <span class="text-slate-600 dark:text-slate-300">CODE</span>
               <span class="text-primary">GAHP</span>
             </span>
-          </NuxtLink>
+          </NuxtLinkLocale>
 
           <p
             class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6"
           >
-            Software que aguanta el trabajo real. Construimos productos para el
-            campo, los municipios y los negocios de México — desde Ciudad del
-            Carmen, Campeche, para donde haga falta, haya o no señal.
+            {{ t("tagline") }}
           </p>
 
           <!-- Contact Info -->
@@ -114,7 +114,7 @@ const technologies = ["Vue.js", "Nuxt", "TypeScript", "Laravel", "Java", "AWS"];
               class="flex items-start gap-3 text-slate-600 dark:text-slate-400"
             >
               <MapPin class="w-4 h-4 mt-0.5 shrink-0" />
-              <span>Ciudad del Carmen, Campeche, México</span>
+              <span>{{ t("location") }}</span>
             </div>
           </div>
 
@@ -146,30 +146,30 @@ const technologies = ["Vue.js", "Nuxt", "TypeScript", "Laravel", "Java", "AWS"];
         <!-- Services Column -->
         <div>
           <h3 class="text-slate-800 dark:text-white font-semibold mb-4">
-            Servicios
+            {{ t("headingServices") }}
           </h3>
           <ul class="space-y-2">
             <li
               v-for="category in servicesMenu.slice(0, 2)"
               :key="category.category"
             >
-              <NuxtLink
+              <NuxtLinkLocale
                 v-for="item in category.items.slice(0, 2)"
                 :key="item.title"
                 :to="item.to"
                 class="block text-slate-600 dark:text-slate-400 hover:text-primary text-sm py-1 transition-colors"
               >
                 {{ item.title }}
-              </NuxtLink>
+              </NuxtLinkLocale>
             </li>
             <li>
-              <NuxtLink
+              <NuxtLinkLocale
                 to="/servicios"
                 class="inline-flex items-center gap-1 text-primary-dark dark:text-primary text-sm hover:underline mt-2"
               >
-                Ver todos
+                {{ t("viewAll") }}
                 <ExternalLink class="w-3 h-3" />
-              </NuxtLink>
+              </NuxtLinkLocale>
             </li>
           </ul>
         </div>
@@ -177,16 +177,16 @@ const technologies = ["Vue.js", "Nuxt", "TypeScript", "Laravel", "Java", "AWS"];
         <!-- Company Column -->
         <div>
           <h3 class="text-slate-800 dark:text-white font-semibold mb-4">
-            Empresa
+            {{ t("headingCompany") }}
           </h3>
           <ul class="space-y-2">
             <li v-for="link in footerLinks.company" :key="link.name">
-              <NuxtLink
+              <NuxtLinkLocale
                 :to="link.to"
                 class="text-slate-600 dark:text-slate-400 hover:text-primary text-sm transition-colors"
               >
-                {{ link.name }}
-              </NuxtLink>
+                {{ t(link.name) }}
+              </NuxtLinkLocale>
             </li>
           </ul>
         </div>
@@ -194,30 +194,30 @@ const technologies = ["Vue.js", "Nuxt", "TypeScript", "Laravel", "Java", "AWS"];
         <!-- Support Column -->
         <div>
           <h3 class="text-slate-800 dark:text-white font-semibold mb-4">
-            Soporte
+            {{ t("headingSupport") }}
           </h3>
           <ul class="space-y-2">
             <li v-for="link in footerLinks.support" :key="link.name">
-              <NuxtLink
+              <NuxtLinkLocale
                 :to="link.to"
                 class="text-slate-600 dark:text-slate-400 hover:text-primary text-sm transition-colors"
               >
-                {{ link.name }}
-              </NuxtLink>
+                {{ t(link.name) }}
+              </NuxtLinkLocale>
             </li>
           </ul>
 
           <h3 class="text-slate-800 dark:text-white font-semibold mb-4 mt-8">
-            Legal
+            {{ t("headingLegal") }}
           </h3>
           <ul class="space-y-2">
             <li v-for="link in footerLinks.legal.slice(0, 2)" :key="link.name">
-              <NuxtLink
+              <NuxtLinkLocale
                 :to="link.to"
                 class="text-slate-600 dark:text-slate-400 hover:text-primary text-sm transition-colors"
               >
-                {{ link.name }}
-              </NuxtLink>
+                {{ t(link.name) }}
+              </NuxtLinkLocale>
             </li>
           </ul>
         </div>
@@ -225,11 +225,10 @@ const technologies = ["Vue.js", "Nuxt", "TypeScript", "Laravel", "Java", "AWS"];
         <!-- CTA Column -->
         <div>
           <h3 class="text-slate-800 dark:text-white font-semibold mb-4">
-            ¿Traes un proyecto?
+            {{ t("ctaHeading") }}
           </h3>
           <p class="text-slate-600 dark:text-slate-400 text-sm mb-4">
-            Cuéntanoslo directo, sin formularios eternos. Respondemos en menos
-            de 24 horas.
+            {{ t("ctaText") }}
           </p>
           <div class="space-y-2">
             <Button as-child variant="bare" size="free">
@@ -240,17 +239,17 @@ const technologies = ["Vue.js", "Nuxt", "TypeScript", "Laravel", "Java", "AWS"];
                 class="flex items-center gap-2 px-4 py-2.5 rounded-[5px] bg-primary text-white text-sm font-semibold hover:bg-primary-dark transition-colors"
               >
                 <MessageCircle class="w-4 h-4" />
-                Escríbenos por WhatsApp
+                {{ t("ctaWhatsapp") }}
               </a>
             </Button>
             <Button as-child variant="bare" size="free">
-              <NuxtLink
+              <NuxtLinkLocale
                 to="/#booking-section"
                 class="flex items-center gap-2 px-4 py-2.5 rounded-[5px] border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-semibold hover:border-primary hover:text-primary transition-colors"
               >
                 <CalendarClock class="w-4 h-4" />
-                Agenda una videollamada
-              </NuxtLink>
+                {{ t("ctaBooking") }}
+              </NuxtLinkLocale>
             </Button>
           </div>
 
@@ -269,41 +268,41 @@ const technologies = ["Vue.js", "Nuxt", "TypeScript", "Laravel", "Java", "AWS"];
           class="flex flex-col md:flex-row items-center justify-between gap-4"
         >
           <p class="text-slate-600 dark:text-slate-400 text-sm text-center md:text-left">
-            © {{ currentYear }} CODEGAHP. Todos los derechos reservados.
+            © {{ currentYear }} CODEGAHP. {{ t("rights") }}
           </p>
 
           <div class="flex items-center gap-1.5 text-slate-600 dark:text-slate-400 text-sm">
-            <span>Hecho con</span>
+            <span>{{ t("madeWith") }}</span>
             <Heart class="w-4 h-4 text-red-400 fill-red-400" aria-hidden="true" />
-            <span class="sr-only">amor</span>
-            <span>en Ciudad del Carmen, Campeche</span>
+            <span class="sr-only">{{ t("love") }}</span>
+            <span>{{ t("madeIn") }}</span>
             <code
               class="hidden sm:inline-block ml-2 px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-[11px] font-mono text-primary-dark dark:text-primary"
-              >GMT-6 · isla incluida 🏝️</code
+              >{{ t("badge") }} 🏝️</code
             >
           </div>
 
           <div class="flex items-center gap-4 text-slate-600 dark:text-slate-400 text-xs">
-            <NuxtLink
+            <NuxtLinkLocale
               to="/privacidad"
               class="hover:text-primary transition-colors"
             >
-              Privacidad
-            </NuxtLink>
+              {{ t("bottomPrivacy") }}
+            </NuxtLinkLocale>
             <span>•</span>
-            <NuxtLink
+            <NuxtLinkLocale
               to="/terminos"
               class="hover:text-primary transition-colors"
             >
-              Términos
-            </NuxtLink>
+              {{ t("bottomTerms") }}
+            </NuxtLinkLocale>
             <span>•</span>
-            <NuxtLink
+            <NuxtLinkLocale
               to="/cookies"
               class="hover:text-primary transition-colors"
             >
-              Cookies
-            </NuxtLink>
+              {{ t("bottomCookies") }}
+            </NuxtLinkLocale>
           </div>
         </div>
       </div>
@@ -318,3 +317,68 @@ const technologies = ["Vue.js", "Nuxt", "TypeScript", "Laravel", "Java", "AWS"];
     ></div>
   </footer>
 </template>
+
+<i18n lang="json">
+{
+  "es": {
+    "tagline": "Software que aguanta el trabajo real. Construimos productos para el campo, los municipios y los negocios de México — desde Ciudad del Carmen, Campeche, para donde haga falta, haya o no señal.",
+    "location": "Ciudad del Carmen, Campeche, México",
+    "headingServices": "Servicios",
+    "viewAll": "Ver todos",
+    "headingCompany": "Empresa",
+    "headingSupport": "Soporte",
+    "headingLegal": "Legal",
+    "companyAbout": "Sobre Nosotros",
+    "companyLidia": "LIDIA",
+    "companyProjects": "Proyectos",
+    "legalPrivacy": "Política de Privacidad",
+    "legalTerms": "Términos de Servicio",
+    "legalCookies": "Política de Cookies",
+    "supportContact": "Contacto",
+    "supportBooking": "Agenda una Cita",
+    "supportServices": "Servicios",
+    "ctaHeading": "¿Traes un proyecto?",
+    "ctaText": "Cuéntanoslo directo, sin formularios eternos. Respondemos en menos de 24 horas.",
+    "ctaWhatsapp": "Escríbenos por WhatsApp",
+    "ctaBooking": "Agenda una videollamada",
+    "rights": "Todos los derechos reservados.",
+    "madeWith": "Hecho con",
+    "love": "amor",
+    "madeIn": "en Ciudad del Carmen, Campeche",
+    "badge": "GMT-6 · isla incluida",
+    "bottomPrivacy": "Privacidad",
+    "bottomTerms": "Términos",
+    "bottomCookies": "Cookies"
+  },
+  "en": {
+    "tagline": "Software that holds up to real work. We build products for the countryside, local governments, and businesses across Mexico — from Ciudad del Carmen, Campeche, to wherever they're needed, signal or no signal.",
+    "location": "Ciudad del Carmen, Campeche, Mexico",
+    "headingServices": "Services",
+    "viewAll": "View all",
+    "headingCompany": "Company",
+    "headingSupport": "Support",
+    "headingLegal": "Legal",
+    "companyAbout": "About Us",
+    "companyLidia": "LIDIA",
+    "companyProjects": "Projects",
+    "legalPrivacy": "Privacy Policy",
+    "legalTerms": "Terms of Service",
+    "legalCookies": "Cookie Policy",
+    "supportContact": "Contact",
+    "supportBooking": "Book an Appointment",
+    "supportServices": "Services",
+    "ctaHeading": "Got a project?",
+    "ctaText": "Tell us directly, no endless forms. We reply in under 24 hours.",
+    "ctaWhatsapp": "Message us on WhatsApp",
+    "ctaBooking": "Book a video call",
+    "rights": "All rights reserved.",
+    "madeWith": "Made with",
+    "love": "love",
+    "madeIn": "in Ciudad del Carmen, Campeche",
+    "badge": "GMT-6 · island included",
+    "bottomPrivacy": "Privacy",
+    "bottomTerms": "Terms",
+    "bottomCookies": "Cookies"
+  }
+}
+</i18n>
