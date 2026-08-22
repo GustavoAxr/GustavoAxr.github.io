@@ -22,9 +22,6 @@ useHead({
   ],
 });
 
-const VIDEO_URL =
-  "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260517_222138_3e3205be-3364-417b-a64a-bfe087acbec4.mp4";
-
 // Datos reales (stack) — se muestran donde iban las estadísticas.
 const skills = [
   { area: "Front", tech: "Vue\nNuxt · React" },
@@ -33,41 +30,68 @@ const skills = [
 ];
 const headingWords = ["Gustavo", "Herrera", "Pérez"];
 
-const videoRef = ref<HTMLVideoElement | null>(null);
+// Campo de estrellas. Se genera en el cliente (Math.random) para no romper la
+// hidratación: en SSR el cielo sale vacío y las estrellas aparecen al montar.
+interface Star {
+  top: number;
+  left: number;
+  size: number;
+  delay: number;
+  dur: number;
+  o: number;
+}
+const stars = ref<Star[]>([]);
 onMounted(() => {
-  if (videoRef.value) {
-    videoRef.value.muted = true;
-    videoRef.value.play?.().catch(() => {});
+  const arr: Star[] = [];
+  for (let i = 0; i < 120; i++) {
+    arr.push({
+      top: Math.random() * 100,
+      left: Math.random() * 100,
+      size: Math.random() * 2.2 + 0.5,
+      delay: Math.random() * 5,
+      dur: Math.random() * 2.5 + 2,
+      o: Math.random() * 0.6 + 0.35,
+    });
   }
+  stars.value = arr;
 });
 </script>
 
 <template>
   <section
-    class="hero relative -mt-20 min-h-screen w-full overflow-hidden bg-white text-black dark:bg-slate-950 dark:text-white"
+    class="hero relative -mt-20 min-h-screen w-full overflow-hidden bg-[#070713] text-white"
   >
-    <video
-      ref="videoRef"
-      class="absolute inset-0 h-full w-full object-cover dark:brightness-[0.55]"
-      autoplay
-      loop
-      muted
-      playsinline
-      preload="auto"
-    >
-      <source :src="VIDEO_URL" type="video/mp4" />
-    </video>
-
-    <!-- Scrim para modo oscuro (oscurece el video para que el texto blanco se lea) -->
-    <div
-      class="pointer-events-none absolute inset-0 hidden bg-gradient-to-t from-slate-950 via-slate-950/70 to-slate-950/60 dark:block"
-    ></div>
+    <!-- Cielo estrellado -->
+    <div class="pointer-events-none absolute inset-0">
+      <!-- Nebulosa / resplandor morado -->
+      <div
+        class="absolute -top-[15%] left-1/2 h-[70vh] w-[70vh] -translate-x-1/2 rounded-full bg-[#5E0ED7]/25 blur-[130px]"
+      ></div>
+      <div
+        class="absolute bottom-0 right-[5%] h-[45vh] w-[45vh] rounded-full bg-[#7c3aed]/20 blur-[130px]"
+      ></div>
+      <!-- Estrellas (se generan al montar en cliente) -->
+      <div
+        v-for="(s, i) in stars"
+        :key="i"
+        class="star absolute rounded-full bg-white"
+        :style="{
+          top: s.top + '%',
+          left: s.left + '%',
+          width: s.size + 'px',
+          height: s.size + 'px',
+          '--o': s.o,
+          animationDelay: s.delay + 's',
+          animationDuration: s.dur + 's',
+        }"
+      ></div>
+    </div>
 
     <div class="relative z-10 flex min-h-screen flex-col pt-20">
       <!-- Kicker -->
       <div class="px-5 pt-6 sm:px-8 md:px-12">
         <span
-          class="a-up inline-block text-[10px] font-semibold uppercase tracking-[0.3em] text-black/70 dark:text-white/70"
+          class="a-up inline-block text-[10px] font-semibold uppercase tracking-[0.3em] text-white/70"
           :style="{ animationDelay: '0.1s' }"
         >
           {{ t("kicker") }}
@@ -86,14 +110,14 @@ onMounted(() => {
             :style="{ animationDelay: (i + 2) * 0.12 + 's' }"
           >
             <div
-              class="font-semibold leading-none text-black dark:text-white"
+              class="font-semibold leading-none text-white"
               style="font-size: clamp(1.4rem, 4.5vw, 3rem)"
             >
               {{ s.area
-              }}<span class="text-[#5E0ED7] dark:text-[#a78bfa]">.</span>
+              }}<span class="text-[#a78bfa]">.</span>
             </div>
             <div
-              class="mt-2 whitespace-pre-line text-[10px] font-semibold uppercase leading-tight tracking-widest text-black dark:text-white sm:text-xs md:text-sm"
+              class="mt-2 whitespace-pre-line text-[10px] font-semibold uppercase leading-tight tracking-widest text-white sm:text-xs md:text-sm"
             >
               {{ s.tech }}
             </div>
@@ -117,7 +141,7 @@ onMounted(() => {
 
           <NuxtLinkLocale
             to="/contacto"
-            class="a-up flex items-center gap-1 whitespace-nowrap text-base font-semibold text-[#5E0ED7] dark:text-[#a78bfa] sm:text-xl md:text-2xl"
+            class="a-up flex items-center gap-1 whitespace-nowrap text-base font-semibold text-[#a78bfa] sm:text-xl md:text-2xl"
             :style="{ animationDelay: '0.72s' }"
           >
             {{ t("cta") }}
@@ -140,7 +164,7 @@ onMounted(() => {
               class="block overflow-hidden"
             >
               <span
-                class="a-word block font-semibold uppercase text-black dark:text-white"
+                class="a-word block font-semibold uppercase text-white"
                 style="font-size: clamp(2rem, 9vw, 8rem); line-height: 0.9"
                 :style="{ animationDelay: 0.4 + i * 0.14 + 's' }"
                 >{{ word }}</span
@@ -180,6 +204,23 @@ onMounted(() => {
   }
   to {
     transform: translateY(0);
+  }
+}
+
+/* Estrellas titilantes */
+.star {
+  animation-name: twinkle;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.55);
+}
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: calc(var(--o, 0.6) * 0.35);
+  }
+  50% {
+    opacity: var(--o, 0.6);
   }
 }
 </style>
