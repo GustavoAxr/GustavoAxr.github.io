@@ -29,3 +29,6 @@ logs
 assets/img/clocc.png
 assets/img/clocc_oscuro.png
 assets/video/
+# Capturas de pantalla fuente (p. ej. la del bot de Telegram, que muestra el
+# nombre interno); se publican versiones editadas en public/img/clocc/
+assets/img/Captura de pantalla*

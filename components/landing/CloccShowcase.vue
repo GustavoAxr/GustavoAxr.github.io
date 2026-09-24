@@ -11,6 +11,7 @@ import {
   Clock,
   CalendarCheck,
   LogOut,
+  Send,
 } from "lucide-vue-next";
 
 const { t } = useI18n({ useScope: "local" });
@@ -23,6 +24,7 @@ const events = computed(() => [
   { icon: Clock, key: "e3", time: "08:21", tone: "late" as Tone },
   { icon: CalendarCheck, key: "e4", time: "12:40", tone: "info" as Tone },
   { icon: LogOut, key: "e5", time: "17:31", tone: "ok" as Tone },
+  { icon: Send, key: "e6", time: "18:00", tone: "info" as Tone },
 ]);
 const toneClass: Record<Tone, string> = {
   ok: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
@@ -102,7 +104,7 @@ onBeforeUnmount(() => {
        monitores grandes se queda dentro del contenedor para no desbalancear -->
   <div
     ref="stage"
-    class="relative lg:-mr-24 xl:-mr-40 2xl:mr-0"
+    class="relative lg:-mr-24 lg:ml-8 xl:-mr-40 xl:ml-14 2xl:mr-0"
     @pointermove="onMove"
     @pointerleave="onLeave"
   >
@@ -152,7 +154,7 @@ onBeforeUnmount(() => {
 
         <!-- Chip: registros en vivo -->
         <div
-          class="absolute -bottom-8 left-3 z-20 lg:-left-10 lg:bottom-auto lg:top-[22%] [transform:translateZ(70px)]"
+          class="absolute -bottom-8 left-3 z-20 lg:-left-6 lg:bottom-auto lg:top-[22%] [transform:translateZ(70px)]"
         >
           <div
             class="clocc-float-a w-[17.5rem] rounded-xl border border-slate-200/80 bg-white/85 p-3 shadow-xl shadow-slate-900/10 backdrop-blur-md dark:border-white/10 dark:bg-slate-900/80 dark:shadow-black/40 sm:w-[19rem]"
@@ -358,7 +360,8 @@ onBeforeUnmount(() => {
       "e2": { "title": "Registro remoto", "meta": "Dentro de la geocerca" },
       "e3": { "title": "Retardo detectado", "meta": "Reloj de oficinas · 6 min" },
       "e4": { "title": "Vacaciones autorizadas", "meta": "RRHH firmó la solicitud" },
-      "e5": { "title": "Salida registrada", "meta": "Reloj de planta" }
+      "e5": { "title": "Salida registrada", "meta": "Reloj de planta" },
+      "e6": { "title": "Reporte por Telegram", "meta": "Semanal · Excel" }
     },
     "beat": {
       "title": "Reloj de planta en línea",
@@ -377,7 +380,8 @@ onBeforeUnmount(() => {
       "e2": { "title": "Remote check-in", "meta": "Inside the geofence" },
       "e3": { "title": "Late arrival detected", "meta": "Office time clock · 6 min" },
       "e4": { "title": "Vacation approved", "meta": "HR signed the request" },
-      "e5": { "title": "Clock-out recorded", "meta": "Plant time clock" }
+      "e5": { "title": "Clock-out recorded", "meta": "Plant time clock" },
+      "e6": { "title": "Report via Telegram", "meta": "Weekly · Excel" }
     },
     "beat": {
       "title": "Plant time clock online",

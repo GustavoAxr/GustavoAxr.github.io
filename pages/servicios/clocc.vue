@@ -15,8 +15,17 @@ import {
   UserCog,
   Wifi,
   DoorClosed,
+  UserSearch,
+  Users,
+  FileSpreadsheet,
+  QrCode,
+  ChevronLeft,
+  Paperclip,
+  Mic,
+  Smile,
 } from "lucide-vue-next";
 import CloccShowcase from "@/components/landing/CloccShowcase.vue";
+import IPhoneFrame from "@/components/landing/IPhoneFrame.vue";
 
 const { t } = useI18n({ useScope: "local" });
 
@@ -56,6 +65,15 @@ const highlights = computed(() => [
   t("hero.points.p1"),
   t("hero.points.p2"),
   t("hero.points.p3"),
+  t("hero.points.p4"),
+]);
+
+// Asistente en Telegram (capacidades reales del bot)
+const telegram = computed(() => [
+  { icon: UserSearch, title: t("tg.f1.title"), desc: t("tg.f1.desc") },
+  { icon: Users, title: t("tg.f2.title"), desc: t("tg.f2.desc") },
+  { icon: FileSpreadsheet, title: t("tg.f3.title"), desc: t("tg.f3.desc") },
+  { icon: QrCode, title: t("tg.f4.title"), desc: t("tg.f4.desc") },
 ]);
 </script>
 
@@ -78,10 +96,11 @@ const highlights = computed(() => [
         <!-- Texto -->
         <div>
           <!-- Logo animado (reloj ⇄ CLOCC) en lugar del nombre; la animación ya
-               viene anclada a la izquierda, y el margen negativo deja que se
-               monte un poco sobre el titular (z-10: queda por encima del texto) -->
+               viene anclada a la izquierda. Los márgenes negativos mantienen el
+               titular en su sitio y -translate-y lo sube sin mover el contenido
+               (z-10: si llega a tocar el texto, queda por encima) -->
           <div
-            class="relative z-10 -mb-8 w-56 sm:-mb-10 sm:w-72 lg:[@media(max-height:800px)]:w-64"
+            class="relative z-10 -mb-[23px] w-52 -translate-y-2 sm:-mb-[21px] sm:w-64 lg:[@media(max-height:800px)]:w-56"
           >
             <CloccMotion />
           </div>
@@ -136,6 +155,172 @@ const highlights = computed(() => [
 
         <!-- Panel real de Clocc, dinámico (inclinación con el cursor, chips vivos) -->
         <CloccShowcase />
+      </div>
+    </section>
+
+    <!-- ============ ASISTENTE EN TELEGRAM ============ -->
+    <section class="relative overflow-hidden border-t border-slate-100 dark:border-slate-900">
+      <div
+        class="pointer-events-none absolute -left-32 top-1/2 h-[480px] w-[480px] -translate-y-1/2 rounded-full bg-gradient-to-br from-[#26A5E4]/10 to-primary/5 blur-[120px]"
+        aria-hidden="true"
+      ></div>
+      <div class="container relative mx-auto max-w-7xl px-4 py-16 lg:py-24">
+        <div class="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
+          <!-- Teléfono con la conversación real -->
+          <div class="relative order-last flex justify-center lg:order-first">
+            <div
+              class="pointer-events-none absolute inset-10 rounded-full bg-gradient-to-tr from-[#26A5E4]/15 to-primary/10 blur-3xl"
+              aria-hidden="true"
+            ></div>
+            <!-- Telegram claro (fondo verde de la app) u oscuro, según el tema -->
+            <IPhoneFrame
+              time="11:00"
+              screen-class="bg-gradient-to-r from-[#c8d27d] to-[#85be83] dark:from-[#0b0b10] dark:to-[#0b0b10]"
+              class="w-[280px] sm:w-[300px] lg:-rotate-2"
+            >
+              <!-- cabecera de Telegram (iOS) -->
+              <div
+                class="relative z-10 flex items-center justify-between px-3 pb-2"
+                aria-hidden="true"
+              >
+                <span
+                  class="flex h-7 items-center gap-1 rounded-full bg-white/75 pl-1 pr-1.5 text-slate-900 shadow-sm backdrop-blur dark:bg-white/10 dark:text-white dark:shadow-none"
+                >
+                  <ChevronLeft class="h-4 w-4" />
+                  <span
+                    class="rounded-full bg-slate-900 px-1.5 text-[11px] font-semibold leading-4 text-white dark:bg-white dark:text-slate-900"
+                    >17</span
+                  >
+                </span>
+                <span
+                  class="rounded-full bg-white/75 px-4 py-0.5 text-center leading-tight shadow-sm backdrop-blur dark:bg-white/10 dark:shadow-none"
+                >
+                  <span class="block text-[13px] font-semibold text-slate-900 dark:text-white"
+                    >Clocc</span
+                  >
+                  <span class="block text-[10px] text-slate-500 dark:text-white/55">{{
+                    t("tg.bot")
+                  }}</span>
+                </span>
+                <span
+                  class="grid h-8 w-8 place-items-center rounded-full bg-slate-900 p-1.5 ring-2 ring-white/70 dark:bg-slate-800 dark:ring-white/10"
+                >
+                  <CloccLogo class="h-full w-full" />
+                </span>
+              </div>
+              <!-- conversación real (versión clara u oscura) -->
+              <img
+                src="/img/clocc/telegram-bot-claro.webp"
+                :alt="t('tg.alt')"
+                width="720"
+                height="1164"
+                loading="lazy"
+                decoding="async"
+                class="block w-full dark:hidden"
+              />
+              <img
+                src="/img/clocc/telegram-bot.webp"
+                :alt="t('tg.alt')"
+                width="720"
+                height="1164"
+                loading="lazy"
+                decoding="async"
+                class="hidden w-full dark:block"
+              />
+              <!-- barra para escribir (flota sobre el chat, como en Telegram) -->
+              <div class="relative -mt-8 px-2.5 pb-7 pt-8" aria-hidden="true">
+                <div
+                  class="absolute inset-0 bg-gradient-to-r from-[#63ab83] to-[#c7d0ac] [mask-image:linear-gradient(to_bottom,transparent,black_45%)] dark:from-[#0b0b10] dark:to-[#0b0b10]"
+                ></div>
+                <div class="relative flex items-center gap-2">
+                  <span
+                    class="grid h-8 w-8 place-items-center rounded-full bg-white/80 text-slate-600 shadow-sm dark:bg-white/10 dark:text-white/80 dark:shadow-none"
+                  >
+                    <Paperclip class="h-4 w-4" />
+                  </span>
+                  <span
+                    class="flex h-8 flex-1 items-center justify-between rounded-full bg-white/80 pl-3.5 pr-2.5 text-[12px] text-slate-400 shadow-sm dark:bg-white/10 dark:text-white/45 dark:shadow-none"
+                  >
+                    {{ t("tg.message") }}
+                    <Smile class="h-4 w-4 text-slate-500 dark:text-white/55" />
+                  </span>
+                  <span
+                    class="grid h-8 w-8 place-items-center rounded-full bg-white/80 text-slate-600 shadow-sm dark:bg-white/10 dark:text-white/80 dark:shadow-none"
+                  >
+                    <Mic class="h-4 w-4" />
+                  </span>
+                </div>
+              </div>
+            </IPhoneFrame>
+            <!-- chip: reporte entregado -->
+            <div
+              class="absolute -right-2 bottom-16 flex items-center gap-2.5 rounded-xl border border-slate-200/80 bg-white/90 px-3.5 py-2.5 shadow-xl shadow-slate-900/10 backdrop-blur-md sm:right-2 lg:-right-4 dark:border-white/10 dark:bg-slate-900/85"
+              aria-hidden="true"
+            >
+              <span
+                class="grid h-8 w-8 place-items-center rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+              >
+                <FileSpreadsheet class="h-4 w-4" />
+              </span>
+              <div class="leading-tight">
+                <p class="text-xs font-semibold text-slate-900 dark:text-white">
+                  {{ t("tg.chipTitle") }}
+                </p>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400">
+                  {{ t("tg.chipMeta") }}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Texto y capacidades (sin tarjetas) -->
+          <div>
+            <h2
+              class="text-3xl font-bold text-slate-900 dark:text-white md:text-4xl"
+            >
+              {{ t("tg.title1") }}
+              <span
+                class="bg-gradient-to-r from-[#26A5E4] to-green-500 bg-clip-text text-transparent"
+                >{{ t("tg.title2") }}</span
+              >
+            </h2>
+            <p
+              class="mt-4 max-w-lg text-base leading-relaxed text-slate-600 dark:text-slate-300"
+            >
+              {{ t("tg.subtitle") }}
+            </p>
+
+            <div class="relative mt-10">
+              <div
+                class="pointer-events-none absolute bottom-7 left-[27px] top-7 border-l-2 border-dashed border-[#26A5E4]/25"
+                aria-hidden="true"
+              ></div>
+              <ul class="relative space-y-7">
+                <li
+                  v-for="f in telegram"
+                  :key="f.title"
+                  class="flex items-start gap-5"
+                >
+                  <div
+                    class="grid h-14 w-14 shrink-0 place-items-center rounded-2xl border border-[#26A5E4]/25 bg-white shadow-sm dark:bg-slate-900"
+                  >
+                    <component :is="f.icon" class="h-6 w-6 text-[#26A5E4]" />
+                  </div>
+                  <div class="pt-1.5">
+                    <h3 class="font-bold text-slate-900 dark:text-white">
+                      {{ f.title }}
+                    </h3>
+                    <p
+                      class="mt-1 text-sm leading-relaxed text-slate-500 dark:text-slate-400"
+                    >
+                      {{ f.desc }}
+                    </p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -327,7 +512,7 @@ const highlights = computed(() => [
   "es": {
     "seo": {
       "title": "Clocc - CODEGAHP | Control de asistencia y cumplimiento del personal",
-      "description": "Clocc conecta tus relojes actuales, registra la asistencia en gabinete o home office y llega a cada auditoría con la evidencia lista. Sin cambiar tu infraestructura.",
+      "description": "Clocc conecta tus relojes actuales, registra la asistencia en gabinete o home office y llega a cada auditoría con la evidencia lista. Con asistente en Telegram y sin cambiar tu infraestructura.",
       "ogTitle": "Clocc — Asistencia y cumplimiento del personal | CODEGAHP",
       "ogDescription": "Registro de asistencia con tus relojes actuales, home office con geocerca, vacaciones y permisos con autorización de RRHH, y reportes listos para auditar."
     },
@@ -340,7 +525,34 @@ const highlights = computed(() => [
       "points": {
         "p1": "Usa tus relojes actuales",
         "p2": "Gabinete o home office",
-        "p3": "Listo para auditorías"
+        "p3": "Listo para auditorías",
+        "p4": "Asistente en Telegram"
+      }
+    },
+    "tg": {
+      "title1": "Pregúntale a Clocc",
+      "title2": "desde Telegram",
+      "subtitle": "Consulta la asistencia de tu equipo y pide reportes en lenguaje natural, desde el chat que ya usas y sin abrir la computadora.",
+      "bot": "bot",
+      "message": "Mensaje",
+      "alt": "Chat con el bot de Clocc en Telegram: explica lo que puede hacer y envía el reporte semanal en Excel",
+      "chipTitle": "Reporte semanal en Excel",
+      "chipMeta": "Enviado por el bot al chat",
+      "f1": {
+        "title": "Consulta a cualquier persona",
+        "desc": "Días trabajados, faltas y retardos en el periodo que le pidas."
+      },
+      "f2": {
+        "title": "Resumen de toda la plantilla",
+        "desc": "Quién llegó primero, quién falta, horas acumuladas y horas extra."
+      },
+      "f3": {
+        "title": "Reportes directo al chat",
+        "desc": "En PDF, Excel o Word, de todo el equipo o de una sola persona."
+      },
+      "f4": {
+        "title": "Solo tu información",
+        "desc": "Lo vinculas con un enlace o un código QR y únicamente ve los datos de tu empresa."
       }
     },
     "how": {
@@ -407,7 +619,7 @@ const highlights = computed(() => [
   "en": {
     "seo": {
       "title": "Clocc - CODEGAHP | Staff attendance and compliance control",
-      "description": "Clocc connects to your current time clocks, records attendance on-site or from home, and gets you to every audit with the evidence ready. Without changing your infrastructure.",
+      "description": "Clocc connects to your current time clocks, records attendance on-site or from home, and gets you to every audit with the evidence ready. With a Telegram assistant and without changing your infrastructure.",
       "ogTitle": "Clocc — Staff attendance and compliance | CODEGAHP",
       "ogDescription": "Attendance tracking with your current time clocks, home office with geofencing, vacations and permits with HR approval, and audit-ready reports."
     },
@@ -420,7 +632,34 @@ const highlights = computed(() => [
       "points": {
         "p1": "Works with your current clocks",
         "p2": "On-site or home office",
-        "p3": "Audit-ready"
+        "p3": "Audit-ready",
+        "p4": "Telegram assistant"
+      }
+    },
+    "tg": {
+      "title1": "Ask Clocc",
+      "title2": "right from Telegram",
+      "subtitle": "Check your team's attendance and request reports in plain language, from the chat you already use and without opening your computer.",
+      "bot": "bot",
+      "message": "Message",
+      "alt": "Chat with the Clocc bot on Telegram: it explains what it can do and sends the weekly report in Excel",
+      "chipTitle": "Weekly report in Excel",
+      "chipMeta": "Sent by the bot to the chat",
+      "f1": {
+        "title": "Look up anyone",
+        "desc": "Days worked, absences and late arrivals for any period you ask."
+      },
+      "f2": {
+        "title": "Whole-team summary",
+        "desc": "Who arrived first, who's missing, accumulated hours and overtime."
+      },
+      "f3": {
+        "title": "Reports straight to the chat",
+        "desc": "PDF, Excel or Word, for the whole team or a single person."
+      },
+      "f4": {
+        "title": "Only your data",
+        "desc": "Link it with a link or a QR code and it only sees your company's data."
       }
     },
     "how": {
