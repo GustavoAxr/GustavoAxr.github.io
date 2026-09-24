@@ -194,7 +194,7 @@ const features = [
       "ogDescription": "Nuestro producto insignia LIDIA: trazabilidad ganadera que funciona sin señal, hecha para el rancho mexicano."
     },
     "heroImgAlt": "Ganado en el potrero con arete de identificación SINIIGA",
-    "kicker": "Trazabilidad ganadera offline-first · Acceso anticipado",
+    "kicker": "Trazabilidad ganadera offline-first",
     "heroDesc": "La app que administra el rancho desde el celular, haya o no señal: padrón, sanidad, reproducción, movilizaciones REEMO, compra-venta con QR y alertas de robo.",
     "ctaPrimary": "Conoce LIDIA a fondo",
     "ctaSecondary": "¿Tienes un proyecto? Hablemos",
@@ -230,7 +230,7 @@ const features = [
       "ogDescription": "Our flagship product LIDIA: livestock traceability that works without signal, built for the Mexican ranch."
     },
     "heroImgAlt": "Cattle in the pasture with a SINIIGA identification ear tag",
-    "kicker": "Offline-first livestock traceability · Early access",
+    "kicker": "Offline-first livestock traceability",
     "heroDesc": "The app that runs the ranch from your phone, with or without signal: registry, health, breeding, REEMO movements, QR buy-sell and theft alerts.",
     "ctaPrimary": "Get to know LIDIA in depth",
     "ctaSecondary": "Have a project? Let's talk",

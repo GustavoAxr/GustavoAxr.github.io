@@ -1,0 +1,16 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- El degradado corporativo CODEGAHP -->
+    <linearGradient id="codegahp-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0ea5e9;stop-opacity:1" /> <!-- Cyan -->
+      <stop offset="100%" style="stop-color:#22c55e;stop-opacity:1" /> <!-- Verde -->
+    </linearGradient>
+  </defs>
+
+  <!-- Contorno del reloj (Círculo abierto matemáticamente centrado) -->
+  <!-- Inicia un poco a la izquierda de las 12, hace el recorrido y termina a las 3 -->
+  <path d="M 235 118 A 140 140 0 1 0 394 280" fill="none" stroke="url(#codegahp-grad)" stroke-width="50" stroke-linecap="round" />
+
+  <!-- Manecillas / Palomita con el vértice en el centro exacto -->
+  <path d="M 256 116 L 256 256 L 355 355" fill="none" stroke="url(#codegahp-grad)" stroke-width="50" stroke-linecap="round" stroke-linejoin="round" />
+</svg>

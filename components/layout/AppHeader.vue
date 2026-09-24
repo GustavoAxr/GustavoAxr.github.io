@@ -45,7 +45,7 @@ const isMobileServicesOpen = ref(false);
       </NuxtLinkLocale>
 
       <!-- Navegación Desktop -->
-      <nav class="hidden md:flex items-center gap-1">
+      <nav class="hidden lg:flex items-center gap-1">
         <NuxtLinkLocale
           to="/"
           exact-active-class="!text-primary-dark dark:!text-primary bg-primary/10 dark:bg-primary/20"
@@ -268,7 +268,7 @@ const isMobileServicesOpen = ref(false);
         <Button as-child variant="bare" size="free">
           <NuxtLinkLocale
             to="/contacto"
-            class="hidden md:flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-semibold rounded-[5px] shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:scale-105 transition-all duration-300"
+            class="hidden lg:flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-semibold rounded-[5px] shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:scale-105 transition-all duration-300"
           >
             <span>{{ t("cta") }}</span>
             <svg
@@ -293,7 +293,7 @@ const isMobileServicesOpen = ref(false);
           size="free"
           type="button"
           @click="isMobileMenuOpen = !isMobileMenuOpen"
-          class="md:hidden p-2 rounded-[5px] text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors [&_svg]:size-6"
+          class="lg:hidden p-2 rounded-[5px] text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors [&_svg]:size-6"
           :aria-label="isMobileMenuOpen ? t('menuClose') : t('menuOpen')"
           :aria-expanded="isMobileMenuOpen"
         >
@@ -332,7 +332,7 @@ const isMobileServicesOpen = ref(false);
     <!-- Menú Móvil Full Screen -->
     <div
       v-if="isMobileMenuOpen"
-      class="absolute top-20 left-0 w-full h-[calc(100vh-80px)] bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl md:hidden flex flex-col p-6 animate-fade-in-down border-t border-slate-200 dark:border-slate-800"
+      class="absolute top-20 left-0 w-full h-[calc(100vh-80px)] bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl lg:hidden flex flex-col p-6 animate-fade-in-down border-t border-slate-200 dark:border-slate-800"
     >
       <nav class="flex flex-col gap-4 text-center">
         <NuxtLinkLocale

@@ -60,6 +60,33 @@
   </url>
 
   <url>
+    <loc>https://codegahp.com/servicios/clocc</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://codegahp.com/servicios/clocc" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://codegahp.com/en/servicios/clocc" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://codegahp.com/servicios/clocc" />
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://codegahp.com/img/clocc/panel-claro.webp</image:loc>
+      <image:title>Clocc — Asistencia y cumplimiento del personal</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://codegahp.com/en/servicios/clocc</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://codegahp.com/servicios/clocc" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://codegahp.com/en/servicios/clocc" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://codegahp.com/servicios/clocc" />
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://codegahp.com/img/clocc/panel-claro.webp</image:loc>
+      <image:title>Clocc — Staff attendance and compliance</image:title>
+    </image:image>
+  </url>
+
+  <url>
     <loc>https://codegahp.com/proyectos</loc>
     <xhtml:link rel="alternate" hreflang="es" href="https://codegahp.com/proyectos" />
     <xhtml:link rel="alternate" hreflang="en" href="https://codegahp.com/en/proyectos" />

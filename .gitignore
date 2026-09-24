@@ -22,3 +22,10 @@ logs
 .env
 .env.*
 !.env.example
+
+# Material fuente que no se publica: las capturas originales del panel de
+# Clocc muestran el nombre de un cliente (se publican las versiones tapadas en
+# public/img/clocc/), y los videos/gif fuente de la animación ya vectorizada.
+assets/img/clocc.png
+assets/img/clocc_oscuro.png
+assets/video/

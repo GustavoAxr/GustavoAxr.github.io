@@ -364,11 +364,6 @@ onMounted(() => {
                 {{ t('hero.seeAll') }}
               </a>
             </div>
-
-            <!-- Marcador de lanzamiento oficial en tiendas -->
-            <div class="mt-8 flex justify-center lg:justify-start">
-              <LaunchBadge />
-            </div>
           </div>
 
           <!-- Carrusel coverflow de pantallas de LIDIA -->
@@ -390,7 +385,7 @@ onMounted(() => {
         <div
           v-for="fact in quickFacts"
           :key="fact.label"
-          class="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-white/70 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800"
+          class="flex items-center justify-center gap-2.5 py-2"
         >
           <component
             :is="fact.icon"
@@ -507,37 +502,44 @@ onMounted(() => {
           </p>
         </div>
 
-        <div class="grid md:grid-cols-3 gap-6 mb-8">
+        <!-- Pasos sin tarjetas: mosaico + número + línea guía -->
+        <div class="relative grid gap-10 md:grid-cols-3 mb-14">
+          <div
+            class="pointer-events-none absolute left-[16%] right-[16%] top-8 hidden border-t-2 border-dashed border-green-600/25 md:block"
+            aria-hidden="true"
+          ></div>
           <div
             v-for="(step, i) in offlineSteps"
             :key="step.title"
-            class="relative p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50"
+            class="relative flex flex-col items-center text-center"
           >
             <div
-              class="absolute top-6 right-6 text-5xl font-black text-green-600/10 dark:text-green-400/10 select-none"
-            >
-              {{ i + 1 }}
-            </div>
-            <div
-              class="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-4"
+              class="relative z-10 grid h-16 w-16 place-items-center rounded-2xl border border-green-600/20 bg-white shadow-sm dark:bg-slate-900"
             >
               <component
                 :is="step.icon"
-                class="w-6 h-6 text-green-600 dark:text-green-400"
+                class="h-7 w-7 text-green-600 dark:text-green-400"
               />
+              <span
+                class="absolute -right-2 -top-2 grid h-6 w-6 place-items-center rounded-full bg-gradient-to-br from-green-500 to-lime-500 text-xs font-bold text-white"
+              >
+                {{ i + 1 }}
+              </span>
             </div>
-            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">
+            <h3 class="mt-5 text-lg font-bold text-slate-900 dark:text-white">
               {{ t(step.title) }}
             </h3>
-            <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+            <p
+              class="mt-2 max-w-xs text-sm text-slate-600 dark:text-slate-400 leading-relaxed"
+            >
               {{ t(step.desc) }}
             </p>
           </div>
         </div>
 
-        <!-- Primera carga -->
+        <!-- Primera carga (sin caja) -->
         <div
-          class="p-6 sm:p-8 rounded-2xl border border-green-600/20 bg-gradient-to-br from-green-50 to-lime-50/50 dark:from-green-900/20 dark:to-lime-900/10 flex flex-col sm:flex-row gap-5 items-start"
+          class="mx-auto max-w-3xl flex flex-col sm:flex-row gap-5 items-start"
         >
           <div
             class="w-12 h-12 rounded-xl bg-green-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-green-600/30"
@@ -585,7 +587,7 @@ onMounted(() => {
         </div>
 
         <div
-          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 grid-flow-row-dense"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10 grid-flow-row-dense"
         >
           <!-- Vista de teléfono (Dashboard) — abre la galería -->
           <Button
@@ -622,17 +624,13 @@ onMounted(() => {
           <div
             v-for="mod in modules.slice(0, 6)"
             :key="mod.title"
-            class="relative overflow-hidden p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 hover:border-green-500/50 hover:shadow-lg hover:shadow-green-500/5 transition-all duration-300 group"
+            class="group relative px-1 py-2"
           >
-            <component
-              :is="mod.icon"
-              class="pointer-events-none absolute -right-4 -bottom-4 w-28 h-28 text-green-600/[0.06] dark:text-green-400/[0.09]"
-            />
             <div class="relative">
               <div
-                class="w-11 h-11 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-4 text-green-600 dark:text-green-400 group-hover:bg-green-200 dark:group-hover:bg-green-900/50 transition-colors"
+                class="mb-5 grid h-14 w-14 place-items-center rounded-2xl border border-green-600/20 bg-white text-green-600 shadow-sm transition-transform duration-300 group-hover:-translate-y-1 dark:bg-slate-900 dark:text-green-400"
               >
-                <component :is="mod.icon" class="w-5 h-5" />
+                <component :is="mod.icon" class="h-6 w-6" />
               </div>
               <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-3">
                 {{ t(mod.title) }}
@@ -684,17 +682,13 @@ onMounted(() => {
           <div
             v-for="mod in modules.slice(6)"
             :key="mod.title"
-            class="relative overflow-hidden p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 hover:border-green-500/50 hover:shadow-lg hover:shadow-green-500/5 transition-all duration-300 group"
+            class="group relative px-1 py-2"
           >
-            <component
-              :is="mod.icon"
-              class="pointer-events-none absolute -right-4 -bottom-4 w-28 h-28 text-green-600/[0.06] dark:text-green-400/[0.09]"
-            />
             <div class="relative">
               <div
-                class="w-11 h-11 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-4 text-green-600 dark:text-green-400 group-hover:bg-green-200 dark:group-hover:bg-green-900/50 transition-colors"
+                class="mb-5 grid h-14 w-14 place-items-center rounded-2xl border border-green-600/20 bg-white text-green-600 shadow-sm transition-transform duration-300 group-hover:-translate-y-1 dark:bg-slate-900 dark:text-green-400"
               >
-                <component :is="mod.icon" class="w-5 h-5" />
+                <component :is="mod.icon" class="h-6 w-6" />
               </div>
               <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-3">
                 {{ t(mod.title) }}
@@ -835,15 +829,17 @@ onMounted(() => {
             </p>
           </div>
 
-          <!-- Los 3 pasos, en lista -->
-          <div class="space-y-3">
+          <!-- Los 3 pasos, sin tarjetas: mosaicos unidos por una línea guía -->
+          <div class="relative space-y-8">
             <div
-              class="flex items-start gap-4 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 hover:border-green-500/40 hover:shadow-md transition-all duration-300"
-            >
+              class="pointer-events-none absolute bottom-8 left-[31px] top-8 border-l-2 border-dashed border-green-600/25"
+              aria-hidden="true"
+            ></div>
+            <div class="relative flex items-start gap-5">
               <div
-                class="w-12 h-12 rounded-xl bg-red-100 dark:bg-red-900/30 flex items-center justify-center shrink-0"
+                class="grid h-16 w-16 shrink-0 place-items-center rounded-2xl border border-red-500/20 bg-white shadow-sm dark:bg-slate-900"
               >
-                <Siren class="w-6 h-6 text-red-500" />
+                <Siren class="h-7 w-7 text-red-500" />
               </div>
               <div>
                 <div class="flex items-baseline gap-2 mb-1">
@@ -863,13 +859,11 @@ onMounted(() => {
               </div>
             </div>
 
-            <div
-              class="flex items-start gap-4 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 hover:border-green-500/40 hover:shadow-md transition-all duration-300"
-            >
+            <div class="relative flex items-start gap-5">
               <div
-                class="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center shrink-0"
+                class="grid h-16 w-16 shrink-0 place-items-center rounded-2xl border border-green-600/20 bg-white shadow-sm dark:bg-slate-900"
               >
-                <Bell class="w-6 h-6 text-green-600 dark:text-green-400" />
+                <Bell class="h-7 w-7 text-green-600 dark:text-green-400" />
               </div>
               <div>
                 <div class="flex items-baseline gap-2 mb-1">
@@ -889,14 +883,12 @@ onMounted(() => {
               </div>
             </div>
 
-            <div
-              class="flex items-start gap-4 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 hover:border-green-500/40 hover:shadow-md transition-all duration-300"
-            >
+            <div class="relative flex items-start gap-5">
               <div
-                class="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center shrink-0"
+                class="grid h-16 w-16 shrink-0 place-items-center rounded-2xl border border-green-600/20 bg-white shadow-sm dark:bg-slate-900"
               >
                 <ShieldCheck
-                  class="w-6 h-6 text-green-600 dark:text-green-400"
+                  class="h-7 w-7 text-green-600 dark:text-green-400"
                 />
               </div>
               <div>
@@ -1344,7 +1336,7 @@ onMounted(() => {
       "word1": "FUERZA",
       "word2": "TRADICIÓN",
       "word3": "GANADERÍA",
-      "cta": "Quiero Acceso Anticipado",
+      "cta": "Solicitar una demo",
       "seeAll": "Ver todo lo que hace ↓"
     },
     "qf": {
@@ -1562,7 +1554,7 @@ onMounted(() => {
       "q4": "¿Mis datos están seguros?",
       "a4": "La app se protege con huella, rostro o PIN; la información sensible se guarda cifrada en el dispositivo y cada cuenta está aislada. LIDIA fue auditada bajo estándares internacionales de seguridad móvil (OWASP MASVS) y tus datos se respaldan en la nube al sincronizar.",
       "q5": "¿Cuándo puedo usarla?",
-      "a5": "LIDIA está en acceso anticipado. Regístrate y te contactamos para sumarte a la lista de espera con beneficios de lanzamiento."
+      "a5": "Escríbenos: te mostramos LIDIA en una demo y te acompañamos para empezar a usarla en tu rancho."
     }
   },
   "en": {
@@ -1582,7 +1574,7 @@ onMounted(() => {
       "word1": "STRENGTH",
       "word2": "TRADITION",
       "word3": "RANCHING",
-      "cta": "I Want Early Access",
+      "cta": "Request a demo",
       "seeAll": "See everything it does ↓"
     },
     "qf": {
@@ -1800,7 +1792,7 @@ onMounted(() => {
       "q4": "Is my data secure?",
       "a4": "The app is protected with fingerprint, face or PIN; sensitive information is stored encrypted on the device and each account is isolated. LIDIA was audited under international mobile security standards (OWASP MASVS) and your data is backed up to the cloud when you sync.",
       "q5": "When can I use it?",
-      "a5": "LIDIA is in early access. Sign up and we'll contact you to add you to the waitlist with launch benefits."
+      "a5": "Write to us: we'll show you LIDIA in a demo and help you get started on your ranch."
     }
   }
 }

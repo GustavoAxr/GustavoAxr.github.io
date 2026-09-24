@@ -11,6 +11,7 @@ import {
 } from "lucide-vue-next";
 import LidiaLogo from "@/components/LidiaLogo.vue";
 import type { Service } from "~/types";
+import CloccLogo from "~/components/CloccLogo.vue";
 
 export const useServices = () => {
   const servicesMenu: Service[] = [
@@ -72,12 +73,16 @@ export const useServices = () => {
         {
           title: "LIDIA",
           desc: "Desafío: Gestión ineficiente o manual en la trazabilidad ganadera. Solución: App móvil que funciona sin señal para inventario, sanidad, movilizaciones, compra-venta con QR y alertas de robo.",
-          badge: "Acceso anticipado",
-          badgeColor:
-            "bg-primary/15 text-primary-dark dark:text-primary",
           icon: LidiaLogo,
           to: "/servicios/lidia",
           slug: "lidia",
+        },
+        {
+          title: "Clocc",
+          desc: "Mitiga tus multas y comprueba auditorías sin cambiar tu infraestructura actual. Supervisa a tu personal en gabinete o home office.",
+          icon: CloccLogo,
+          to: "/servicios/clocc",
+          slug: "clocc",
         },
       ],
     },

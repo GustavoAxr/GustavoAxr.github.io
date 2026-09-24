@@ -137,17 +137,22 @@ const values = [
         >
           <h3 class="text-2xl font-bold text-white">{{ t("valuesTitle") }}</h3>
 
-          <div class="grid gap-3">
+          <!-- Sin tarjetas: mosaicos unidos por una línea guía vertical -->
+          <div class="relative grid gap-6">
+            <div
+              class="pointer-events-none absolute bottom-7 left-[27px] top-7 border-l-2 border-dashed border-primary/30"
+              aria-hidden="true"
+            ></div>
             <div
               v-for="(value, index) in values"
               :key="value.title"
-              class="group flex items-center gap-4 p-5 rounded-xl bg-white/[0.04] backdrop-blur-sm border border-white/[0.06] hover:border-primary/30 hover:bg-white/[0.07] transition-all duration-300"
+              class="group relative flex items-center gap-5"
               :style="{ transitionDelay: `${index * 50}ms` }"
             >
               <div
-                class="w-11 h-11 rounded-lg bg-primary/15 flex items-center justify-center shrink-0 group-hover:bg-primary/25 transition-colors"
+                class="grid h-14 w-14 shrink-0 place-items-center rounded-2xl border border-primary/25 bg-slate-900/90 shadow-sm backdrop-blur-sm transition-transform duration-300 group-hover:-translate-y-0.5"
               >
-                <component :is="value.icon" class="w-5 h-5 text-primary" />
+                <component :is="value.icon" class="h-6 w-6 text-primary" />
               </div>
               <div>
                 <h4

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ArrowRight } from "lucide-vue-next";
 import { Button } from "@/components/ui/button";
 import BackgroundLogo from "@/components/BackgroundLogo.vue";
 import HeroBento from "@/components/landing/HeroBento.vue";
@@ -132,17 +131,16 @@ useHead({
               </NuxtLinkLocale>
             </div>
 
-            <!-- Marcador de lanzamiento oficial en tiendas -->
-            <div class="mt-6 flex justify-center lg:justify-start">
-              <LaunchBadge />
-            </div>
-
             <!-- Prueba social honesta -->
             <p
               class="mt-8 text-sm text-slate-500 dark:text-slate-400 max-w-xl mx-auto lg:mx-0"
             >
               <strong class="font-semibold text-slate-700 dark:text-slate-300"
                 >LIDIA</strong
+              >
+              {{ t("hero.socialProofAnd") }}
+              <strong class="font-semibold text-slate-700 dark:text-slate-300"
+                >Clocc</strong
               >{{ t("hero.socialProof") }}
             </p>
           </div>
@@ -178,7 +176,8 @@ useHead({
       "subtitle": "Desarrollo web, software y automatización para tu negocio.",
       "ctaLidia": "Conoce LIDIA",
       "ctaContact": "Hablemos",
-      "socialProof": ", nuestra app de trazabilidad ganadera offline, está en acceso anticipado. También hacemos software y soporte a la medida."
+      "socialProofAnd": "y",
+      "socialProof": " son nuestros productos propios. También creamos software y soporte a la medida."
     }
   },
   "en": {
@@ -194,7 +193,8 @@ useHead({
       "subtitle": "Web development, software and automation for your business.",
       "ctaLidia": "Meet LIDIA",
       "ctaContact": "Let's talk",
-      "socialProof": ", our offline livestock traceability app, is in early access. We also build custom software and support."
+      "socialProofAnd": "and",
+      "socialProof": " are our own products. We also build custom software and support."
     }
   }
 }

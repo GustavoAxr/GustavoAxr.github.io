@@ -172,21 +172,20 @@ const stats = [
           class="transition-all duration-700"
           :class="isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'"
         >
-          <div class="grid sm:grid-cols-2 gap-3">
-            <div
-              v-for="f in features"
-              :key="f.title"
-              class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-5 hover:border-primary/40 hover:shadow-lg transition-all duration-300"
-            >
+          <!-- Funciones sin tarjetas: mosaico + título + texto -->
+          <div class="grid gap-x-8 gap-y-8 sm:grid-cols-2">
+            <div v-for="f in features" :key="f.title" class="group">
               <div
-                class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-3"
+                class="mb-4 grid h-14 w-14 place-items-center rounded-2xl border border-primary/20 bg-white shadow-sm transition-transform duration-300 group-hover:-translate-y-1 dark:bg-slate-900"
               >
-                <component :is="f.icon" class="w-5 h-5 text-primary" />
+                <component :is="f.icon" class="h-6 w-6 text-primary" />
               </div>
-              <h3 class="font-bold text-slate-900 dark:text-white text-sm">
+              <h3 class="font-bold text-slate-900 dark:text-white">
                 {{ f.title }}
               </h3>
-              <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+              <p
+                class="mt-1 text-sm leading-relaxed text-slate-500 dark:text-slate-400"
+              >
                 {{ f.desc }}
               </p>
             </div>
