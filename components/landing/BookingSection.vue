@@ -412,15 +412,15 @@ const resetForm = () => {
               form.email
             }}</strong>{{ t("success.sentAfter") }}
           </p>
-          <div class="rounded-xl bg-[#2f6a1e] text-white px-5 py-4 text-left">
-            <p class="text-[11px] uppercase tracking-wider text-emerald-50/70">
+          <div class="rounded-xl bg-primary text-slate-950 px-5 py-4 text-left">
+            <p class="text-[11px] uppercase tracking-wider text-slate-900/65">
               {{ t("success.yourAppointment") }}
             </p>
             <p class="mt-1 text-lg font-bold">
               <span class="capitalize">{{ formatWeekday(selectedDate) }}</span>
               {{ formatDisplayDate(selectedDate) }} · {{ selectedTime }} h
             </p>
-            <p class="text-sm text-emerald-50/85 mt-1">{{ form.subject }}</p>
+            <p class="text-sm text-slate-900/80 mt-1">{{ form.subject }}</p>
           </div>
           <Button
             variant="bare"
@@ -442,7 +442,7 @@ const resetForm = () => {
       >
         <!-- Panel verde: info + formulario (a la derecha en móvil va debajo) -->
         <aside
-          class="relative overflow-hidden bg-[#2f6a1e] text-white p-7 lg:p-8 flex flex-col order-2 md:order-1"
+          class="relative overflow-hidden bg-primary text-slate-950 p-7 lg:p-8 flex flex-col order-2 md:order-1"
         >
           <div
             class="pointer-events-none absolute inset-0 opacity-[0.12]"
@@ -457,7 +457,7 @@ const resetForm = () => {
           ></div>
           <div class="relative flex flex-col w-full max-w-md mx-auto">
             <span
-              class="inline-flex items-center gap-2 text-emerald-50/90 text-xs font-semibold uppercase tracking-wider"
+              class="inline-flex items-center gap-2 text-slate-900/80 text-xs font-semibold uppercase tracking-wider"
             >
               <Video class="w-4 h-4" />
               {{ t("aside.videoLabel") }}
@@ -468,7 +468,7 @@ const resetForm = () => {
 
             <!-- Meta compacta -->
             <div
-              class="mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-emerald-50/85"
+              class="mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-slate-900/75"
             >
               <span class="inline-flex items-center gap-1.5">
                 <Clock class="w-3.5 h-3.5" /> 30 min
@@ -485,49 +485,49 @@ const resetForm = () => {
             <div class="mt-6 space-y-3">
               <div class="relative">
                 <User
-                  class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-white/50"
+                  class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-900/55"
                   aria-hidden="true"
                 />
                 <input
                   v-model="form.name"
                   type="text"
                   :placeholder="t('form.namePlaceholder')"
-                  class="w-full pl-9 pr-3 py-2.5 rounded-lg bg-white/10 border border-white/20 text-sm text-white placeholder-white/50 focus:border-white/70 focus:ring-2 focus:ring-white/25 focus:bg-white/15 outline-none transition-all"
+                  class="w-full pl-9 pr-3 py-2.5 rounded-lg bg-white/40 border border-white/70 text-sm text-slate-950 placeholder-slate-900/55 focus:border-white focus:ring-2 focus:ring-white/50 focus:bg-white/60 outline-none transition-all"
                 />
               </div>
               <div class="relative">
                 <Mail
-                  class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-white/50"
+                  class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-900/55"
                   aria-hidden="true"
                 />
                 <input
                   v-model="form.email"
                   type="email"
                   :placeholder="t('form.emailPlaceholder')"
-                  class="w-full pl-9 pr-3 py-2.5 rounded-lg bg-white/10 border border-white/20 text-sm text-white placeholder-white/50 focus:border-white/70 focus:ring-2 focus:ring-white/25 focus:bg-white/15 outline-none transition-all"
+                  class="w-full pl-9 pr-3 py-2.5 rounded-lg bg-white/40 border border-white/70 text-sm text-slate-950 placeholder-slate-900/55 focus:border-white focus:ring-2 focus:ring-white/50 focus:bg-white/60 outline-none transition-all"
                 />
               </div>
               <div class="relative">
                 <MessageSquare
-                  class="w-4 h-4 absolute left-3 top-3 text-white/50"
+                  class="w-4 h-4 absolute left-3 top-3 text-slate-900/55"
                   aria-hidden="true"
                 />
                 <textarea
                   v-model="form.subject"
                   rows="2"
                   :placeholder="t('form.subjectPlaceholder')"
-                  class="w-full pl-9 pr-3 py-2.5 rounded-lg bg-white/10 border border-white/20 text-sm text-white placeholder-white/50 focus:border-white/70 focus:ring-2 focus:ring-white/25 focus:bg-white/15 outline-none transition-all resize-none"
+                  class="w-full pl-9 pr-3 py-2.5 rounded-lg bg-white/40 border border-white/70 text-sm text-slate-950 placeholder-slate-900/55 focus:border-white focus:ring-2 focus:ring-white/50 focus:bg-white/60 outline-none transition-all resize-none"
                 ></textarea>
               </div>
             </div>
 
             <!-- Resumen de la selección -->
             <div
-              class="mt-4 rounded-lg bg-white/10 ring-1 ring-white/15 px-3.5 py-2.5 text-sm"
+              class="mt-4 rounded-lg bg-white/30 ring-1 ring-white/60 px-3.5 py-2.5 text-sm"
             >
               <template v-if="selectedDate && selectedTime">
                 <span
-                  class="text-[11px] uppercase tracking-wider text-emerald-50/70"
+                  class="text-[11px] uppercase tracking-wider text-slate-900/65"
                   >{{ t("summary.label") }}
                 </span>
                 <span class="font-semibold">
@@ -537,7 +537,7 @@ const resetForm = () => {
                   {{ formatDayMonth(selectedDate) }}, {{ selectedTime }} h
                 </span>
               </template>
-              <span v-else class="text-emerald-50/75">
+              <span v-else class="text-slate-900/80">
                 {{ t("summary.prompt") }}
               </span>
             </div>
@@ -552,8 +552,8 @@ const resetForm = () => {
               class="mt-3 w-full py-3 rounded-[5px] font-semibold text-sm transition-all duration-300 flex items-center justify-center gap-2 [&_svg]:size-5"
               :class="
                 canSubmit && !sending
-                  ? 'bg-white text-[#2f6a1e] hover:bg-emerald-50 hover:shadow-lg'
-                  : 'bg-white/15 text-white/50 cursor-not-allowed'
+                  ? 'bg-slate-950 text-white hover:bg-slate-800 hover:shadow-lg'
+                  : 'bg-white/35 text-slate-900/45 cursor-not-allowed'
               "
             >
               <Loader2
@@ -567,7 +567,7 @@ const resetForm = () => {
 
             <div
               v-if="errorMsg"
-              class="mt-3 text-sm text-white bg-red-500/25 border border-red-200/40 rounded-lg px-4 py-3"
+              class="mt-3 text-sm text-red-900 bg-white/75 border border-red-300 rounded-lg px-4 py-3"
             >
               <p class="flex items-start gap-2">
                 <AlertCircle class="w-5 h-5 shrink-0" aria-hidden="true" />
@@ -583,7 +583,7 @@ const resetForm = () => {
                 {{ t("form.requestWhatsApp") }}
               </Button>
             </div>
-            <p v-else class="mt-2.5 text-[11px] text-emerald-50/70">
+            <p v-else class="mt-2.5 text-[11px] text-slate-900/70">
               {{ t("form.reminderNote") }}
             </p>
           </div>
