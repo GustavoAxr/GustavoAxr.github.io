@@ -276,10 +276,6 @@ const technologies = ["Vue.js", "Nuxt", "TypeScript", "Laravel", "Java", "AWS"];
             <Heart class="w-4 h-4 text-red-400 fill-red-400" aria-hidden="true" />
             <span class="sr-only">{{ t("love") }}</span>
             <span>{{ t("madeIn") }}</span>
-            <code
-              class="hidden sm:inline-block ml-2 px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-[11px] font-mono text-primary-dark dark:text-primary"
-              >{{ t("badge") }} 🏝️</code
-            >
           </div>
 
           <div class="flex items-center gap-4 text-slate-600 dark:text-slate-400 text-xs">
@@ -345,7 +341,6 @@ const technologies = ["Vue.js", "Nuxt", "TypeScript", "Laravel", "Java", "AWS"];
     "madeWith": "Hecho con",
     "love": "amor",
     "madeIn": "en Ciudad del Carmen, Campeche",
-    "badge": "GMT-6 · isla incluida",
     "bottomPrivacy": "Privacidad",
     "bottomTerms": "Términos",
     "bottomCookies": "Cookies"
@@ -375,7 +370,6 @@ const technologies = ["Vue.js", "Nuxt", "TypeScript", "Laravel", "Java", "AWS"];
     "madeWith": "Made with",
     "love": "love",
     "madeIn": "in Ciudad del Carmen, Campeche",
-    "badge": "GMT-6 · island included",
     "bottomPrivacy": "Privacy",
     "bottomTerms": "Terms",
     "bottomCookies": "Cookies"
