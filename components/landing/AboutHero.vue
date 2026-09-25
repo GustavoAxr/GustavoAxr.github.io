@@ -4,7 +4,6 @@ import { Lightbulb, Star, Handshake, Search } from "lucide-vue-next";
 
 const { t } = useI18n({ useScope: "local" });
 
-const parallaxOffset = ref(0);
 const sectionRef = ref<HTMLElement | null>(null);
 const isVisible = ref(false);
 
@@ -15,7 +14,6 @@ const measure = () => {
   ticking = false;
   if (!sectionRef.value) return;
   const rect = sectionRef.value.getBoundingClientRect();
-  parallaxOffset.value = (-rect.top / window.innerHeight) * 100;
   if (rect.top < window.innerHeight * 0.8) isVisible.value = true;
 };
 const handleScroll = () => {
@@ -60,36 +58,29 @@ const values = [
 <template>
   <section
     ref="sectionRef"
-    class="relative min-h-screen overflow-hidden"
+    class="relative overflow-hidden bg-white dark:bg-slate-950"
     id="about"
   >
-    <!-- Parallax Background Image -->
+    <!-- Logo de CODEGAHP de fondo (móvil y tableta): arriba a la derecha -->
     <div
-      class="absolute inset-0 w-full h-[120%] -top-[10%]"
-      :style="{ transform: `translateY(${parallaxOffset * 0.3}px)` }"
+      class="pointer-events-none absolute right-[5%] top-[3%] w-[46%] max-w-[300px] lg:hidden"
+      aria-hidden="true"
     >
-      <picture class="block w-full h-full">
-        <source srcset="/img/presentacion.webp" type="image/webp" />
-        <img
-          src="/img/presentacion.jpg"
-          :alt="t('imgAlt')"
-          width="1920"
-          height="1025"
-          loading="lazy"
-          decoding="async"
-          class="w-full h-full object-cover object-center"
-        />
-      </picture>
+      <div class="absolute inset-0 rounded-full bg-primary/15 blur-3xl dark:bg-primary/10"></div>
+      <img
+        src="/img/codegahp-logo.webp"
+        alt=""
+        width="1000"
+        height="617"
+        loading="lazy"
+        decoding="async"
+        class="relative w-full opacity-[0.14] dark:opacity-[0.28] dark:brightness-125"
+      />
     </div>
-
-    <!-- Single clean overlay -->
-    <div
-      class="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-950/50 to-slate-950/85"
-    ></div>
 
     <!-- Content -->
     <div
-      class="relative z-10 container max-w-7xl mx-auto px-4 py-24 lg:py-32 min-h-screen flex items-center"
+      class="relative z-10 container max-w-7xl mx-auto px-4 py-24 lg:pb-32 lg:pt-48"
     >
       <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center w-full">
         <!-- Left Column: Misión y Visión -->
@@ -108,20 +99,20 @@ const values = [
 
           <!-- Misión -->
           <div>
-            <h3 class="text-3xl lg:text-4xl font-bold text-white mb-3">{{ t("missionTitle") }}</h3>
-            <p class="text-lg text-slate-300/90 leading-relaxed">
+            <h3 class="text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white mb-3">{{ t("missionTitle") }}</h3>
+            <p class="text-lg text-slate-600 dark:text-slate-300/90 leading-relaxed">
               {{ t("missionBefore") }}
-              <span class="text-primary/90 font-medium">{{ t("missionHighlight") }}</span
+              <span class="text-primary-dark dark:text-primary/90 font-medium">{{ t("missionHighlight") }}</span
               >{{ t("missionAfter") }}
             </p>
           </div>
 
           <!-- Visión -->
           <div>
-            <h3 class="text-3xl lg:text-4xl font-bold text-white mb-3">{{ t("visionTitle") }}</h3>
-            <p class="text-lg text-slate-300/90 leading-relaxed">
+            <h3 class="text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white mb-3">{{ t("visionTitle") }}</h3>
+            <p class="text-lg text-slate-600 dark:text-slate-300/90 leading-relaxed">
               {{ t("visionBefore") }}
-              <span class="text-primary/90 font-medium">{{ t("visionHighlight") }}</span>
+              <span class="text-primary-dark dark:text-primary/90 font-medium">{{ t("visionHighlight") }}</span>
               {{ t("visionAfter") }}
             </p>
           </div>
@@ -129,13 +120,13 @@ const values = [
 
         <!-- Right Column: Valores -->
         <div
-          class="space-y-5"
+          class="relative space-y-5"
           :class="{
             'animate-fade-in-right': isVisible,
             'opacity-0': !isVisible,
           }"
         >
-          <h3 class="text-2xl font-bold text-white">{{ t("valuesTitle") }}</h3>
+          <h3 class="text-2xl font-bold text-slate-900 dark:text-white">{{ t("valuesTitle") }}</h3>
 
           <!-- Sin tarjetas: mosaicos unidos por una línea guía vertical -->
           <div class="relative grid gap-6">
@@ -150,19 +141,39 @@ const values = [
               :style="{ transitionDelay: `${index * 50}ms` }"
             >
               <div
-                class="grid h-14 w-14 shrink-0 place-items-center rounded-2xl border border-primary/25 bg-slate-900/90 shadow-sm backdrop-blur-sm transition-transform duration-300 group-hover:-translate-y-0.5"
+                class="grid h-14 w-14 shrink-0 place-items-center rounded-2xl border border-primary/25 bg-white shadow-sm transition-transform duration-300 group-hover:-translate-y-0.5 dark:bg-slate-900"
               >
                 <component :is="value.icon" class="h-6 w-6 text-primary" />
               </div>
               <div>
                 <h4
-                  class="font-semibold text-white text-base group-hover:text-primary transition-colors"
+                  class="font-semibold text-slate-900 dark:text-white text-base group-hover:text-primary transition-colors"
                 >
                   {{ value.title }}
                 </h4>
-                <p class="text-slate-400 text-sm mt-0.5">{{ value.desc }}</p>
+                <p class="text-slate-500 dark:text-slate-400 text-sm mt-0.5">{{ value.desc }}</p>
               </div>
             </div>
+          </div>
+
+          <!-- Logo de CODEGAHP de fondo (escritorio), como en la foto: el ícono
+               arriba y "CODEGAHP" a la altura del título "Valores", a su derecha -->
+          <div
+            class="pointer-events-none absolute bottom-[calc(100%-2rem)] right-[16%] hidden w-[56%] lg:block"
+            aria-hidden="true"
+          >
+            <div
+              class="absolute inset-[8%] rounded-full bg-primary/20 blur-3xl dark:bg-primary/15"
+            ></div>
+            <img
+              src="/img/codegahp-logo.webp"
+              alt=""
+              width="1000"
+              height="617"
+              loading="lazy"
+              decoding="async"
+              class="relative w-full opacity-[0.16] dark:opacity-[0.3] dark:brightness-125"
+            />
           </div>
         </div>
       </div>
@@ -205,7 +216,6 @@ const values = [
 <i18n lang="json">
 {
   "es": {
-    "imgAlt": "Alexander - Fundador de CODEGAHP",
     "essence": "Nuestra Esencia",
     "missionTitle": "Misión",
     "missionBefore": "Diseñar tecnología que resuelva",
@@ -236,7 +246,6 @@ const values = [
     }
   },
   "en": {
-    "imgAlt": "Alexander - Founder of CODEGAHP",
     "essence": "Our Essence",
     "missionTitle": "Mission",
     "missionBefore": "Design technology that solves",

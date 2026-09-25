@@ -101,16 +101,20 @@ export default defineNuxtConfig({
         { property: "og:url", content: "https://codegahp.com" },
         {
           property: "og:image",
-          content: "https://codegahp.com/img/presentacion.jpg",
+          content: "https://codegahp.com/img/og-codegahp.png",
         },
-        { property: "og:image:width", content: "1920" },
-        { property: "og:image:height", content: "1025" },
+        { property: "og:image:width", content: "1200" },
+        { property: "og:image:height", content: "630" },
+        {
+          property: "og:image:alt",
+          content: "CODEGAHP",
+        },
 
         // Twitter Cards
         { name: "twitter:card", content: "summary_large_image" },
         {
           name: "twitter:image",
-          content: "https://codegahp.com/img/presentacion.jpg",
+          content: "https://codegahp.com/img/og-codegahp.png",
         },
         {
           name: "twitter:title",

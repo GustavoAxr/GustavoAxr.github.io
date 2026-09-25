@@ -3,8 +3,8 @@ import { Button } from "@/components/ui/button";
 import BackgroundLogo from "@/components/BackgroundLogo.vue";
 import HeroShowcase from "@/components/landing/HeroShowcase.vue";
 import AboutHero from "@/components/landing/AboutHero.vue";
-import LidiaBanner from "@/components/landing/LidiaBanner.vue";
 import LidiaSpotlight from "@/components/landing/LidiaSpotlight.vue";
+import CloccBanner from "@/components/landing/CloccBanner.vue";
 import BookingSection from "@/components/landing/BookingSection.vue";
 
 const { t, locale } = useI18n({ useScope: "local" });
@@ -245,7 +245,7 @@ useHead({
 
     <!-- New Sections -->
     <AboutHero />
-    <LidiaBanner />
+    <CloccBanner />
     <LidiaSpotlight />
     <BookingSection />
   </div>
