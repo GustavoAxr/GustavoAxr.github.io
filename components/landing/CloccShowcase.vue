@@ -133,7 +133,7 @@ onBeforeUnmount(() => {
             src="/img/clocc/panel-claro.webp"
             :alt="t('alt')"
             width="1600"
-            height="887"
+            height="751"
             decoding="async"
             class="block w-full dark:hidden"
           />
@@ -141,7 +141,7 @@ onBeforeUnmount(() => {
             src="/img/clocc/panel-oscuro.webp"
             :alt="t('alt')"
             width="1600"
-            height="887"
+            height="751"
             decoding="async"
             class="hidden w-full dark:block"
           />

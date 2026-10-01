@@ -172,14 +172,14 @@ const depth = (d: number) => ({ "--d": d }) as Record<string, number>;
               src="/img/clocc/panel-claro.webp"
               alt=""
               width="1600"
-              height="887"
+              height="751"
               class="block w-full dark:hidden"
             />
             <img
               src="/img/clocc/panel-oscuro.webp"
               alt=""
               width="1600"
-              height="887"
+              height="751"
               class="hidden w-full dark:block"
             />
           </figure>
