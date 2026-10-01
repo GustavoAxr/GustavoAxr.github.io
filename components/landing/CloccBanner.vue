@@ -19,20 +19,18 @@ const { t } = useI18n({ useScope: "local" });
         >
           <!-- Logo de Clocc gigante como marca de fondo, detrás del texto -->
           <CloccLogo
-            class="pointer-events-none absolute -bottom-16 -left-20 h-[85%] w-auto max-w-none opacity-[0.12] brightness-0 invert"
+            mono
+            class="pointer-events-none absolute -bottom-10 -left-12 aspect-square h-[60%] w-auto max-w-none text-white opacity-[0.12]"
             aria-hidden="true"
           />
 
           <div class="relative">
-            <div class="mb-5 flex items-center gap-3">
-              <span
-                class="grid h-11 w-11 place-items-center rounded-xl bg-white p-2 shadow-lg shadow-black/10"
-              >
-                <CloccLogo class="h-full w-full" />
-              </span>
-              <span class="text-2xl font-extrabold tracking-tight text-white">
-                Clocc
-              </span>
+            <!-- Logo original de Clocc (icono + palabra) a todo color -->
+            <div
+              class="mb-6 inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2.5 shadow-lg shadow-black/10"
+            >
+              <CloccLogo class="h-8 w-8 shrink-0" />
+              <CloccWordmark class="h-6 w-auto" />
             </div>
 
             <h2
