@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, nextTick, watch } from "vue";
+import type { MeetingProduct } from "~/composables/useBackend";
 
 interface Props {
   isOpen: boolean;
@@ -49,6 +50,11 @@ const faqResponses: Record<string, string> = {
   ubicación: "faq.ubicacion",
   hola: "faq.hola",
   gracias: "faq.gracias",
+  clocc: "faq.clocc",
+  asistencia: "faq.clocc",
+  checador: "faq.clocc",
+  lidia: "faq.lidia",
+  ganad: "faq.lidia",
 };
 
 // Respaldo offline (bot básico por palabras clave) para cuando el backend de
@@ -72,6 +78,7 @@ const suggestions = computed(() => [
   t("suggestions.services"),
   t("suggestions.price"),
   t("suggestions.lidia"),
+  t("suggestions.clocc"),
   t("suggestions.schedule"),
 ]);
 const showSuggestions = computed(
@@ -177,8 +184,11 @@ const fmtDateTime = (d: Date) =>
     hour12: true,
   });
 
+const MEETING_PRODUCTS: MeetingProduct[] = ["CLOCC", "LIDIA", "GENERAL"];
+
 const handleSchedule = async (jsonStr: string) => {
   let data: {
+    product?: string;
     name?: string;
     email?: string;
     subject?: string;
@@ -192,6 +202,10 @@ const handleSchedule = async (jsonStr: string) => {
   }
   const { name, email, subject, date, time } = data;
   if (!name || !email || !date || !time) return;
+  // Viene de la IA: solo se acepta un valor conocido.
+  const product = MEETING_PRODUCTS.find(
+    (p) => p === String(data.product ?? "").toUpperCase(),
+  );
 
   const [y, mo, da] = String(date).split("-").map(Number);
   const [h, mi] = String(time).split(":").map(Number);
@@ -202,6 +216,7 @@ const handleSchedule = async (jsonStr: string) => {
     await scheduleMeeting({
       name,
       email,
+      product,
       subject: subject || "Consultoría",
       startsAt: dt.toISOString(),
       durationMin: 30,
@@ -546,12 +561,15 @@ watch(
       "ubicacion": "Somos una empresa mexicana con capacidad de trabajar de forma remota con clientes de toda Latinoamérica y el mundo.",
       "hola": "¡Hola! 👋 ¿En qué puedo ayudarte hoy? Puedes preguntarme sobre nuestros servicios, precios, tecnologías que usamos, o cualquier duda sobre tu proyecto.",
       "gracias": "¡Con gusto! Si tienes más preguntas, no dudes en escribirme. También puedes contactar directamente a nuestro equipo para una asesoría personalizada. 🚀",
+      "clocc": "Clocc es nuestra plataforma de asistencia y cumplimiento del personal: conecta los relojes checadores que ya tienes, registra la asistencia en gabinete, home office o campo, gestiona vacaciones y permisos con firmas, y deja la evidencia lista para auditorías. ¿Te gustaría agendar una demo?",
+      "lidia": "LIDIA es nuestra app de trazabilidad ganadera para iOS y Android: administra tu rancho desde el celular, haya o no señal, alineada a SINIIGA y SENASICA. ¿Te gustaría agendar una demo?",
       "default": "Interesante pregunta. Te recomiendo contactar directamente a nuestro equipo para obtener información más detallada. Puedes escribirnos por WhatsApp o agendar una videollamada. ¿Hay algo más en lo que pueda orientarte?"
     },
     "suggestions": {
       "services": "¿Qué servicios ofrecen?",
       "price": "¿Cuánto cuesta un sitio web?",
       "lidia": "¿Qué es LIDIA?",
+      "clocc": "¿Qué es Clocc?",
       "schedule": "¿Cómo agendo una llamada?"
     },
     "schedule": {
@@ -585,12 +603,15 @@ watch(
       "ubicacion": "We're a Mexican company able to work remotely with clients across Latin America and around the world.",
       "hola": "Hi! 👋 How can I help you today? You can ask me about our services, pricing, the technologies we use, or any questions about your project.",
       "gracias": "You're welcome! If you have more questions, don't hesitate to write to me. You can also contact our team directly for personalized advice. 🚀",
+      "clocc": "Clocc is our staff attendance and compliance platform: it connects the time clocks you already have, records attendance on-site, from home or in the field, handles vacations and permits with approvals, and keeps the evidence ready for audits. Would you like to schedule a demo?",
+      "lidia": "LIDIA is our livestock traceability app for iOS and Android: manage your ranch from your phone, with or without signal, aligned with SINIIGA and SENASICA. Would you like to schedule a demo?",
       "default": "Great question. I recommend contacting our team directly for more detailed information. You can write to us on WhatsApp or schedule a video call. Is there anything else I can help you with?"
     },
     "suggestions": {
       "services": "What services do you offer?",
       "price": "How much does a website cost?",
       "lidia": "What is LIDIA?",
+      "clocc": "What is Clocc?",
       "schedule": "How do I schedule a call?"
     },
     "schedule": {

@@ -18,10 +18,21 @@ export interface ContactPayload {
   message: string;
 }
 
+/** Producto de la reunión: define el título de la invitación. */
+export type MeetingProduct = "CLOCC" | "LIDIA" | "GENERAL";
+
+const MEETING_TITLES: Record<MeetingProduct, string> = {
+  CLOCC: "Demo de Clocc",
+  LIDIA: "Demo de LIDIA",
+  GENERAL: "Consultoría CODEGAHP",
+};
+
 export interface MeetingPayload {
   name: string;
   email: string;
   subject: string;
+  /** Lo indica el asistente de IA; sin él la reunión es una consultoría general. */
+  product?: MeetingProduct;
   /** Instante de inicio en ISO-8601 (ej. Date.toISOString()). */
   startsAt: string;
   durationMin?: number;
@@ -132,10 +143,12 @@ export function useBackend() {
       attendees.push({ email: CONTACT_INBOX, name: "CODEGAHP" });
     }
 
+    const kind = MEETING_TITLES[payload.product ?? "GENERAL"];
+
     return await $fetch(`${base}/meetings`, {
       method: "POST",
       body: {
-        title: `Consultoría CODEGAHP — ${payload.name}`.slice(0, 200),
+        title: `${kind} — ${payload.name}`.slice(0, 200),
         description: payload.subject,
         startsAt: payload.startsAt,
         durationMin: payload.durationMin ?? 30,
