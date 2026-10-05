@@ -122,13 +122,13 @@ const telegram = computed(() => [
           </p>
 
           <div class="mt-8 flex flex-wrap items-center gap-3">
-            <NuxtLinkLocale
-              to="/contacto"
+            <a
+              href="https://www.clocc.codegahp.com/entrar"
               class="inline-flex w-full items-center justify-center gap-2 rounded-[5px] bg-primary px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition-all hover:shadow-primary/40 hover:-translate-y-0.5 sm:w-auto"
             >
               {{ t("hero.ctaPrimary") }}
               <ArrowRight class="h-4 w-4" />
-            </NuxtLinkLocale>
+            </a>
             <a
               href="https://wa.me/529381065606"
               target="_blank"
@@ -520,7 +520,7 @@ const telegram = computed(() => [
       "tagBefore": "Asistencia y cumplimiento del personal,",
       "tagHighlight": "sin cambiar tu infraestructura",
       "subtitle": "Conecta los relojes que ya tienes, registra la asistencia en gabinete o home office y llega a cada auditoría con la evidencia lista y ordenada.",
-      "ctaPrimary": "Solicitar una demo",
+      "ctaPrimary": "Ir al sitio",
       "ctaSecondary": "Hablar con el equipo",
       "points": {
         "p1": "Usa tus relojes actuales",
@@ -627,7 +627,7 @@ const telegram = computed(() => [
       "tagBefore": "Staff attendance and compliance,",
       "tagHighlight": "without changing your infrastructure",
       "subtitle": "Connect the time clocks you already have, record attendance on-site or from home, and reach every audit with the evidence ready and organized.",
-      "ctaPrimary": "Request a demo",
+      "ctaPrimary": "Go to site",
       "ctaSecondary": "Talk to the team",
       "points": {
         "p1": "Works with your current clocks",
