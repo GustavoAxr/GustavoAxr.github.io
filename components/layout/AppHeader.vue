@@ -11,15 +11,19 @@ const isMobileServicesOpen = ref(false);
 </script>
 
 <template>
-  <header class="fixed top-0 left-0 w-full z-50 transition-all duration-500">
+  <header class="fixed top-0 left-0 w-full z-50 transition-all duration-500 [view-transition-name:site-header]">
+    <!-- view-transition-name: en el cambio entre páginas el header no se
+         funde con el resto, se queda quieto (ver main.css) -->
     <!-- Efecto de borde gradiente animado -->
     <div
       class="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"
     ></div>
 
-    <!-- Fondo con efecto glassmorphism mejorado -->
+    <!-- Fondo con efecto glassmorphism. En claro va casi opaco: al 70 % las
+         fotos de fondo (p. ej. el ganado en /proyectos) lo volvían gris café
+         y los textos del menú se perdían -->
     <div
-      class="absolute inset-0 bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl"
+      class="absolute inset-0 bg-white/90 dark:bg-slate-950/70 backdrop-blur-xl"
     ></div>
 
     <div
@@ -245,18 +249,18 @@ const isMobileServicesOpen = ref(false);
             :to="switchLocalePath('es')"
             :class="
               locale === 'es'
-                ? 'text-primary'
-                : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
+                ? 'text-primary-dark dark:text-primary'
+                : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'
             "
             >ES</NuxtLink
           >
-          <span class="text-slate-300 dark:text-slate-600">/</span>
+          <span class="text-slate-400 dark:text-slate-600">/</span>
           <NuxtLink
             :to="switchLocalePath('en')"
             :class="
               locale === 'en'
-                ? 'text-primary'
-                : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
+                ? 'text-primary-dark dark:text-primary'
+                : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'
             "
             >EN</NuxtLink
           >
