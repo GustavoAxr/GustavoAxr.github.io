@@ -43,6 +43,73 @@ a.bg-primary,
   }
 }
 
+/* Fondo del lienzo según el tema (el mismo del layout). Es lo que queda
+   detrás durante los fundidos de página y de tema: sin él, en modo oscuro
+   se asomaba un destello blanco */
+html {
+  background-color: #f8fafc;
+}
+html.dark {
+  background-color: #020617;
+}
+
+/* Cambio entre páginas (experimental.viewTransition): la página anterior se
+   desvanece rápido y la nueva entra con un fundido y una subida corta. El
+   header tiene su propia captura (site-header) y no se mueve. */
+::view-transition-old(root) {
+  animation: vt-fade-out 0.22s cubic-bezier(0.4, 0, 1, 1) both;
+}
+::view-transition-new(root) {
+  animation: vt-rise-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.14s both;
+}
+@keyframes vt-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes vt-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes vt-rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+/* Cambio de tema (ThemeToggle): fundido parejo de toda la página, más lento
+   y suave, sin la subida del cambio de página */
+html.theme-switching::view-transition-old(*) {
+  animation: vt-fade-out 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+html.theme-switching::view-transition-new(*) {
+  animation: vt-fade-in 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+html.theme-switching::view-transition-group(*) {
+  animation-duration: 0.6s;
+}
+/* Durante el fundido cada elemento toma su color nuevo al instante: la
+   transición la pone el fundido, no cada elemento por su lado */
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  transition: none !important;
+}
+/* Respaldo para navegadores sin View Transitions: los colores se funden */
+html.theme-fade *,
+html.theme-fade *::before,
+html.theme-fade *::after {
+  transition:
+    background-color 0.5s ease,
+    color 0.5s ease,
+    border-color 0.5s ease,
+    fill 0.5s ease,
+    stroke 0.5s ease,
+    box-shadow 0.5s ease !important;
+}
+
 /* Accesibilidad: respetar la preferencia de menos movimiento */
 @media (prefers-reduced-motion: reduce) {
   *,

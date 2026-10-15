@@ -159,6 +159,10 @@ export default defineNuxtConfig({
   // Performance optimizations
   experimental: {
     payloadExtraction: true,
+    // Cambio entre páginas con un fundido suave (View Transitions; estilos en
+    // assets/css/main.css). Nuxt lo omite con "menos movimiento" y cuando
+    // solo cambia la query (p. ej. ?p= en /proyectos).
+    viewTransition: true,
   },
 
   // Nitro optimizations for faster loading

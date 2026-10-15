@@ -5,8 +5,39 @@ const { t } = useI18n({ useScope: "local" });
 
 const colorMode = useColorMode();
 
+// El servidor no conoce el tema del usuario y pinta la etiqueta como si fuera
+// claro; al hidratar, Vue no corrige atributos, así que con el sistema en
+// oscuro el botón anunciaba "modo oscuro". Se usa el tema real ya montado.
+const mounted = ref(false);
+onMounted(() => (mounted.value = true));
+const isDark = computed(() => mounted.value && colorMode.value === "dark");
+
+// Cambio de tema suave: toda la página se funde del tema anterior al nuevo con
+// la API de View Transitions (estilos en main.css). Mientras dura, los
+// elementos no animan sus propios colores (clase `theme-switching`), así el
+// fundido es uno solo y parejo. Sin esa API, los colores se funden con CSS
+// (`theme-fade`). Con "menos movimiento" activado, el cambio es directo.
 const toggleColorMode = () => {
-  colorMode.preference = colorMode.value === "dark" ? "light" : "dark";
+  const next = colorMode.value === "dark" ? "light" : "dark";
+  // color-mode pone la clase en <html> en el siguiente ciclo de Vue
+  const apply = async () => {
+    colorMode.preference = next;
+    await nextTick();
+  };
+  const root = document.documentElement;
+
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    apply();
+  } else if (document.startViewTransition) {
+    root.classList.add("theme-switching");
+    document
+      .startViewTransition(apply)
+      .finished.finally(() => root.classList.remove("theme-switching"));
+  } else {
+    root.classList.add("theme-fade");
+    apply();
+    setTimeout(() => root.classList.remove("theme-fade"), 600);
+  }
 };
 </script>
 
@@ -17,11 +48,7 @@ const toggleColorMode = () => {
     type="button"
     @click="toggleColorMode"
     class="p-2 rounded-[5px] hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors [&_svg]:size-5"
-    :aria-label="
-      colorMode.value === 'dark'
-        ? t('toLight')
-        : t('toDark')
-    "
+    :aria-label="isDark ? t('toLight') : t('toDark')"
   >
     <ClientOnly>
       <Sun
