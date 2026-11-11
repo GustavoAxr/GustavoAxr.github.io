@@ -193,17 +193,18 @@ const submitByWhatsApp = () => {
             'opacity-0': !isVisible,
           }"
         >
-          <!-- Panel de datos (verde de marca) -->
+          <!-- Panel de datos: el mismo verde de los botones (primary); texto oscuro
+               porque el blanco sobre este verde no se lee -->
           <div
-            class="lg:col-span-2 relative bg-[#2f6a1e] text-white p-8 lg:p-10 flex flex-col overflow-hidden"
+            class="lg:col-span-2 relative bg-primary text-slate-900 p-8 lg:p-10 flex flex-col overflow-hidden"
           >
             <div
-              class="absolute inset-0 opacity-[0.1] pointer-events-none"
+              class="absolute inset-0 opacity-[0.08] pointer-events-none"
               aria-hidden="true"
               style="
                 background-image: radial-gradient(
                   circle at 1px 1px,
-                  #fff 1px,
+                  #0f172a 1px,
                   transparent 0
                 );
                 background-size: 20px 20px;
@@ -212,7 +213,7 @@ const submitByWhatsApp = () => {
 
             <div class="relative flex flex-col h-full">
               <h2 class="text-2xl font-bold mb-2">{{ t("panel.title") }}</h2>
-              <p class="text-emerald-50/80 leading-relaxed mb-8">
+              <p class="text-slate-900/75 leading-relaxed mb-8">
                 {{ t("panel.desc") }}
               </p>
 
@@ -222,7 +223,7 @@ const submitByWhatsApp = () => {
                   class="flex items-center gap-3 group"
                 >
                   <span
-                    class="w-10 h-10 rounded-xl bg-white/15 group-hover:bg-white/25 flex items-center justify-center transition-colors shrink-0"
+                    class="w-10 h-10 rounded-xl bg-slate-900/10 group-hover:bg-slate-900/20 flex items-center justify-center transition-colors shrink-0"
                   >
                     <Mail class="w-5 h-5" />
                   </span>
@@ -230,7 +231,7 @@ const submitByWhatsApp = () => {
                     <span class="block text-sm font-semibold"
                       >contacto@codegahp.com</span
                     >
-                    <span class="block text-xs text-emerald-100/70">{{
+                    <span class="block text-xs text-slate-900/65">{{
                       t("contact.emailLabel")
                     }}</span>
                   </span>
@@ -240,7 +241,7 @@ const submitByWhatsApp = () => {
                   class="flex items-center gap-3 group"
                 >
                   <span
-                    class="w-10 h-10 rounded-xl bg-white/15 group-hover:bg-white/25 flex items-center justify-center transition-colors shrink-0"
+                    class="w-10 h-10 rounded-xl bg-slate-900/10 group-hover:bg-slate-900/20 flex items-center justify-center transition-colors shrink-0"
                   >
                     <Phone class="w-5 h-5" />
                   </span>
@@ -248,14 +249,14 @@ const submitByWhatsApp = () => {
                     <span class="block text-sm font-semibold"
                       >+52 938 106 5606</span
                     >
-                    <span class="block text-xs text-emerald-100/70">{{
+                    <span class="block text-xs text-slate-900/65">{{
                       t("contact.phoneLabel")
                     }}</span>
                   </span>
                 </a>
                 <div class="flex items-center gap-3">
                   <span
-                    class="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center shrink-0"
+                    class="w-10 h-10 rounded-xl bg-slate-900/10 flex items-center justify-center shrink-0"
                   >
                     <MapPin class="w-5 h-5" />
                   </span>
@@ -263,7 +264,7 @@ const submitByWhatsApp = () => {
                     <span class="block text-sm font-semibold">{{
                       t("location.city")
                     }}</span>
-                    <span class="block text-xs text-emerald-100/70">{{
+                    <span class="block text-xs text-slate-900/65">{{
                       t("location.country")
                     }}</span>
                   </span>
@@ -272,7 +273,7 @@ const submitByWhatsApp = () => {
 
               <div class="mt-auto pt-10">
                 <p
-                  class="text-xs uppercase tracking-widest text-emerald-100/70 mb-3"
+                  class="text-xs uppercase tracking-widest text-slate-900/65 mb-3"
                 >
                   {{ t("social.follow") }}
                 </p>
@@ -290,10 +291,10 @@ const submitByWhatsApp = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       :aria-label="channel.name"
-                      class="w-10 h-10 rounded-[5px] bg-white/12 hover:bg-white/25 flex items-center justify-center transition-colors"
+                      class="w-10 h-10 rounded-[5px] bg-slate-900/10 hover:bg-slate-900/20 flex items-center justify-center transition-colors"
                     >
                       <svg
-                        class="w-[18px] h-[18px] fill-white"
+                        class="w-[18px] h-[18px] fill-slate-900"
                         viewBox="0 0 24 24"
                         v-html="channel.icon"
                       ></svg>
