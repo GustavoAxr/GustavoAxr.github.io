@@ -143,20 +143,20 @@ const seQueda = [0, 1, 2, 3];
         "steps": [
           "Abre Lidia cuando tengas señal.",
           "Entra a tu Perfil (tu foto o tu nombre, arriba).",
-          "Toca «Borrar mi cuenta».",
-          "Escribe tu contraseña, marca «Entiendo que mi cuenta y mis datos se borrarán» y confirma."
+          "Toca \"Borrar mi cuenta\".",
+          "Escribe tu contraseña, marca \"Entiendo que mi cuenta y mis datos se borrarán\" y confirma."
         ],
         "before": "Antes sube tus cambios pendientes, y termina o cancela las compra-ventas y movilizaciones que tengas en curso con otras personas: la app te dice cuáles son."
       },
       "email": {
         "title": "2. Sin la app",
-        "body": "Si ya no tienes la app o no puedes entrar, escribe desde el correo de tu cuenta, con el asunto «Eliminar mi cuenta de Lidia» y tu nombre completo, a:",
+        "body": "Si ya no tienes la app o no puedes entrar, escribe desde el correo de tu cuenta, con el asunto \"Eliminar mi cuenta de Lidia\" y tu nombre completo, a:",
         "subject": "Eliminar mi cuenta de Lidia",
         "response": "Podemos pedirte confirmar tu identidad. Te respondemos en un máximo de 20 días hábiles."
       },
       "grace": {
         "title": "3. Tienes 30 días para arrepentirte",
-        "body": "Al pedirlo, tu sesión se cierra en todos tus teléfonos y la cuenta se desactiva. Se borra 30 días después. Si cambias de opinión antes, entra con tu correo y contraseña y elige «Recuperar mi cuenta»: el borrado se cancela."
+        "body": "Al pedirlo, tu sesión se cierra en todos tus teléfonos y la cuenta se desactiva. Se borra 30 días después. Si cambias de opinión antes, entra con tu correo y contraseña y elige \"Recuperar mi cuenta\": el borrado se cancela."
       },
       "deleted": {
         "title": "4. Qué se borra",
@@ -200,20 +200,20 @@ const seQueda = [0, 1, 2, 3];
         "steps": [
           "Open Lidia while you have a signal.",
           "Go to your Profile (your photo or name, at the top).",
-          "Tap «Borrar mi cuenta» (Delete my account).",
-          "Enter your password, check «I understand my account and my data will be deleted» and confirm."
+          "Tap \"Borrar mi cuenta\" (Delete my account).",
+          "Enter your password, check \"I understand my account and my data will be deleted\" and confirm."
         ],
         "before": "First upload any pending changes, and finish or cancel any sales or livestock movements in progress with other people: the app tells you which ones."
       },
       "email": {
         "title": "2. Without the app",
-        "body": "If you no longer have the app or cannot sign in, write from your account's email address, with the subject «Eliminar mi cuenta de Lidia» and your full name, to:",
+        "body": "If you no longer have the app or cannot sign in, write from your account's email address, with the subject \"Eliminar mi cuenta de Lidia\" and your full name, to:",
         "subject": "Eliminar mi cuenta de Lidia",
         "response": "We may ask you to confirm your identity. We reply within 20 business days."
       },
       "grace": {
         "title": "3. You have 30 days to change your mind",
-        "body": "When you request it, you are signed out on all your phones and the account is deactivated. It is deleted 30 days later. If you change your mind before then, sign in with your email and password and choose «Recuperar mi cuenta» (Recover my account): the deletion is cancelled."
+        "body": "When you request it, you are signed out on all your phones and the account is deactivated. It is deleted 30 days later. If you change your mind before then, sign in with your email and password and choose \"Recuperar mi cuenta\" (Recover my account): the deletion is cancelled."
       },
       "deleted": {
         "title": "4. What is deleted",

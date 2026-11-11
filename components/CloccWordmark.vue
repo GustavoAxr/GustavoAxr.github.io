@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// La palabra «CLOCC» tal como la escribe la app de Clocc: Inter 700,
+// La palabra "CLOCC" tal como la escribe la app de Clocc: Inter 700,
 // tracking-tight (−0.025em) y el degradado de la marca (#0ea5e9 → #22c55e).
 // Va en curvas, generadas de la propia fuente Inter de la app (fontTools +
 // HarfBuzz, con su kerning), para que se vea idéntica en cualquier equipo sin
