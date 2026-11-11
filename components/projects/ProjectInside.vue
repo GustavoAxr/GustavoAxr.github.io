@@ -18,6 +18,7 @@ import {
   UserCog,
   Send,
 } from "lucide-vue-next";
+import LidiaPantalla from "@/components/mockup/lidia/LidiaPantalla.vue";
 
 const props = defineProps<{ project: "clocc" | "lidia" }>();
 const { t } = useI18n({ useScope: "local" });
@@ -132,20 +133,8 @@ const accent = computed(() =>
 
         <!-- LIDIA: la app en el teléfono, ligeramente girado -->
         <div v-else class="mt-10 flex justify-center">
-          <div
-            class="w-56 rotate-[-4deg] rounded-[2.6rem] bg-gradient-to-br from-[#71747c] via-[#2c2e33] to-[#5a5d64] p-[3px] shadow-[0_40px_70px_-20px_rgba(2,6,23,0.55)] transition-transform duration-500 hover:rotate-0 sm:w-64"
-          >
-            <div class="rounded-[2.45rem] bg-black p-2">
-              <img
-                src="/img/lidia/pantalla-dashboard.webp"
-                :alt="t('lidia.alt')"
-                width="739"
-                height="1600"
-                loading="lazy"
-                decoding="async"
-                class="block w-full rounded-[2rem]"
-              />
-            </div>
+          <div class="w-56 rotate-[-4deg] transition-transform duration-500 hover:rotate-0 sm:w-64">
+            <LidiaPantalla id="inicio" size="fluid" :label="t('lidia.alt')" />
           </div>
         </div>
       </div>
@@ -242,7 +231,7 @@ const accent = computed(() =>
       "title": "Del potrero al celular,",
       "titleHighlight": "sin perder un dato",
       "desc": "No es una libreta digital: es la operación completa de tu ganadería en el celular, funcione o no la señal.",
-      "alt": "Pantalla de inicio de LIDIA: padrón de ganado, estatus reproductivo y acciones rápidas",
+      "alt": "Pantalla de inicio de LIDIA: accesos de alta, venta y compra, cifras del hato y su composición",
       "footnote": "…y también REEMO, genealogía y seguridad biométrica.",
       "f1": { "title": "Offline-first", "desc": "Captura sin señal y sincroniza sola al reconectar." },
       "f2": { "title": "Padrón e inventario", "desc": "Aretes SINIIGA, pesos con historial y galería por animal." },
@@ -271,7 +260,7 @@ const accent = computed(() =>
       "title": "From pasture to phone,",
       "titleHighlight": "without losing a record",
       "desc": "It's not a digital notebook: it's your entire livestock operation on your phone, with or without signal.",
-      "alt": "LIDIA home screen: herd registry, reproductive status and quick actions",
+      "alt": "LIDIA home screen: shortcuts to add, sell and buy, herd figures and composition",
       "footnote": "…and also REEMO, genealogy and biometric security.",
       "f1": { "title": "Offline-first", "desc": "Capture without signal and sync automatically when you reconnect." },
       "f2": { "title": "Registry and inventory", "desc": "SINIIGA ear tags, weights with history and a gallery per animal." },

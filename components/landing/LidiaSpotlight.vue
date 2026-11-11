@@ -12,6 +12,7 @@ import {
   Smartphone,
   ShieldCheck,
 } from "lucide-vue-next";
+import LidiaPantalla from "@/components/mockup/lidia/LidiaPantalla.vue";
 
 const { t } = useI18n({ useScope: "local" });
 
@@ -123,39 +124,14 @@ const stats = [
               class="absolute right-0 top-8 w-[150px] sm:w-[180px] rotate-6"
               aria-hidden="true"
             >
-              <picture>
-                <source srcset="/img/lidia/pantalla-reemo.webp" type="image/webp" />
-                <img
-                  src="/img/lidia/pantalla-reemo.jpg"
-                  alt=""
-                  width="739"
-                  height="1600"
-                  loading="lazy"
-                  decoding="async"
-                  class="w-full rounded-[1.75rem] border-[5px] border-slate-900 dark:border-slate-700 shadow-2xl"
-                />
-              </picture>
+              <LidiaPantalla id="utilidades" size="fluid" :label="t('utilidadesAlt')" />
             </div>
             <!-- Teléfono frontal -->
             <div class="absolute left-0 top-0 w-[165px] sm:w-[200px] -rotate-3">
               <div
                 class="absolute -inset-4 bg-primary/20 rounded-full blur-2xl"
               ></div>
-              <picture>
-                <source
-                  srcset="/img/lidia/pantalla-dashboard.webp"
-                  type="image/webp"
-                />
-                <img
-                  src="/img/lidia/pantalla-dashboard.jpg"
-                  :alt="t('dashboardAlt')"
-                  width="739"
-                  height="1600"
-                  loading="lazy"
-                  decoding="async"
-                  class="relative w-full rounded-[1.75rem] border-[5px] border-slate-900 dark:border-slate-700 shadow-2xl"
-                />
-              </picture>
+              <LidiaPantalla id="inicio" size="fluid" :label="t('dashboardAlt')" class="relative" />
             </div>
             <!-- Chip flotante -->
             <div
@@ -229,7 +205,8 @@ const stats = [
   "es": {
     "tagline": ", la app que aguanta el campo",
     "chip": "Sin señal · Guardado ✓",
-    "dashboardAlt": "Pantalla principal de LIDIA con el padrón de ganado",
+    "dashboardAlt": "Pantalla de inicio de LIDIA con las cifras del hato",
+    "utilidadesAlt": "Utilidades de LIDIA: movilizaciones, compra-venta y alertas de robo",
     "more": "…y también movilizaciones REEMO y genealogía.",
     "cta": "Conoce LIDIA a fondo",
     "features": {
@@ -267,7 +244,8 @@ const stats = [
   "en": {
     "tagline": ", the app built for ranch life",
     "chip": "No signal · Saved ✓",
-    "dashboardAlt": "LIDIA main screen with the cattle registry",
+    "dashboardAlt": "LIDIA home screen with the herd figures",
+    "utilidadesAlt": "LIDIA utilities: movements, buy-sell and theft alerts",
     "more": "…plus REEMO movements and genealogy.",
     "cta": "Explore LIDIA in depth",
     "features": {

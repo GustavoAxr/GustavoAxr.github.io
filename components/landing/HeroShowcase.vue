@@ -13,6 +13,7 @@ import {
   Cloud,
   Headset,
 } from "lucide-vue-next";
+import LidiaPantalla from "@/components/mockup/lidia/LidiaPantalla.vue";
 
 const props = defineProps<{ active: number }>();
 const emit = defineEmits<{ hover: [index: number | null] }>();
@@ -205,7 +206,7 @@ const depth = (d: number) => ({ "--d": d }) as Record<string, number>;
         </div>
       </div>
 
-      <!-- ===== LIDIA: teléfono real ===== -->
+      <!-- ===== LIDIA: el teléfono con su Inicio ===== -->
       <div
         class="hs-layer absolute left-[5%] top-[27.8%] w-[25%]"
         :style="depth(1.2)"
@@ -223,17 +224,7 @@ const depth = (d: number) => ({ "--d": d }) as Record<string, number>;
           "
           @pointerenter="emit('hover', 1)"
         >
-          <picture>
-            <source srcset="/img/lidia/pantalla-dashboard.webp" type="image/webp" />
-            <img
-              src="/img/lidia/pantalla-dashboard.jpg"
-              alt=""
-              width="739"
-              height="1600"
-              class="block w-full -rotate-3 rounded-[1.4rem] border-[5px] border-slate-900 shadow-2xl shadow-slate-900/30 transition-shadow duration-700 dark:border-slate-700"
-              :class="active === 1 ? 'shadow-green-500/40' : ''"
-            />
-          </picture>
+          <LidiaPantalla id="inicio" size="fluid" :label="t('aria.lidia')" class="-rotate-3" />
         </NuxtLinkLocale>
       </div>
 

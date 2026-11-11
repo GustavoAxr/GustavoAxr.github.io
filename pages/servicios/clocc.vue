@@ -26,6 +26,7 @@ import {
 } from "lucide-vue-next";
 import CloccShowcase from "@/components/landing/CloccShowcase.vue";
 import IPhoneFrame from "@/components/landing/IPhoneFrame.vue";
+import CloccAppMovil from "@/components/mockup/clocc/CloccAppMovil.vue";
 
 const { t } = useI18n({ useScope: "local" });
 
@@ -157,6 +158,9 @@ const telegram = computed(() => [
         <CloccShowcase />
       </div>
     </section>
+
+    <!-- ============ APP MÓVIL ============ -->
+    <CloccAppMovil />
 
     <!-- ============ ASISTENTE EN TELEGRAM ============ -->
     <section class="relative overflow-hidden border-t border-slate-100 dark:border-slate-900">

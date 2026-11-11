@@ -8,15 +8,12 @@ import {
   Camera,
   CheckCircle2,
   ChevronDown,
-  ChevronLeft,
-  ChevronRight,
   ClipboardList,
   Clock,
   Database,
   Dna,
   Fingerprint,
   MapPin,
-  Play,
   QrCode,
   RefreshCw,
   ShieldCheck,
@@ -27,11 +24,11 @@ import {
   Truck,
   Warehouse,
   WifiOff,
-  X,
   Zap,
-  ZoomIn,
 } from "lucide-vue-next";
 import LidiaLogo from "@/components/LidiaLogo.vue";
+import LidiaPantalla, { type PantallaLidia } from "@/components/mockup/lidia/LidiaPantalla.vue";
+import CarrilDePantallas from "@/components/mockup/CarrilDePantallas.vue";
 
 const { t, locale } = useI18n({ useScope: "local" });
 
@@ -43,7 +40,7 @@ useSeoMeta({
   description: () => t("seo.description"),
   ogTitle: () => t("seo.ogTitle"),
   ogDescription: () => t("seo.ogDescription"),
-  ogImage: "https://codegahp.com/img/lidia/pantalla-dashboard.jpg",
+  ogImage: "https://codegahp.com/img/lidia/og-lidia.jpg",
 });
 
 useHead({
@@ -94,61 +91,73 @@ const modules = [
     icon: ClipboardList,
     title: "modules.m1.title",
     points: ["modules.m1.p1", "modules.m1.p2", "modules.m1.p3"],
+    pantalla: "inventario" as PantallaLidia,
   },
   {
     icon: Zap,
     title: "modules.m2.title",
     points: ["modules.m2.p1", "modules.m2.p2", "modules.m2.p3"],
+    pantalla: "escanear" as PantallaLidia,
   },
   {
     icon: BarChart3,
     title: "modules.m3.title",
     points: ["modules.m3.p1", "modules.m3.p2", "modules.m3.p3"],
+    pantalla: "inicio" as PantallaLidia,
   },
   {
     icon: Syringe,
     title: "modules.m4.title",
     points: ["modules.m4.p1", "modules.m4.p2", "modules.m4.p3"],
+    pantalla: "sanidad" as PantallaLidia,
   },
   {
     icon: Baby,
     title: "modules.m5.title",
     points: ["modules.m5.p1", "modules.m5.p2", "modules.m5.p3"],
+    pantalla: "ficha" as PantallaLidia,
   },
   {
     icon: Dna,
     title: "modules.m6.title",
     points: ["modules.m6.p1", "modules.m6.p2", "modules.m6.p3"],
+    pantalla: "ficha" as PantallaLidia,
   },
   {
     icon: QrCode,
     title: "modules.m7.title",
     points: ["modules.m7.p1", "modules.m7.p2", "modules.m7.p3"],
+    pantalla: "vender" as PantallaLidia,
   },
   {
     icon: Truck,
     title: "modules.m8.title",
     points: ["modules.m8.p1", "modules.m8.p2", "modules.m8.p3"],
+    pantalla: "movilizacion" as PantallaLidia,
   },
   {
     icon: Siren,
     title: "modules.m9.title",
     points: ["modules.m9.p1", "modules.m9.p2", "modules.m9.p3"],
+    pantalla: "robo" as PantallaLidia,
   },
   {
     icon: Warehouse,
     title: "modules.m10.title",
     points: ["modules.m10.p1", "modules.m10.p2", "modules.m10.p3"],
+    pantalla: "utilidades" as PantallaLidia,
   },
   {
     icon: Bell,
     title: "modules.m11.title",
     points: ["modules.m11.p1", "modules.m11.p2", "modules.m11.p3"],
+    pantalla: "inicio" as PantallaLidia,
   },
   {
     icon: Fingerprint,
     title: "modules.m12.title",
     points: ["modules.m12.p1", "modules.m12.p2", "modules.m12.p3"],
+    pantalla: "inicio-sin-senal" as PantallaLidia,
   },
 ];
 
@@ -171,36 +180,32 @@ const qrSteps = [
   },
 ];
 
-const videos = [
-  {
-    key: "identidad",
-    src: "/img/lidia/demo-identidad.mp4",
-    poster: "/img/lidia/poster-identidad",
-    caption: "vid.identidad",
-  },
-  {
-    key: "genealogia",
-    src: "/img/lidia/demo-genealogia.mp4",
-    poster: "/img/lidia/poster-genealogia",
-    caption: "vid.genealogia",
-  },
-  {
-    key: "salud",
-    src: "/img/lidia/demo-salud.mp4",
-    poster: "/img/lidia/poster-salud",
-    caption: "vid.salud",
-  },
-];
+// Módulos: el teléfono fijo enseña la pantalla del módulo que se está leyendo
+// (el que cruza la mitad de la pantalla, o el que tiene el cursor encima).
+const moduloActivo = ref(0);
+const pantallaDelModulo = computed(() => modules[moduloActivo.value]!.pantalla);
+onMounted(() => {
+  const espia = new IntersectionObserver(
+    (entradas) => {
+      for (const e of entradas) {
+        if (e.isIntersecting) moduloActivo.value = Number((e.target as HTMLElement).dataset.modulo);
+      }
+    },
+    { rootMargin: "-45% 0px -45% 0px" },
+  );
+  document.querySelectorAll("[data-modulo]").forEach((el) => espia.observe(el));
+  onUnmounted(() => espia.disconnect());
+});
 
-const screens = [
-  { name: "dashboard", caption: "scr.dashboard" },
-  { name: "sanidad", caption: "scr.sanidad" },
-  { name: "identidad", caption: "scr.identidad" },
-  { name: "genealogia", caption: "scr.genealogia" },
-  { name: "salud", caption: "scr.salud" },
-  { name: "movimientos", caption: "scr.movimientos" },
-  { name: "reemo", caption: "scr.reemo" },
-  { name: "ajustes", caption: "scr.ajustes" },
+// "LIDIA en acción": solo lo que no sale ya en el carrusel de arriba; es
+// presentación, no la app completa.
+const accion: PantallaLidia[] = [
+  "escanear",
+  "sanidad",
+  "trato",
+  "movilizacion",
+  "robo",
+  "inicio-sin-senal",
 ];
 
 const stats = [
@@ -241,66 +246,6 @@ onMounted(() => {
     .querySelectorAll("[data-animate]")
     .forEach((el) => observer.observe(el));
   onUnmounted(() => observer.disconnect());
-});
-
-// --- Galería "LIDIA en acción": videos + capturas en un solo carrusel ---
-const gallery = [
-  ...videos.map((v) => ({
-    kind: "video" as const,
-    src: v.src,
-    poster: `${v.poster}.jpg`,
-    posterWebp: `${v.poster}.webp`,
-    caption: v.caption,
-    name: "",
-    screenIdx: -1,
-  })),
-  ...screens.map((s, k) => ({
-    kind: "image" as const,
-    src: "",
-    poster: "",
-    posterWebp: "",
-    name: s.name,
-    caption: s.caption,
-    screenIdx: k,
-  })),
-];
-const galleryIndex = ref(0);
-const galleryNext = () => {
-  galleryIndex.value = (galleryIndex.value + 1) % gallery.length;
-};
-const galleryPrev = () => {
-  galleryIndex.value = (galleryIndex.value - 1 + gallery.length) % gallery.length;
-};
-
-// --- Galería / lightbox de pantallas ---
-const lightboxIndex = ref<number | null>(null);
-const openLightbox = (i: number) => {
-  lightboxIndex.value = i;
-  document.body.style.overflow = "hidden";
-};
-const closeLightbox = () => {
-  lightboxIndex.value = null;
-  document.body.style.overflow = "";
-};
-const nextShot = () => {
-  if (lightboxIndex.value === null) return;
-  lightboxIndex.value = (lightboxIndex.value + 1) % screens.length;
-};
-const prevShot = () => {
-  if (lightboxIndex.value === null) return;
-  lightboxIndex.value =
-    (lightboxIndex.value - 1 + screens.length) % screens.length;
-};
-
-onMounted(() => {
-  const onKey = (e: KeyboardEvent) => {
-    if (lightboxIndex.value === null) return;
-    if (e.key === "Escape") closeLightbox();
-    else if (e.key === "ArrowRight") nextShot();
-    else if (e.key === "ArrowLeft") prevShot();
-  };
-  window.addEventListener("keydown", onKey);
-  onUnmounted(() => window.removeEventListener("keydown", onKey));
 });
 
 // Carrusel de texto de "Hecha para el campo mexicano" (rota con fundido)
@@ -586,107 +531,43 @@ onMounted(() => {
           </p>
         </div>
 
-        <div
-          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10 grid-flow-row-dense"
-        >
-          <!-- Vista de teléfono (Dashboard) — abre la galería -->
-          <Button
-            variant="bare"
-            size="free"
-            type="button"
-            @click="openLightbox(0)"
-            class="group relative row-span-2 min-h-[320px] rounded-[5px] overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-900 shadow-md hover:shadow-xl transition-shadow text-left"
-          >
-            <picture>
-              <source
-                srcset="/img/lidia/pantalla-dashboard.webp"
-                type="image/webp"
-              />
-              <img
-                src="/img/lidia/pantalla-dashboard.jpg"
-                :alt="t('modules.altDashboard')"
-                width="739"
-                height="1600"
-                loading="lazy"
-                decoding="async"
-                class="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
-              />
-            </picture>
-            <span
-              class="absolute left-3 bottom-3 inline-flex items-center gap-1.5 text-xs font-semibold text-white bg-slate-950/60 backdrop-blur px-2.5 py-1.5 rounded-lg"
-            >
-              <ZoomIn class="w-3.5 h-3.5" aria-hidden="true" />
-              {{ t('modules.viewDashboard') }}
-            </span>
-          </Button>
-
-          <!-- Primeros módulos -->
-          <div
-            v-for="mod in modules.slice(0, 6)"
-            :key="mod.title"
-            class="group relative px-1 py-2"
-          >
-            <div class="relative">
+        <div class="grid gap-12 lg:grid-cols-[minmax(0,4fr)_minmax(0,7fr)] lg:gap-16">
+          <!-- Un teléfono fijo que enseña la pantalla del módulo que se está
+               leyendo. Solo en escritorio: en el teléfono los módulos van
+               solos (las pantallas ya salen arriba y en "LIDIA en acción"). -->
+          <div class="hidden lg:block">
+            <div class="sticky top-28 flex min-h-[600px] justify-center">
               <div
-                class="mb-5 grid h-14 w-14 place-items-center rounded-2xl border border-green-600/20 bg-white text-green-600 shadow-sm transition-transform duration-300 group-hover:-translate-y-1 dark:bg-slate-900 dark:text-green-400"
-              >
-                <component :is="mod.icon" class="h-6 w-6" />
-              </div>
-              <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-3">
-                {{ t(mod.title) }}
-              </h3>
-              <ul class="space-y-2">
-                <li
-                  v-for="point in mod.points"
-                  :key="point"
-                  class="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-400 leading-relaxed"
-                >
-                  <CheckCircle2
-                    class="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5"
-                  />
-                  <span>{{ t(point) }}</span>
-                </li>
-              </ul>
+                class="pointer-events-none absolute inset-x-8 inset-y-16 rounded-full bg-green-500/15 blur-3xl dark:bg-green-500/10"
+                aria-hidden="true"
+              ></div>
+              <Transition name="tel" mode="out-in">
+                <LidiaPantalla
+                  :key="pantallaDelModulo"
+                  :id="pantallaDelModulo"
+                  size="md"
+                  :label="t('modules.phoneLabel', { screen: t(`acc.${pantallaDelModulo}.t`) })"
+                  class="relative"
+                />
+              </Transition>
             </div>
           </div>
 
-          <!-- Vista de teléfono (Movilidad y comercio) — abre la galería -->
-          <Button
-            variant="bare"
-            size="free"
-            type="button"
-            @click="openLightbox(6)"
-            class="group relative row-span-2 min-h-[320px] rounded-[5px] overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-900 shadow-md hover:shadow-xl transition-shadow text-left"
-          >
-            <picture>
-              <source srcset="/img/lidia/pantalla-reemo.webp" type="image/webp" />
-              <img
-                src="/img/lidia/pantalla-reemo.jpg"
-                :alt="t('modules.altReemo')"
-                width="739"
-                height="1600"
-                loading="lazy"
-                decoding="async"
-                class="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
-              />
-            </picture>
-            <span
-              class="absolute left-3 bottom-3 inline-flex items-center gap-1.5 text-xs font-semibold text-white bg-slate-950/60 backdrop-blur px-2.5 py-1.5 rounded-lg"
+          <div class="grid gap-x-10 gap-y-12 sm:grid-cols-2">
+            <div
+              v-for="(mod, i) in modules"
+              :key="mod.title"
+              :data-modulo="i"
+              class="group relative"
+              @pointerenter="moduloActivo = i"
             >
-              <ZoomIn class="w-3.5 h-3.5" aria-hidden="true" />
-              {{ t('modules.viewReemo') }}
-            </span>
-          </Button>
-
-          <!-- Resto de módulos -->
-          <div
-            v-for="mod in modules.slice(6)"
-            :key="mod.title"
-            class="group relative px-1 py-2"
-          >
-            <div class="relative">
               <div
-                class="mb-5 grid h-14 w-14 place-items-center rounded-2xl border border-green-600/20 bg-white text-green-600 shadow-sm transition-transform duration-300 group-hover:-translate-y-1 dark:bg-slate-900 dark:text-green-400"
+                class="mb-5 grid h-14 w-14 place-items-center rounded-2xl border bg-white text-green-600 shadow-sm transition-all duration-300 group-hover:-translate-y-1 dark:bg-slate-900 dark:text-green-400"
+                :class="
+                  moduloActivo === i
+                    ? 'border-green-600/60 lg:bg-green-50 lg:dark:bg-green-950/60'
+                    : 'border-green-600/20'
+                "
               >
                 <component :is="mod.icon" class="h-6 w-6" />
               </div>
@@ -699,9 +580,7 @@ onMounted(() => {
                   :key="point"
                   class="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-400 leading-relaxed"
                 >
-                  <CheckCircle2
-                    class="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5"
-                  />
+                  <CheckCircle2 class="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
                   <span>{{ t(point) }}</span>
                 </li>
               </ul>
@@ -763,25 +642,26 @@ onMounted(() => {
                 </div>
               </div>
             </div>
-          </div>
-          <div class="flex justify-center">
-            <div class="relative w-[240px] sm:w-[280px]">
-              <div
-                class="absolute -inset-6 bg-green-500/10 rounded-full blur-3xl"
-              ></div>
-              <picture>
-                <source srcset="/img/lidia/pantalla-reemo.webp" type="image/webp" />
-                <img
-                  src="/img/lidia/pantalla-reemo.jpg"
-                  :alt="t('qr.altPhone')"
-                  width="739"
-                  height="1600"
-                  loading="lazy"
-                  decoding="async"
-                  class="relative w-full h-auto rounded-[2rem] border-[6px] border-slate-900 dark:border-slate-700 shadow-2xl"
-                />
-              </picture>
+            <div class="mt-8 flex items-start gap-3 border-l-2 border-green-600/40 pl-4">
+              <WifiOff class="mt-0.5 h-5 w-5 shrink-0 text-green-600 dark:text-green-400" />
+              <p class="text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                <strong class="text-slate-900 dark:text-white">{{ t('qr.offlineTitle') }}</strong>
+                {{ t('qr.offlineText') }}
+              </p>
             </div>
+          </div>
+          <div class="relative flex items-center justify-center">
+            <div
+              class="pointer-events-none absolute inset-12 rounded-full bg-green-500/15 blur-3xl"
+              aria-hidden="true"
+            ></div>
+            <LidiaPantalla
+              id="trato"
+              size="sm"
+              :label="t('qr.altDeal')"
+              class="relative -mr-20 hidden translate-y-6 -rotate-6 opacity-95 sm:block"
+            />
+            <LidiaPantalla id="vender" size="md" :label="t('qr.altSell')" class="relative z-10" />
           </div>
         </div>
       </div>
@@ -937,216 +817,29 @@ onMounted(() => {
           </p>
         </div>
 
-        <!-- Galería: escenario (izq) + miniaturas (der en desktop) -->
-        <div
-          class="max-w-5xl mx-auto flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-10"
+        <CarrilDePantallas
+          v-slot="{ visible }"
+          :label="t('accion.region')"
+          :prev-label="t('common.prev')"
+          :next-label="t('common.next')"
         >
-          <!-- Escenario -->
-          <div class="lg:flex-1 min-w-0 flex flex-col items-center">
-            <div class="flex items-center justify-center gap-2 sm:gap-6">
-            <Button
-              variant="bare"
-              size="free"
-              type="button"
-              :aria-label="t('common.prev')"
-              class="shrink-0 w-10 h-10 sm:w-11 sm:h-11 rounded-[5px] bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-md flex items-center justify-center text-slate-700 dark:text-slate-200 hover:border-green-500/50 hover:text-green-600 dark:hover:text-green-400 transition-colors [&_svg]:size-5"
-              @click="galleryPrev"
-            >
-              <ChevronLeft class="w-5 h-5" />
-            </Button>
-
-            <!-- Escenario (teléfono) -->
-            <div class="relative w-[220px] sm:w-[280px] shrink-0">
-              <div
-                class="rounded-[2.2rem] overflow-hidden border-[6px] border-slate-900 dark:border-slate-700 shadow-2xl bg-slate-900"
-              >
-                <video
-                  v-if="gallery[galleryIndex].kind === 'video'"
-                  :key="'v' + galleryIndex"
-                  :src="gallery[galleryIndex].src"
-                  :poster="gallery[galleryIndex].poster"
-                  controls
-                  muted
-                  loop
-                  playsinline
-                  width="540"
-                  height="1168"
-                  class="w-full h-auto block bg-slate-900"
-                ></video>
-                <Button
-                  v-else
-                  variant="bare"
-                  size="free"
-                  type="button"
-                  :aria-label="`${t('accion.zoom')}: ${t(gallery[galleryIndex].caption)}`"
-                  class="group relative block w-full [&_svg]:size-5"
-                  @click="openLightbox(gallery[galleryIndex].screenIdx)"
-                >
-                  <picture>
-                    <source
-                      :srcset="`/img/lidia/pantalla-${gallery[galleryIndex].name}.webp`"
-                      type="image/webp"
-                    />
-                    <img
-                      :src="`/img/lidia/pantalla-${gallery[galleryIndex].name}.jpg`"
-                      :alt="t(gallery[galleryIndex].caption)"
-                      width="739"
-                      height="1600"
-                      class="w-full h-auto block"
-                    />
-                  </picture>
-                  <span
-                    class="absolute inset-0 flex items-center justify-center bg-slate-950/0 group-hover:bg-slate-950/25 transition-colors"
-                  >
-                    <span
-                      class="w-11 h-11 rounded-full bg-white/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      <ZoomIn class="w-5 h-5 text-slate-900" aria-hidden="true" />
-                    </span>
-                  </span>
-                </Button>
-              </div>
-            </div>
-
-            <Button
-              variant="bare"
-              size="free"
-              type="button"
-              :aria-label="t('common.next')"
-              class="shrink-0 w-10 h-10 sm:w-11 sm:h-11 rounded-[5px] bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-md flex items-center justify-center text-slate-700 dark:text-slate-200 hover:border-green-500/50 hover:text-green-600 dark:hover:text-green-400 transition-colors [&_svg]:size-5"
-              @click="galleryNext"
-            >
-              <ChevronRight class="w-5 h-5" />
-            </Button>
-          </div>
-
-          <!-- Leyenda + contador -->
-          <p
-            class="mt-5 text-center text-sm font-medium text-slate-600 dark:text-slate-400"
+          <figure
+            v-for="id in accion"
+            :key="id"
+            class="m-0 w-[223px] shrink-0 snap-start sm:w-[238px]"
           >
-            {{ t(gallery[galleryIndex].caption) }}
-            <span class="text-slate-400 dark:text-slate-500"
-              >· {{ galleryIndex + 1 }}/{{ gallery.length }}</span
-            >
-          </p>
-          </div>
-
-          <!-- Miniaturas: abajo en móvil, a la derecha en desktop -->
-          <div
-            class="media-strip lg:flex-1 min-w-0 mt-6 lg:mt-0 flex gap-2.5 overflow-x-auto pb-2 sm:justify-center lg:grid lg:grid-cols-3 lg:gap-3 lg:overflow-x-visible lg:overflow-y-auto lg:max-h-[540px] lg:pb-0 lg:pr-1"
-          >
-            <Button
-              v-for="(m, i) in gallery"
-              :key="i"
-              variant="bare"
-              size="free"
-              type="button"
-              :aria-label="`${t('accion.view')} ${t(m.caption)}`"
-              class="relative block shrink-0 w-12 sm:w-14 lg:w-full rounded-[5px] overflow-hidden border-2 transition-all [&_svg]:size-3.5"
-              :class="
-                i === galleryIndex
-                  ? 'border-green-500'
-                  : 'border-transparent opacity-50 hover:opacity-100'
-              "
-              @click="galleryIndex = i"
-            >
-              <picture>
-                <source
-                  :srcset="
-                    m.kind === 'video'
-                      ? m.posterWebp
-                      : `/img/lidia/pantalla-${m.name}.webp`
-                  "
-                  type="image/webp"
-                />
-                <img
-                  :src="
-                    m.kind === 'video' ? m.poster : `/img/lidia/pantalla-${m.name}.jpg`
-                  "
-                  alt=""
-                  width="739"
-                  height="1600"
-                  loading="lazy"
-                  class="w-full h-auto block"
-                />
-              </picture>
-              <span
-                v-if="m.kind === 'video'"
-                class="absolute inset-0 flex items-center justify-center bg-slate-950/40"
-              >
-                <Play class="w-3.5 h-3.5 text-white" />
-              </span>
-            </Button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Lightbox de la galería: foto en grande con anterior / siguiente -->
-    <Teleport to="body">
-      <Transition name="lb-fade">
-        <div
-          v-if="lightboxIndex !== null"
-          class="fixed inset-0 z-[100] bg-slate-950/90 backdrop-blur-sm flex items-center justify-center p-4 sm:p-8"
-          role="dialog"
-          aria-modal="true"
-          @click.self="closeLightbox"
-        >
-          <Button
-            variant="bare"
-            size="free"
-            type="button"
-            :aria-label="t('common.close')"
-            class="absolute top-4 right-4 w-11 h-11 rounded-[5px] bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors [&_svg]:size-5"
-            @click="closeLightbox"
-          >
-            <X class="w-5 h-5" />
-          </Button>
-
-          <Button
-            variant="bare"
-            size="free"
-            type="button"
-            :aria-label="t('common.prev')"
-            class="absolute left-3 sm:left-6 w-11 h-11 rounded-[5px] bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors [&_svg]:size-6"
-            @click="prevShot"
-          >
-            <ChevronLeft class="w-6 h-6" />
-          </Button>
-
-          <figure class="flex flex-col items-center max-w-full">
-            <picture>
-              <source
-                :srcset="`/img/lidia/pantalla-${screens[lightboxIndex].name}.webp`"
-                type="image/webp"
-              />
-              <img
-                :src="`/img/lidia/pantalla-${screens[lightboxIndex].name}.jpg`"
-                :alt="t(screens[lightboxIndex].caption)"
-                class="max-h-[78vh] w-auto rounded-2xl shadow-2xl"
-              />
-            </picture>
-            <figcaption class="mt-4 text-sm text-white/90 text-center max-w-md">
-              {{ t(screens[lightboxIndex].caption) }}
-              <span class="block text-white/50 mt-1"
-                >{{ lightboxIndex + 1 }} / {{ screens.length }}</span
-              >
+            <LidiaPantalla v-if="visible" :id="id" size="sm" :label="t(`acc.${id}.t`)" />
+            <span v-else class="pm pm-sm block rounded-[2.4rem] bg-slate-200/60 dark:bg-slate-800/60" />
+            <figcaption class="mt-5 px-1">
+              <p class="font-semibold text-slate-900 dark:text-white">{{ t(`acc.${id}.t`) }}</p>
+              <p class="mt-1 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+                {{ t(`acc.${id}.d`) }}
+              </p>
             </figcaption>
           </figure>
-
-          <Button
-            variant="bare"
-            size="free"
-            type="button"
-            :aria-label="t('common.next')"
-            class="absolute right-3 sm:right-6 w-11 h-11 rounded-[5px] bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors [&_svg]:size-6"
-            @click="nextShot"
-          >
-            <ChevronRight class="w-6 h-6" />
-          </Button>
-        </div>
-      </Transition>
-    </Teleport>
+        </CarrilDePantallas>
+      </div>
+    </section>
 
     <!-- Números -->
     <section
@@ -1283,21 +976,26 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.media-strip {
-  scrollbar-width: none;
+/* Teléfono de los módulos: cambia de pantalla con un fundido corto */
+.tel-enter-active,
+.tel-leave-active {
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease;
 }
-.media-strip::-webkit-scrollbar {
-  display: none;
-}
-
-/* Lightbox: fundido de entrada/salida */
-.lb-fade-enter-active,
-.lb-fade-leave-active {
-  transition: opacity 0.2s ease;
-}
-.lb-fade-enter-from,
-.lb-fade-leave-to {
+.tel-enter-from {
   opacity: 0;
+  transform: translateY(10px);
+}
+.tel-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .tel-enter-active,
+  .tel-leave-active {
+    transition: none;
+  }
 }
 
 /* Carrusel de texto de la visión: fundido con leve desplazamiento */
@@ -1329,8 +1027,7 @@ onMounted(() => {
     },
     "common": {
       "prev": "Anterior",
-      "next": "Siguiente",
-      "close": "Cerrar"
+      "next": "Siguiente"
     },
     "hero": {
       "word1": "FUERZA",
@@ -1384,10 +1081,7 @@ onMounted(() => {
       "title1": "Todo lo que LIDIA hace",
       "title2": "por tu rancho",
       "subtitle": "No es una libreta digital: es la operación completa de tu ganadería en el celular.",
-      "altDashboard": "Dashboard de LIDIA",
-      "viewDashboard": "Ver Dashboard",
-      "altReemo": "Movilidad y comercio en LIDIA",
-      "viewReemo": "Ver Movilidad y comercio",
+      "phoneLabel": "Pantalla de LIDIA: {screen}",
       "m1": {
         "title": "Padrón e Inventario",
         "p1": "Cabezas activas, bajas y categorías siempre al día",
@@ -1466,7 +1160,10 @@ onMounted(() => {
       "title1": "Compra-venta segura,",
       "title2": "teléfono a teléfono",
       "subtitle": "Olvídate de tratos de palabra: el ganado cambia de dueño solo cuando los dos cumplieron. El comprador no ve tus animales en su inventario hasta que el trato queda en firme.",
-      "altPhone": "Hub de movilidad y comercio de LIDIA: movilizaciones, compra-venta con doble QR y alertas de robo",
+      "altSell": "Venta con doble QR en LIDIA: el vendedor muestra su oferta firmada para que el comprador la escanee",
+      "altDeal": "Venta sin señal por confirmar: se registra cuando los dos teléfonos tengan señal, máximo en 48 horas",
+      "offlineTitle": "También sin señal.",
+      "offlineText": "Si el comprador no tiene señal, cada teléfono guarda su parte del trato y la venta se registra en cuanto los dos tengan señal, máximo en 48 horas. Mientras tanto los animales quedan apartados.",
       "s1": {
         "title": "Acuerdan",
         "desc": "Vendedor y comprador escanean un doble QR firmado, teléfono a teléfono. Los animales quedan apartados, no transferidos."
@@ -1506,24 +1203,21 @@ onMounted(() => {
     },
     "accion": {
       "title2": "en acción",
-      "subtitle": "Así se ve y se siente: pantallas reales de la aplicación.",
-      "zoom": "Ampliar",
-      "view": "Ver"
+      "subtitle": "Así se ve la app por dentro, pantalla por pantalla.",
+      "region": "Pantallas de la app LIDIA"
     },
-    "vid": {
-      "identidad": "Ficha del animal: identidad, arete y galería",
-      "genealogia": "Genealogía: padres y abuelos de un vistazo",
-      "salud": "Salud: historial sanitario, gasto y MVZ"
-    },
-    "scr": {
-      "dashboard": "Dashboard: tu hato en números claros",
-      "sanidad": "Campañas sanitarias con avance real",
-      "identidad": "Identidad: SINIIGA, arete interno y peso",
-      "genealogia": "Árbol genealógico de cada animal",
-      "salud": "Timeline de salud con costos y MVZ",
-      "movimientos": "Historial REEMO por animal",
-      "reemo": "Movilidad y comercio en un solo lugar",
-      "ajustes": "Tu rancho: UPPs, fierros y vehículos"
+    "acc": {
+      "inicio": { "t": "Inicio", "d": "Tu hato en números: cabezas, aretado, hembras por macho y lo que falta registrar." },
+      "inventario": { "t": "Inventario", "d": "Cada animal con su foto y su arete SINIIGA. Se busca por arete o nombre, o con la cámara." },
+      "ficha": { "t": "Ficha del animal", "d": "Identidad, genealogía, partos, salud y REEMO. Se abre sin señal: vive en el teléfono." },
+      "escanear": { "t": "Escanear el arete", "d": "El botón del centro abre la cámara: QR, código de barras o número del arete." },
+      "sanidad": { "t": "Sanidad", "d": "Campañas con su avance, animales por aplicar y animales en retiro." },
+      "utilidades": { "t": "Utilidades", "d": "Movilizaciones, compra-venta, alertas de robo, conteo, potreros, leche, botiquín, costos, reportes y calculadoras." },
+      "vender": { "t": "Vender con doble QR", "d": "El vendedor muestra su oferta firmada; el comprador la acepta desde su LIDIA y el vendedor escanea su respuesta." },
+      "trato": { "t": "Venta sin señal", "d": "El trato queda en los dos teléfonos y se registra cuando ambos tengan señal, máximo en 48 horas." },
+      "movilizacion": { "t": "Movilización", "d": "Guía REEMO, ruta, chofer y animales. La UPP de destino autoriza y confirma la llegada." },
+      "robo": { "t": "Alertas de robo", "d": "Los robos reportados en tu municipio, sin los datos de quien los reporta." },
+      "inicio-sin-senal": { "t": "Sin señal", "d": "Todo sigue funcionando. El aro de tu foto dice cómo va: verde al día, naranja con cambios por subir y gris sin señal." }
     },
     "stats": {
       "s1": "de la captura diaria funciona sin internet",
@@ -1567,8 +1261,7 @@ onMounted(() => {
     },
     "common": {
       "prev": "Previous",
-      "next": "Next",
-      "close": "Close"
+      "next": "Next"
     },
     "hero": {
       "word1": "STRENGTH",
@@ -1622,10 +1315,7 @@ onMounted(() => {
       "title1": "Everything LIDIA does",
       "title2": "for your ranch",
       "subtitle": "It's not a digital notebook: it's your entire cattle operation on your phone.",
-      "altDashboard": "LIDIA dashboard",
-      "viewDashboard": "View Dashboard",
-      "altReemo": "Mobility and trade in LIDIA",
-      "viewReemo": "View Mobility and trade",
+      "phoneLabel": "LIDIA screen: {screen}",
       "m1": {
         "title": "Registry & Inventory",
         "p1": "Active head, culls and categories always up to date",
@@ -1704,7 +1394,10 @@ onMounted(() => {
       "title1": "Secure buy and sell,",
       "title2": "phone to phone",
       "subtitle": "Forget handshake deals: cattle change owner only when both sides deliver. The buyer doesn't see your animals in their inventory until the deal is final.",
-      "altPhone": "LIDIA mobility and trade hub: movements, buy-and-sell with dual QR and theft alerts",
+      "altSell": "Sale with a dual QR in LIDIA: the seller shows a signed offer for the buyer to scan",
+      "altDeal": "Offline sale waiting to be confirmed: it's recorded once both phones have signal, within 48 hours",
+      "offlineTitle": "No signal? Still works.",
+      "offlineText": "If the buyer has no signal, each phone keeps its half of the deal and the sale is recorded once both have signal, within 48 hours. Meanwhile the animals stay set aside.",
       "s1": {
         "title": "They agree",
         "desc": "Seller and buyer scan a signed dual QR, phone to phone. The animals are set aside, not transferred."
@@ -1744,24 +1437,21 @@ onMounted(() => {
     },
     "accion": {
       "title2": "in action",
-      "subtitle": "This is how it looks and feels: real screens from the app.",
-      "zoom": "Zoom in",
-      "view": "View"
+      "subtitle": "This is what the app looks like inside, screen by screen.",
+      "region": "LIDIA app screens"
     },
-    "vid": {
-      "identidad": "Animal profile: identity, ear tag and gallery",
-      "genealogia": "Genealogy: sires and grandsires at a glance",
-      "salud": "Health: medical history, spending and MVZ"
-    },
-    "scr": {
-      "dashboard": "Dashboard: your herd in clear numbers",
-      "sanidad": "Health campaigns with real progress",
-      "identidad": "Identity: SINIIGA, internal tag and weight",
-      "genealogia": "Family tree for every animal",
-      "salud": "Health timeline with costs and MVZ",
-      "movimientos": "REEMO history per animal",
-      "reemo": "Mobility and trade in one place",
-      "ajustes": "Your ranch: UPPs, brands and vehicles"
+    "acc": {
+      "inicio": { "t": "Home", "d": "Your herd in numbers: head count, tagging, females per male and what's left to record." },
+      "inventario": { "t": "Inventory", "d": "Every animal with its photo and SINIIGA ear tag. Search by tag or name, or with the camera." },
+      "ficha": { "t": "Animal record", "d": "Identity, genealogy, calvings, health and REEMO. It opens without signal: it lives on the phone." },
+      "escanear": { "t": "Scan the ear tag", "d": "The center button opens the camera: QR, barcode or the tag number." },
+      "sanidad": { "t": "Health", "d": "Campaigns with their progress, animals still to treat and animals in withdrawal." },
+      "utilidades": { "t": "Utilities", "d": "Movements, buy-sell, theft alerts, head counts, pastures, milk, medicine cabinet, costs, reports and calculators." },
+      "vender": { "t": "Sell with a dual QR", "d": "The seller shows a signed offer; the buyer accepts it from their LIDIA app and the seller scans the reply." },
+      "trato": { "t": "Offline sale", "d": "The deal stays on both phones and is recorded once both have signal, within 48 hours." },
+      "movilizacion": { "t": "Movement", "d": "REEMO permit, route, driver and animals. The destination UPP authorizes and confirms arrival." },
+      "robo": { "t": "Theft alerts", "d": "Thefts reported in your municipality, without the details of who reported them." },
+      "inicio-sin-senal": { "t": "No signal", "d": "Everything keeps working. The ring around your photo shows the status: green when synced, orange with changes to upload and gray with no signal." }
     },
     "stats": {
       "s1": "of daily capture works without internet",

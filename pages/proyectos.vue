@@ -22,7 +22,7 @@ useSeoMeta({
   description: () => t("seo.description"),
   ogTitle: () => t("seo.ogTitle"),
   ogDescription: () => t("seo.ogDescription"),
-  ogImage: "https://codegahp.com/img/lidia/pantalla-dashboard.jpg",
+  ogImage: "https://codegahp.com/img/lidia/og-lidia.jpg",
 });
 
 const projects = computed(() => ({

@@ -1,17 +1,18 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from "vue";
+import LidiaPantalla, { type PantallaLidia } from "@/components/mockup/lidia/LidiaPantalla.vue";
 
 const { t } = useI18n({ useScope: "local" });
 
 // Carrusel coverflow 3D de pantallas de LIDIA. Ligero: solo anima transform/
-// opacity (GPU), imágenes webp con lazy-load salvo la central. El peso solo
-// ocurre en la primera carga; luego quedan en caché del navegador.
-const screens = [
-  { name: "dashboard", label: "labelDashboard" },
-  { name: "identidad", label: "labelIdentidad" },
-  { name: "genealogia", label: "labelGenealogia" },
-  { name: "salud", label: "labelSalud" },
-  { name: "reemo", label: "labelReemo" },
+// opacity (GPU). Los teléfonos son HTML (components/mockup/lidia), sin
+// capturas que bajar.
+const screens: { name: PantallaLidia; label: string }[] = [
+  { name: "inicio", label: "labelInicio" },
+  { name: "inventario", label: "labelInventario" },
+  { name: "ficha", label: "labelFicha" },
+  { name: "vender", label: "labelVender" },
+  { name: "utilidades", label: "labelUtilidades" },
 ];
 
 const active = ref(0);
@@ -47,7 +48,7 @@ function cardStyle(i: number) {
   if (off > n / 2) off -= n;
   if (off < -n / 2) off += n;
   const abs = Math.abs(off);
-  const tx = off * 132;
+  const tx = off * 150;
   const ry = off * -34;
   const tz = -abs * 130;
   const sc = Math.max(0.7, 1 - abs * 0.15);
@@ -85,21 +86,7 @@ function cardStyle(i: number) {
         :aria-label="`${t('view')} ${t(s.label)}`"
         @click="go(i)"
       >
-        <div class="cf-phone">
-          <picture>
-            <source :srcset="`/img/lidia/pantalla-${s.name}.webp`" type="image/webp" />
-            <img
-              :src="`/img/lidia/pantalla-${s.name}.jpg`"
-              :alt="t(s.label)"
-              width="739"
-              height="1600"
-              :loading="i === 0 ? 'eager' : 'lazy'"
-              :fetchpriority="i === 0 ? 'high' : 'auto'"
-              decoding="async"
-              draggable="false"
-            />
-          </picture>
-        </div>
+        <LidiaPantalla :id="s.name" size="sm" :label="t(s.label)" />
       </Button>
     </div>
 
@@ -129,7 +116,7 @@ function cardStyle(i: number) {
 
 .cf-stage {
   position: relative;
-  height: 460px;
+  height: 530px;
   perspective: 1100px;
   display: flex;
   align-items: center;
@@ -138,7 +125,6 @@ function cardStyle(i: number) {
 
 .cf-card {
   position: absolute;
-  width: 210px;
   padding: 0;
   border: 0;
   background: transparent;
@@ -146,21 +132,6 @@ function cardStyle(i: number) {
   transition: transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1),
     opacity 0.55s ease;
   will-change: transform, opacity;
-}
-
-/* Bezel del teléfono — mismo tono en claro y oscuro (evita reglas .dark) */
-.cf-phone {
-  border-radius: 2rem;
-  border: 6px solid #0f172a;
-  background: #0f172a;
-  overflow: hidden;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
-}
-
-.cf-phone :deep(img) {
-  display: block;
-  width: 100%;
-  height: auto;
 }
 
 .cf-dots {
@@ -200,22 +171,22 @@ function cardStyle(i: number) {
     "carouselLabel": "Pantallas de la app LIDIA",
     "view": "Ver",
     "goTo": "Ir a",
-    "labelDashboard": "Padrón y balance del hato",
-    "labelIdentidad": "Identidad de cada animal",
-    "labelGenealogia": "Genealogía y descendencia",
-    "labelSalud": "Sanidad y tratamientos",
-    "labelReemo": "Movilizaciones y compra-venta"
+    "labelInicio": "Inicio: tu hato en números",
+    "labelInventario": "Inventario con foto y arete SINIIGA",
+    "labelFicha": "Ficha de cada animal",
+    "labelVender": "Venta con doble QR",
+    "labelUtilidades": "Utilidades del rancho"
   },
   "en": {
     "carousel": "carousel",
     "carouselLabel": "LIDIA app screens",
     "view": "View",
     "goTo": "Go to",
-    "labelDashboard": "Herd registry and balance",
-    "labelIdentidad": "Each animal's identity",
-    "labelGenealogia": "Genealogy and offspring",
-    "labelSalud": "Health and treatments",
-    "labelReemo": "Movements and buy-sell"
+    "labelInicio": "Home: your herd in numbers",
+    "labelInventario": "Inventory with photo and SINIIGA tag",
+    "labelFicha": "Each animal's record",
+    "labelVender": "Sale with a double QR",
+    "labelUtilidades": "Ranch utilities"
   }
 }
 </i18n>
