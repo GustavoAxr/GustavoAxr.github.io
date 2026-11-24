@@ -1,10 +1,13 @@
 [
   {
-    "relation": ["delegate_permission/common.get_login_creds"],
+    "relation": [
+      "delegate_permission/common.get_login_creds"
+    ],
     "target": {
       "namespace": "android_app",
       "package_name": "com.codegahp.clocc",
       "sha256_cert_fingerprints": [
+        "46:5E:7F:AD:64:75:3A:86:4B:92:13:92:7A:16:6D:A4:86:00:58:33:06:28:66:A8:95:D3:90:D0:A2:6E:AE:54",
         "EA:5B:64:6E:A9:32:08:5E:2F:F1:F1:82:6C:4E:7C:3B:C4:CB:DB:73:C8:80:80:A2:EF:16:31:E1:2A:D8:B5:F4"
       ]
     }
